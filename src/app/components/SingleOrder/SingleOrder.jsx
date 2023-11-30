@@ -4,6 +4,7 @@ import Good from '../Good/Good'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
 import OrderControlBar from '../OrderControlBar/OrderControlBar'
+import GoodsEditComponent from '../GoodsEditComponent/GoodsEditComponent'
 
 const url = process.env.REACT_APP_SERVER_URL || ''
 const gridItemStyle = { border: '1px solid lightgrey' }
@@ -81,20 +82,13 @@ function SingleOrder ({ order }) {
         <Grid item xs={8} md={10} sx={gridItemStyle}>
           {formatedDeadline}
         </Grid>
-        {/* <Grid item xs={6} md={3}></Grid>
-                    <Grid item xs={6} md={9}></Grid>
-                    <Grid item xs={6} md={3}></Grid>
-                    <Grid item xs={6} md={9}></Grid>
-                    <Grid item xs={6} md={3}></Grid>
-                    <Grid item xs={6} md={9}></Grid>
-                    <Grid item xs={6} md={3}></Grid>
-                    <Grid item xs={6} md={9}></Grid> */}
       </Grid>
-      <Typography>Замовлення:</Typography>
+      <OrderControlBar order={order} url={url}/>
+      <Typography sx={{mt: 2}}>Замовлення:</Typography>
       {order?.goods?.map(good => (
         <Good key={good._id} good={good}></Good>
       ))}
-      <OrderControlBar order={order} url={url}/>
+      <GoodsEditComponent goods={order.goods} url={url}/>
       <Typography sx={{ color: '#3f51b5', mt: 1 }}>
         Загальна площа сіток: <strong>{goodsArea} м.кв.</strong> Загальна кількість сіток: <strong>{goodsQty} од.</strong>
       </Typography>

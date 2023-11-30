@@ -32,36 +32,68 @@ function OrderControlBar({ order, url }) {
     const [openDeleteModal, setOpenDeleteModal] = useState(false)
     const [error, setError] = useState(null)
     const router = useRouter()
-    const formatedDate = new Date(order.date).toISOString().split('T')[0]
-    const formatedDeadline = new Date(order.deadline).toISOString().split('T')[0]
+
+    const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
+  const formatToISOString = (dateString) => {
+    const date = new Date(dateString);
+    return date.toISOString();
+  };
+
     const initialData = {...order, 
-    date: formatedDate, deadline: formatedDeadline}
+    date: formatDate(order.date),
+  deadline: formatDate(order.deadline),}
     const [formData, setFormData] = useState(initialData);
 
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+      const { name, value } = e.target;
+      const formattedValue = name === 'date' ? formatDate(new Date(value)) : value;
+    setFormData({ ...formData, [name]: formattedValue  });
   };
 
-  const handleColorChange = (index, name, value) => {
-    const updatedColors = [...formData.goods[index].color];
-    const colorIndex = updatedColors.findIndex((color) => color.name === name);
-    updatedColors[colorIndex] = { ...updatedColors[colorIndex], qty: value };
-    setFormData({
-      ...formData,
-      goods: [
-        ...formData.goods.slice(0, index),
-        { ...formData.goods[index], color: updatedColors },
-        ...formData.goods.slice(index + 1),
-      ],
-    });
-  };
+//   const handleColorChange = (index, name, value) => {
+//     const updatedColors = [...formData.goods[index].color];
+//     const colorIndex = updatedColors.findIndex((color) => color.name === name);
+//     updatedColors[colorIndex] = { ...updatedColors[colorIndex], qty: value };
+//     setFormData({
+//       ...formData,
+//       date: new Date(`${formData.date}T00:00:00`),
+//       deadline: new Date(`${formData.deadline}T00:00:00`),
+//       goods: [
+//         ...formData.goods.slice(0, index),
+//         { ...formData.goods[index], color: updatedColors },
+//         ...formData.goods.slice(index + 1),
+//       ],
+//     });
+//   };
 
-  const handleSubmit = (e) => {
+const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(formData);
+
+    // Отримайте змінені дані
+    const changedData = Object.keys(formData).reduce((result, key) => {
+      if (formData[key] !== initialData[key]) {
+        result[key] = key === 'date' || key === 'deadline' ? formatToISOString(formData[key]) : formData[key];
+      }
+      return result;
+    }, {});
+
+    // Викликайте onSubmit зі зміненими даними
+    // onSubmit(changedData);
+    console.log(changedData);
   };
+
+      function handleClose () {
+    setOpenEditModal(false)
+    setFormData(initialData)
+  }
 
 
 // API
@@ -93,14 +125,14 @@ async function handleDelete() {
     setError('Не вдалось відредагувати замовлення')
   }
   finally {setOpenEditModal(false)}
-}
+    }
 
   return (
     <>
       <Box sx={{display: 'flex', gap: 2, mt: 2}}>
-        <Modal open={openEditModal} onClose={() => setOpenEditModal(false)}>
+        <Modal open={openEditModal} onClose={handleClose}>
         <Box sx={modalStyles}>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={(e) => handleSubmit(e)}>
       <TextField
         label="Замовник"
         name="contacts"
@@ -171,7 +203,7 @@ async function handleDelete() {
       />
 
 
-      {formData.goods.map((good, index) => (
+      {/* {formData.goods.map((good, index) => (
         <Box key={index} marginY={2} sx={{border: 1, borderRadius: 2, p: 2}}>
             <Typography color='primary' align='center'>Товар №{index + 1}</Typography>
           <TextField
@@ -225,8 +257,8 @@ async function handleDelete() {
             />
           ))}
         </Box>
-      ))}
-      <Button variant='contained' color='error' onClick={() => setOpenEditModal(false)} sx={{mr: 2}}>Відміна</Button>
+      ))} */}
+      <Button variant='contained' color='error' onClick={handleClose} sx={{mr: 2}}>Відміна</Button>
       <Button type="submit" variant="contained" color="primary">
         Зберегти
       </Button>
