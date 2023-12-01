@@ -10,22 +10,7 @@ import InputLabel from '@mui/material/InputLabel'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import { useRouter } from 'next/navigation'
-
-const modalStyles = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  overflowY: 'auto',
-  maxHeight: '100vh',
-  maxHeight: '100lvh',
-  bgcolor: 'background.paper',
-  border: '1px solid #000',
-  boxShadow: 24,
-  borderRadius: '7px',
-  p: 2,
-}
-
+import { modalStyles } from '../../styles/modalStyles'
   
 function OrderControlBar({ order, url }) {
     const [openEditModal, setOpenEditModal] = useState(false)
@@ -57,22 +42,6 @@ function OrderControlBar({ order, url }) {
       const formattedValue = name === 'date' ? formatDate(new Date(value)) : value;
     setFormData({ ...formData, [name]: formattedValue  });
   };
-
-//   const handleColorChange = (index, name, value) => {
-//     const updatedColors = [...formData.goods[index].color];
-//     const colorIndex = updatedColors.findIndex((color) => color.name === name);
-//     updatedColors[colorIndex] = { ...updatedColors[colorIndex], qty: value };
-//     setFormData({
-//       ...formData,
-//       date: new Date(`${formData.date}T00:00:00`),
-//       deadline: new Date(`${formData.deadline}T00:00:00`),
-//       goods: [
-//         ...formData.goods.slice(0, index),
-//         { ...formData.goods[index], color: updatedColors },
-//         ...formData.goods.slice(index + 1),
-//       ],
-//     });
-//   };
 
 const handleSubmit = (e) => {
     e.preventDefault();
@@ -202,62 +171,6 @@ async function handleDelete() {
         margin="normal"
       />
 
-
-      {/* {formData.goods.map((good, index) => (
-        <Box key={index} marginY={2} sx={{border: 1, borderRadius: 2, p: 2}}>
-            <Typography color='primary' align='center'>Товар №{index + 1}</Typography>
-          <TextField
-            label='Ширина'
-            name={`goods[${index}].a`}
-            value={good.a}
-            onChange={handleChange}
-            type="number"
-            margin="normal"
-          />
-          <TextField
-            label="Довжина"
-            name={`goods[${index}].b`}
-            value={good.b}
-            onChange={handleChange}
-            type="number"
-            margin="normal"
-          />
-          <TextField
-            label="Кількість"
-            name={`goods[${index}].qty`}
-            value={good.qty}
-            onChange={handleChange}
-            type="number"
-            margin="normal"
-          />
-          <FormControl fullWidth margin="normal">
-            <InputLabel>Сезон</InputLabel>
-            <Select
-              name={`goods[${index}].season`}
-              label='Сезон'
-              value={good.season}
-              onChange={handleChange}
-            >
-              <MenuItem value="весна">Весна</MenuItem>
-              <MenuItem value="літо">Літо</MenuItem>
-              <MenuItem value="осінь">Осінь</MenuItem>
-              <MenuItem value="зима">Зима</MenuItem>
-            </Select>
-          </FormControl>
-          {good.color.map((color, colorIndex) => (
-            <TextField
-              key={colorIndex}
-              label={color.name}
-              value={color.qty}
-              onChange={(e) =>
-                handleColorChange(index, color.name, parseInt(e.target.value, 10) || 0)
-              }
-              type="number"
-              margin="normal"
-            />
-          ))}
-        </Box>
-      ))} */}
       <Button variant='contained' color='error' onClick={handleClose} sx={{mr: 2}}>Відміна</Button>
       <Button type="submit" variant="contained" color="primary">
         Зберегти

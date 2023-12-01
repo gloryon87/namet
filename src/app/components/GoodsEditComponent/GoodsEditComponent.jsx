@@ -17,53 +17,27 @@ function GoodsEditComponent({goods, url}) {
     const [formData, setFormData] = useState(goods);
     const [error, setError] = useState(null)
 
-  const handleChange = (e) => {
-  const { name, value } = e.target;
-  setFormData((prevData) => ({
-    ...prevData,
-    [name]: value,
-  }));
+const handleRemoveGood = (index) => {
+  setFormData((prevGoods) => prevGoods.filter((_, i) => i !== index));
 };
-
-    const handleRemoveGood = (index) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      goods: prevData.goods.filter((_, i) => i !== index),
-    }));
-  };
   
-    const handleColorChange = (index, name, value) => {
-    const updatedColors = [...formData.goods[index].color];
-    const colorIndex = updatedColors.findIndex((color) => color.name === name);
-    updatedColors[colorIndex] = { ...updatedColors[colorIndex], qty: value };
-    setFormData({
-      ...formData,
-      goods: [
-        ...formData.goods.slice(0, index),
-        { ...formData.goods[index], color: updatedColors },
-        ...formData.goods.slice(index + 1),
-      ],
-    });
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Отримайте змінені дані
-    const changedData = Object.keys(formData).reduce((result, key) => {
-      if (formData[key] !== initialData[key]) {
-        result[key] = key === 'date' || key === 'deadline' ? formatToISOString(formData[key]) : formData[key];
-        }
-        
+       const changedData = Object.keys(formData).reduce((result, key) => {
+      if (formData[key] !== goods[key]) {
+        result[key] = formData[key];
+      }
       return result;
-    }, {});
+    });
     // onSubmit(changedData);
-    console.log(changedData)
+    if (Object.keys(changedData).length !== 0) {
+      console.log(changedData)
+    }
   };
 
     function handleClose () {
     setOpenModal(false)
-    setFormData(initialData)
+    setFormData(goods)
   }
 
   // Edit order
@@ -81,8 +55,6 @@ function GoodsEditComponent({goods, url}) {
   finally {setOpenModal(false)}
     }
 
-
-
   return (
     <>
       <Box sx={{display: 'flex', gap: 2, mt: 2}}>
@@ -90,10 +62,11 @@ function GoodsEditComponent({goods, url}) {
         <Box sx={modalStyles}>
             <form onSubmit={(e) => handleSubmit(e)}>
       
-      {formData.goods.map((good, index) => (
+      {formData.map((good, index) => (
         <Box key={index} marginY={2} sx={{display: 'flex', flexDirection: 'column', border: 1, borderRadius: 2, p: 2, gap: 2}}>
             <Typography color='primary' align='center'>Товар №{index + 1}</Typography>
-          <TextField
+            <Typography>Розмір: {good.a} x {good.b}, кількість: {good.qty}. сезон: {good.season}</Typography>
+          {/* <TextField
             label='Ширина'
             name={`goods[${index}].a`}
             value={good.a}
@@ -102,14 +75,14 @@ function GoodsEditComponent({goods, url}) {
           />
           <TextField
             label="Довжина"
-            name={`goods[${index}].b`}
+            name={`[${index}].b`}
             value={good.b}
             onChange={handleChange}
             type="number"
           />
           <TextField
             label="Кількість"
-            name={`goods[${index}].qty`}
+            name={`[${index}].qty`}
             value={good.qty}
             onChange={handleChange}
             type="number"
@@ -117,7 +90,7 @@ function GoodsEditComponent({goods, url}) {
           <FormControl fullWidth>
             <InputLabel>Сезон</InputLabel>
             <Select
-              name={`goods[${index}].season`}
+              name={`[${index}].season`}
               label='Сезон'
               value={good.season}
               onChange={handleChange}
@@ -127,17 +100,10 @@ function GoodsEditComponent({goods, url}) {
               <MenuItem value="осінь">Осінь</MenuItem>
               <MenuItem value="зима">Зима</MenuItem>
             </Select>
-          </FormControl>
+          </FormControl> */}
+          <Typography>Кольори:</Typography>
           {good.color.map((color, colorIndex) => (
-            <TextField
-              key={colorIndex}
-              label={color.name}
-              value={color.qty}
-              onChange={(e) =>
-                handleColorChange(index, color.name, parseInt(e.target.value, 10) || 0)
-              }
-              type="number"
-            />
+            <Typography key={colorIndex}>{color.name} - {color.qty}</Typography>
           ))}
           <Button onClick={() => handleRemoveGood(index)}>Видалити товар</Button>
         </Box>
@@ -150,7 +116,7 @@ function GoodsEditComponent({goods, url}) {
         </Box>
         </Modal>
 
-          <Button variant='contained' onClick={() => setOpenModal(true)}>Редагувати</Button>
+          <Button variant='contained' onClick={() => setOpenModal(true)}>Редагувати товари</Button>
     </Box>
     {error && <Typography variant='h4' color='error'>{error}</Typography>}
     </>

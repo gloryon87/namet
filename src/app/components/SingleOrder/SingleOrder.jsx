@@ -84,7 +84,7 @@ function SingleOrder ({ order }) {
         </Grid>
       </Grid>
       <OrderControlBar order={order} url={url}/>
-      <Typography sx={{mt: 2}}>Замовлення:</Typography>
+      <Typography sx={{mt: 2}}>Товари:</Typography>
       {order?.goods?.map(good => (
         <Good key={good._id} good={good}></Good>
       ))}
