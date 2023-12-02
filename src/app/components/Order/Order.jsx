@@ -12,9 +12,17 @@ function Order ({ order }) {
   const formatedDate = format(Date.parse(order?.date), 'dd. MM. yyyy')
   const formatedDeadline = format(Date.parse(order?.deadline), 'dd. MM. yyyy')
   const goodsAreasArray = order.goods?.map(good => good.goodArea)
-  const goodsArea = goodsAreasArray.reduce((total, num) => total + num)
+  let goodsArea = 0
+  if (goodsAreasArray.length > 0) {
+    goodsArea = goodsAreasArray.reduce((total, num) => total + num)
+  } 
+ 
   const goodsQtyArray = order.goods?.map(good => good.qty)
-  const goodsQty = goodsQtyArray.reduce((total, num) => total + num)
+  let goodsQty = 0
+  if (goodsQtyArray.length > 0) {
+    goodsQty = goodsQtyArray.reduce((total, num) => total + num)
+  }
+  
   return (
     <Box sx={[{ border: 1, boxShadow: 1 }, { '&:hover': { backgroundColor: '#eceff1' } }]}>
       <Grid container spacing={1} sx={{ m: 0, width: '100%' }}>

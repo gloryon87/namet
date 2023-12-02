@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 function Good({ good }) {
 
   return (
-    <Box sx={{display: 'flex', flexWrap: 'wrap', border: '1px solid lightgrey', gap: 1, pl: 1, pt: 1, fontSize: '15px'}}>
+    <Box sx={{display: 'flex', width: '100%', flexWrap: 'wrap', border: '1px solid lightgrey', gap: 1, pl: 1, pt: 1, fontSize: '15px'}}>
       {/* <Grid container spacing={1} sx={{ m: 0, mt: 1, width: '100%' }}>
         <Grid item xs={4} md={2} sx={{ border: '1px solid grey' }}>
           {good?.a}

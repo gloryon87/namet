@@ -11,7 +11,7 @@ const url = process.env.REACT_APP_SERVER_URL || ''
 
 async function getData () {
   try {
-    const res = await fetch(`${url}/api/orders`, { next: { revalidate: 30 } })
+    const res = await fetch(`${url}/api/orders`, { next: { revalidate: 0 } })
     const clonedResponse = res.clone();
     const jsonData = await clonedResponse.json();
     return jsonData;

@@ -11,6 +11,7 @@ import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import { useRouter } from 'next/navigation'
 import { modalStyles } from '../../styles/modalStyles'
+import DeleteModal from '../DeleteModal/DeleteModal'
   
 function OrderControlBar({ order, url }) {
     const [openEditModal, setOpenEditModal] = useState(false)
@@ -62,6 +63,10 @@ const handleSubmit = (e) => {
       function handleClose () {
     setOpenEditModal(false)
     setFormData(initialData)
+  }
+
+  function handleDeleteModalClose() {
+    setOpenDeleteModal(false)
   }
 
 
@@ -179,15 +184,7 @@ async function handleDelete() {
         </Box>
         </Modal>
 
-        <Modal open={openDeleteModal} onClose={() => setOpenDeleteModal(false)}>
-            <Box sx={modalStyles}>
-            <Typography align='center' gutterBottom color='primary'>Точно видалити?</Typography>
-            <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', alignItems: 'center'}}>
-            <Button variant='contained' onClick={() => setOpenDeleteModal(false)}>Ні</Button>
-            <Button variant='contained' color='error' onClick={() => handleDelete()}>Так</Button>
-            </Box>
-            </Box>
-        </Modal>
+        <DeleteModal open={openDeleteModal} onClose={handleDeleteModalClose} onConfirm={handleDelete}/>
 
           <Button variant='contained' onClick={() => setOpenEditModal(true)}>Редагувати</Button>
           <Button variant='contained' color='error' onClick={() => setOpenDeleteModal(true)}>Видалити</Button> 
