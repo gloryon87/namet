@@ -176,8 +176,8 @@ async function handleDelete() {
         margin="normal"
       />
 
-      <Button variant='contained' color='error' onClick={handleClose} sx={{mr: 2}}>Відміна</Button>
-      <Button type="submit" variant="contained" color="primary">
+      <Button variant='outlined' color='error' onClick={handleClose} sx={{mr: 2}}>Відміна</Button>
+      <Button type="submit" variant="outlined" color="primary">
         Зберегти
       </Button>
     </form>
@@ -186,8 +186,8 @@ async function handleDelete() {
 
         <DeleteModal open={openDeleteModal} onClose={handleDeleteModalClose} onConfirm={handleDelete}/>
 
-          <Button variant='contained' onClick={() => setOpenEditModal(true)}>Редагувати</Button>
-          <Button variant='contained' color='error' onClick={() => setOpenDeleteModal(true)}>Видалити</Button> 
+          <Button variant='outlined' onClick={() => setOpenEditModal(true)}>Редагувати</Button>
+          <Button variant='outlined' color='error' onClick={() => setOpenDeleteModal(true)}>Видалити</Button> 
     </Box>
     {error && <Typography variant='h4' color='error'>{error}</Typography>}
     </>

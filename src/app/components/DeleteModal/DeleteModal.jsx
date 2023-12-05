@@ -12,8 +12,8 @@ function DeleteModal({ open, onClose, onConfirm }) {
             <Box sx={modalStyles}>
             <Typography align='center' gutterBottom color='primary'>Точно видалити?</Typography>
             <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', alignItems: 'center'}}>
-            <Button variant='contained' onClick={onClose}>Ні</Button>
-            <Button variant='contained' color='error' onClick={onConfirm}>Так</Button>
+            <Button variant='outlined' onClick={onClose}>Ні</Button>
+            <Button variant='outlined' color='error' onClick={onConfirm}>Так</Button>
             </Box>
             </Box>
         </Modal>

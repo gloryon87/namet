@@ -31,7 +31,7 @@ function Good({ good }) {
           <Typography sx={{fontSize: '15px'}}> ○ {`${good.a} x ${good.b} ${good.qty} шт. ${good.season} ${good.material}`}</Typography>
           <Typography sx={{fontSize: '15px'}}> Кольори: </Typography>
           {good.color?.map((color) => <Typography sx={{fontSize: '15px'}} key={color._id}>{color.name}: {color.qty},</Typography>)}
-      <Typography sx={{ fontSize: '15px' }}> {`робить ${good.production} `}</Typography>
+      <Typography sx={{ fontSize: '15px' }}> {good.production && `робить ${good.production} `}</Typography>
       <Typography sx={{ ml: 'auto' }}>{good.goodArea} кв.м.</Typography>
     </Box>
   )

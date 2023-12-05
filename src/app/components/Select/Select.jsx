@@ -56,7 +56,7 @@ function SelectComponent() {
 
   return (
     <Box sx={{ display: 'flex', gap: 2, width: '100%' }}>
-      <FormControl sx={{width: '40%'}}>
+      <FormControl sx={{width: '40%'}} size='small'>
         <InputLabel id="priority-label">Пріоритет</InputLabel>
         <Select
           labelId="priority-label"
@@ -72,7 +72,7 @@ function SelectComponent() {
         </Select>
       </FormControl>
 
-      <FormControl sx={{width: '40%'}}>
+      <FormControl sx={{width: '40%'}} size='small'>
         <InputLabel id="state-label">Стан</InputLabel>
         <Select
           labelId="state-label"
@@ -92,7 +92,8 @@ function SelectComponent() {
       <TextField
         fullWidth
         label="Пошук"
-        variant="outlined"
+            variant="outlined"
+            size="small"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
       />
