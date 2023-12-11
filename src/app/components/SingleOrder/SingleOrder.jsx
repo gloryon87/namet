@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import OrderControlBar from '../OrderControlBar/OrderControlBar'
-import GoodsEditComponent from '../GoodsEditComponent/GoodsEditComponent'
+import GoodEditComponent from '../GoodEditComponent/GoodEditComponent'
 import GoodDeleteComponent from '../GoodDeleteComponent/GoodDeleteComponent'
 import GoodsAddComponent from '../GoodsAddComponent/GoodsAddComponent'
 
@@ -14,8 +14,8 @@ const gridItemStyle = { border: '1px solid lightgrey' }
 
 function SingleOrder({ order }) {
   console.log(order);
-  const formatedDate = format(Date.parse(order?.date), 'dd. MM. yyyy')
-  const formatedDeadline = format(Date.parse(order?.deadline), 'dd. MM. yyyy')
+  const formatedDate = format(Date.parse(order?.date), 'dd. MM. yyyy HH:mm')
+  const formatedDeadline = order.deadline ? format(Date.parse(order.deadline), 'dd. MM. yyyy') : ''
 
   // розрахунок загальної площі та кількості сіток в замовленні
   const goodsAreasArray = order.goods?.map(good => good.goodArea)
@@ -46,6 +46,10 @@ function SingleOrder({ order }) {
 
   return (
     <>
+    <Box sx={{display: 'flex', gap: 2, mb: 2}}>
+      <Typography sx={{display: 'flex', alignItems: 'center'}}> {`Замовлення № ${order._id}`} </Typography>
+      <OrderControlBar order={order} url={url}/>
+    </Box>
       <Grid
         container
         spacing={1}
@@ -89,15 +93,14 @@ function SingleOrder({ order }) {
           {formatedDeadline}
         </Grid>
       </Grid>
-      <OrderControlBar order={order} url={url}/>
       <Typography sx={{mt: 2}}>Товари:</Typography>
       {order?.goods?.map(good => (
-        <Box key={good._id} sx={{display: 'flex'}}>
+        <Box key={good._id} sx={{display: 'flex', border: '1px solid lightgrey'}}>
         <Good good={good}></Good>
-        <GoodDeleteComponent orderId={order._id} goodId={good._id} url={url}/>
+          <GoodEditComponent orderId={order._id} good={good} goodId={good._id} url={url}/>
+          <GoodDeleteComponent orderId={order._id} goodId={good._id} url={url} />
         </Box>
       ))}
-      {/* <GoodsEditComponent goods={order.goods} url={url}/> */}
       <GoodsAddComponent orderId={order._id} url={url}/>
       <Typography sx={{ color: '#3f51b5', mt: 1 }}>
         Загальна площа сіток: <strong>{goodsArea} м.кв.</strong> Загальна кількість сіток: <strong>{goodsQty} од.</strong>

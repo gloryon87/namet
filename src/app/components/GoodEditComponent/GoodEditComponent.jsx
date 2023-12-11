@@ -4,38 +4,55 @@ import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 import Typography from '@mui/material/Typography'
-import { modalStyles } from '../../styles/modalStyles'
 import TextField from '@mui/material/TextField'
 import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import Grid from '@mui/material/Grid'
-import AddIcon from '@mui/icons-material/Add';
+import { modalStyles } from '../../styles/modalStyles'
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { useRouter } from 'next/navigation'
 import { colors } from '../../variables.js'
 
-const initialFromData = {material: "спанбонд", color: colors.map((color) => ({ name: color, qty: 0 })),}
-
-function GoodsAddComponent({ orderId, url }) {
-    const [openModal, setOpenModal] = useState(false)
+function GoodEditComponent ({ orderId, good, url, goodId }) {
+  const [openModal, setOpenModal] = useState(false)
+  const initialData = good
+  delete initialData._id;
+  delete initialData.goodArea;
+  initialData.color = initialData.color?.map(color => ({ 'name': color.name, 'qty': color.qty }))
+  const [formData, setFormData] = useState(initialData)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(null)
-  const [formData, setFormData] = useState(initialFromData);
   const router = useRouter() 
 
+  const handleSubmit = e => {
+    e.preventDefault()
+    const hasChanges = JSON.stringify(formData) !== JSON.stringify(good)
+
+    if (hasChanges) {
+      handleEdit();
+    }
+    else {setOpenModal(false)}
+  }
 
     const handleChange = (e) => {
       const { name, value } = e.target;
       setFormData({ ...formData, [name]: value });
-  };
+    };
+  
+  const handleChangeNumber = (e) => {
+      const { name, value } = e.target;
+      setFormData({ ...formData, [name]: +value });
+    };
+  
 
   function handleClose () {
     setOpenModal(false)
-    setFormData(initialFromData)
+    setFormData(initialData)
   }
 
-const handleSelectColor = (name, value) => {
+  const handleSelectColor = (name, value) => {
   setFormData((prevData) => {
     const prevColor = prevData.color || [];
 
@@ -56,51 +73,43 @@ const handleSelectColor = (name, value) => {
   });
 };
 
-
-
-
-async function handleSubmit(e) {
-  e.preventDefault();
-  const updatedColorData = formData.color.filter((color) => color.qty > 0);
-
-  try {
-    setLoading(true);
-    setError(null);
-
-    const res = await fetch(`${url}/api/orders/${orderId}/add-good`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...formData, color: updatedColorData }),
-    });
-
-    if (!res.ok) {
+  async function handleEdit () {
+    try {
+      setLoading(true);
+      setError(null)
+      const res = await fetch(`${url}/api/orders/${orderId}/goods/${goodId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      })
+      if (!res.ok) {
       throw new Error(`HTTP помилка! Статус: ${res.status}`);
     }
-
-    setOpenModal(false);
-    router.refresh();
-  } catch (error) {
-    setError('Не вдалось додати товар');
-  } finally {
-    setLoading(false);
-    setFormData(initialFromData);
+      router.refresh();
+      return res.json()
+    } catch (error) {
+      setError('Не вдалось відредагувати замовлення')
+    } finally {
+      setLoading(false);
+      setOpenModal(false)
+    }
   }
 
-}
-
   return (
-    <Box sx={{ display: 'flex', gap: 2 }}>
-    <Modal open={openModal} onClose={handleClose}>
-        <Box sx={modalStyles}>
-        <Box component='form' onSubmit={handleSubmit} >
-          <Typography color='primary'>Додати новий товар до замовлення</Typography>
+      <Box sx={{ display: 'flex', gap: 2 }}>
+        <Modal open={openModal} onClose={handleClose}>
+          <Box sx={modalStyles}>
+            <form onSubmit={e => handleSubmit(e)}>
+              <Typography color='primary'>Редагувати товар</Typography>
           <Grid container spacing={2} sx={{mt: 1, mb: 3}}>
             <Grid item xs={12} md={4} >
-    <TextField
+            <TextField
             label='Ширина, м.'
             name={'a'}
             value={formData.a}
-            onChange={handleChange}
+            onChange={handleChangeNumber}
             type="number"
             InputProps={{ inputProps: { min: 2, max: 8 } }}
             fullWidth
@@ -112,7 +121,7 @@ async function handleSubmit(e) {
             label="Довжина, м."
             name={'b'}
             value={formData.b}
-            onChange={handleChange}
+            onChange={handleChangeNumber}
             type="number"
             InputProps={{ inputProps: { min: 4, max: 16 } }}
             fullWidth
@@ -124,7 +133,7 @@ async function handleSubmit(e) {
             label="Кількість"
             name={'qty'}
             value={formData.qty}
-            onChange={handleChange}
+            onChange={handleChangeNumber}
             type="number"
             InputProps={{ inputProps: { min: 1 } }}
             fullWidth
@@ -133,10 +142,11 @@ async function handleSubmit(e) {
           </Grid>
           <Grid item xs={12} md={4} >
           <FormControl fullWidth>
-            <InputLabel>Сезон *</InputLabel>
+            <InputLabel id="season">Сезон *</InputLabel>
             <Select
               name={'season'}
-              label='Сезон'
+              labelId="season"
+              label='Сезон *'
               value={formData.season || ''}
               onChange={handleChange}
               required
@@ -187,22 +197,23 @@ async function handleSubmit(e) {
             <Button variant='outlined' color='primary' type='submit'>
               Зберегти
             </Button>
+            </form>
           </Box>
-        </Box>
-      </Modal>
-      <Button  onClick={() => setOpenModal(true)}>
-          <AddIcon/> Додати товар
+        </Modal>
+
+        <Button color='primary' onClick={() => setOpenModal(true)}>
+          <EditOutlinedIcon/>
         </Button>
       {error && (
-        <Typography variant='h5' color='error'>
+        <Typography variant='h4' color='error'>
           {error}
         </Typography>
       )}
       {loading && <Typography variant='h6' color='primary'>
           попийте чайок...
         </Typography>}
-      </Box>
+        </Box>
   )
 }
 
-export default GoodsAddComponent
+export default GoodEditComponent

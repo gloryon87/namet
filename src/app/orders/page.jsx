@@ -5,6 +5,10 @@ import Link from 'next/link'
 import Box from '@mui/material/Box'
 import SelectComponent from '../components/Select/Select'
 import Typography from '@mui/material/Typography'
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+
+
 
 
 const url = process.env.REACT_APP_SERVER_URL || ''
@@ -23,62 +27,6 @@ async function getData () {
 async function Orders () {
   const data  = await getData()
 
-  // const postOne =  {
-  //     _id: '653e0d33d0f58f26573f91cc',
-  //     contacts: '0989880990 Slava',
-  //     goods: [
-  //       {
-  //         _id: '653e0d33d0f58f26573f91cb',
-  //         a: 4,
-  //         b: 6,
-  //         qty: 10,
-  //         season: 'осінь',
-  //         material: 'спанбонд',
-  //         color: [{ беж10: 2 }, { олива: 2 }, { коричневий: 1 }],
-  //         production: 'Коротич'
-  //       }
-  //     ],
-  //     date: '2023-10-27T18:20:58.000Z',
-  //     info: 'string',
-  //     state: 'в роб.',
-  //     priority: 'вис.',
-  //     deadline: '2023-12-27T18:20:58.000Z'
-  //   }
-
-  // const postTwo = {
-  //     _id: '653e0d33d0f58f26573f91cf',
-  //     contacts: '0989880990 Slava',
-  //     goods: [
-  //       {
-  //         _id: '653e0d33d0f58f26573f91cy',
-  //         a: 4,
-  //         b: 6,
-  //         qty: 10,
-  //         season: 'осінь',
-  //         material: 'спанбонд',
-  //         color: [{ беж10: 2 }, { олива: 2 }, { коричневий: 1 }],
-  //         production: 'Коротич'
-  //       },
-  //       {
-  //         _id: '653e0d33d0f58f26573f91co',
-  //         a: 4,
-  //         b: 8,
-  //         qty: 5,
-  //         season: 'осінь',
-  //         material: 'спанбонд',
-  //         color: [{ беж10: 2 }, { олива: 2 }, { коричневий: 1 }],
-  //         production: 'Коротич'
-  //       }
-  //     ],
-  //     date: '2023-10-27T18:20:58.000Z',
-  //     info: 'string',
-  //     state: 'в роб.',
-  //     priority: 'вис.',
-  //     deadline: '2023-12-27T18:20:58.000Z'
-  //   }
-
-  // const data = [ postOne, postOne, postTwo, postTwo, postOne, postTwo ]
-
   const goodsArray = data?.flatMap(order => order.goods)
   const goodsAreasArray = goodsArray?.map(good => good.a*good.b*good.qty)
   const goodsQtyArray = goodsArray?.map(good => good.qty)
@@ -90,6 +38,9 @@ async function Orders () {
       <Box sx={{display: 'flex', ml: 1, mb: 1, gap: 2}}><SelectComponent /></Box>
       <Typography sx={{ml: 1, color: '#3f51b5'}}>Загальна площа сіток: <strong>{goodsArea} м.кв.</strong> Загальна кількість сіток: <strong>{goodsQty} од.</strong></Typography>
       <Box sx={{ml: 1, color: '#424242' }}>
+        <Box sx={{ position: 'relative' }}>
+        <Link href='/orders/addNewOrder'><Fab sx={{ position: 'fixed', right: { xs: 20, sm: 30, lg: '10%', xl: '15%' }, bottom: { xs: 20, sm: 30, lg: 35 }}} color='primary' aria-label="Додати новий пост"><AddIcon/></Fab></Link>
+      </Box>
         <Grid
           container
           spacing={1}

@@ -12,6 +12,8 @@ import MenuItem from '@mui/material/MenuItem'
 import { useRouter } from 'next/navigation'
 import { modalStyles } from '../../styles/modalStyles'
 import DeleteModal from '../DeleteModal/DeleteModal'
+import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
   
 function OrderControlBar({ order, url }) {
     const [openEditModal, setOpenEditModal] = useState(false)
@@ -32,21 +34,22 @@ function OrderControlBar({ order, url }) {
     return date.toISOString();
   };
 
-    const initialData = {...order, 
+  const initialData = {...order, 
     date: formatDate(order.date),
-  deadline: formatDate(order.deadline),}
+    deadline: formatDate(order.deadline),
+    goods: null}
     const [formData, setFormData] = useState(initialData);
 
 
   const handleChange = (e) => {
       const { name, value } = e.target;
-      const formattedValue = name === 'date' ? formatDate(new Date(value)) : value;
+      const formattedValue = name === 'date' || 'deadline' ? formatDate(new Date(value)) : value;
     setFormData({ ...formData, [name]: formattedValue  });
   };
 
 const handleSubmit = (e) => {
-    e.preventDefault();
-
+  e.preventDefault();
+  
     // Отримайте змінені дані
     const changedData = Object.keys(formData).reduce((result, key) => {
       if (formData[key] !== initialData[key]) {
@@ -56,8 +59,7 @@ const handleSubmit = (e) => {
     }, {});
 
     // Викликайте onSubmit зі зміненими даними
-    // onSubmit(changedData);
-    console.log(changedData);
+    Object.keys(changedData).length > 0 ? handleEdit(changedData) : setOpenEditModal(false);
   };
 
       function handleClose () {
@@ -94,6 +96,7 @@ async function handleDelete() {
     const res = await fetch(`${url}/api/orders/${order._id}`, { method: 'PUT', headers: {
   'Content-type': 'application/json' }, body: JSON.stringify(editBody)
     })
+    router.refresh();
   return res.json();}
   catch (error) {
     setError('Не вдалось відредагувати замовлення')
@@ -103,7 +106,7 @@ async function handleDelete() {
 
   return (
     <>
-      <Box sx={{display: 'flex', gap: 2, mt: 2}}>
+      <Box sx={{display: 'flex'}}>
         <Modal open={openEditModal} onClose={handleClose}>
         <Box sx={modalStyles}>
             <form onSubmit={(e) => handleSubmit(e)}>
@@ -186,8 +189,8 @@ async function handleDelete() {
 
         <DeleteModal open={openDeleteModal} onClose={handleDeleteModalClose} onConfirm={handleDelete}/>
 
-          <Button variant='outlined' onClick={() => setOpenEditModal(true)}>Редагувати</Button>
-          <Button variant='outlined' color='error' onClick={() => setOpenDeleteModal(true)}>Видалити</Button> 
+          <Button onClick={() => setOpenEditModal(true)}><EditOutlinedIcon/></Button>
+          <Button color='error' onClick={() => setOpenDeleteModal(true)}><DeleteForeverOutlinedIcon/></Button> 
     </Box>
     {error && <Typography variant='h4' color='error'>{error}</Typography>}
     </>

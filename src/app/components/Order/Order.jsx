@@ -8,9 +8,10 @@ import { format } from 'date-fns'
 const gridItemStyle = {border: '1px solid lightgrey'}
 
 
-function Order ({ order }) {
-  const formatedDate = format(Date.parse(order?.date), 'dd. MM. yyyy')
-  const formatedDeadline = format(Date.parse(order?.deadline), 'dd. MM. yyyy')
+function Order({ order }) {
+  console.log(order);
+  const formatedDate = format(Date.parse(order.date), 'dd. MM. yyyy HH:mm')
+  const formatedDeadline = order.deadline ? format(Date.parse(order.deadline), 'dd. MM. yyyy') : ''
   const goodsAreasArray = order.goods?.map(good => good.goodArea)
   let goodsArea = 0
   if (goodsAreasArray.length > 0) {

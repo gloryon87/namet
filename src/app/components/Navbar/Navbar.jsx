@@ -18,7 +18,7 @@ function Navbar () {
       <MenuItem sx={menuItemStyle}>
         <Link
           href='/production'
-          className={`${style.link} ${pathname === '/' ? style.active : ''}`}
+          className={`${style.link} ${pathname === '/production' ? style.active : ''}`}
         >
             Виробники
         </Link>
