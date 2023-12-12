@@ -5,8 +5,7 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { format } from 'date-fns'
 
-const gridItemStyle = {border: '1px solid lightgrey'}
-
+const gridItemStyle = {border: '1px solid lightgray', borderTop: 0 }
 
 function Order({ order }) {
   console.log(order);
@@ -26,7 +25,7 @@ function Order({ order }) {
   
   return (
     <Box sx={[{ border: 1, boxShadow: 1 }, { '&:hover': { backgroundColor: '#eceff1' } }]}>
-      <Grid container spacing={1} sx={{ m: 0, width: '100%' }}>
+      <Grid container spacing={1} sx={{ m: 0, mb: 1, width: '100%' }}>
         <Grid
           item
           xs={6}
@@ -53,7 +52,7 @@ function Order({ order }) {
           component={Grid}
           item
           md={3}
-          sx={{ border: '1px solid lightgrey' }}
+          sx={gridItemStyle}
           display={{ xs: 'none', md: 'block' }}
         >
           {order?.info?.slice(0, 150)}{order?.info?.length > 150 && '...'}
@@ -81,7 +80,7 @@ function Order({ order }) {
         {order?.goods?.map(good => (
           <Good key={good._id} good={good}></Good>
         ))}
-        <Typography sx={{ml: 1}}>Загальна площа замовлення: <strong>{goodsArea} кв.м.</strong> Загальна кількість сіток: <strong>{goodsQty} од.</strong></Typography>
+        <Typography color='primary' sx={{ml: 1, mb: 1, mt: 1}}>Загальна площа замовлення: <strong>{goodsArea} кв.м.</strong> Загальна кількість сіток: <strong>{goodsQty} од.</strong></Typography>
       </Box>
     </Box>
   )

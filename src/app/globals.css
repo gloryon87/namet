@@ -21,6 +21,11 @@ html {
 body {
   margin: 0px;
   word-break: break-word;
+  &::-webkit-scrollbar {
+  display: none;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
 }
 
 /**

@@ -7,13 +7,13 @@ import MenuItem from '@mui/material/MenuItem'
 import style from './navbar.module.scss'
 
 
-const menuItemStyle = { width: '25%', justifyContent: 'center', overflow: 'hidden', color: '#1976d2' }
+const menuItemStyle = { width: '25%', justifyContent: 'center', overflow: 'hidden', color: 'white' }
 
 function Navbar () {
   const pathname = usePathname()
   return (
     <MenuList
-      sx={{ display: 'flex', justifyContent: 'center', mb: 2, mt: 1 }}
+      sx={{ display: 'flex', justifyContent: 'center', mb: 2, mt: 1, backgroundColor: '#2196f3' }}
     >
       <MenuItem sx={menuItemStyle}>
         <Link

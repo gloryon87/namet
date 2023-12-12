@@ -170,7 +170,7 @@ async function handleDelete() {
         label="Дедлайн"
         name="deadline"
         type="date"
-        value={formData.deadline}
+        value={formData.deadline || formatDate(new Date())}
         onChange={handleChange}
         InputLabelProps={{
           shrink: true,

@@ -4,10 +4,13 @@ import Good from '../Good/Good'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
+import Button from '@mui/material/Button'
+import Link from 'next/link'
 import OrderControlBar from '../OrderControlBar/OrderControlBar'
 import GoodEditComponent from '../GoodEditComponent/GoodEditComponent'
 import GoodDeleteComponent from '../GoodDeleteComponent/GoodDeleteComponent'
 import GoodsAddComponent from '../GoodsAddComponent/GoodsAddComponent'
+import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 
 const url = process.env.REACT_APP_SERVER_URL || ''
 const gridItemStyle = { border: '1px solid lightgrey' }
@@ -46,6 +49,7 @@ function SingleOrder({ order }) {
 
   return (
     <>
+    <Link href='/orders'> <Button sx={{gap: 1, mb: 1 }}> <ArrowBackOutlinedIcon/> Назад до замовлень </Button></Link>
     <Box sx={{display: 'flex', gap: 2, mb: 2}}>
       <Typography sx={{display: 'flex', alignItems: 'center'}}> {`Замовлення № ${order._id}`} </Typography>
       <OrderControlBar order={order} url={url}/>
@@ -53,60 +57,64 @@ function SingleOrder({ order }) {
       <Grid
         container
         spacing={1}
-        sx={{ border: '1px solid lightgrey', ml: 0, width: 'auto', mb: 2 }}
+        border={1}
+        sx={{ ml: 0, width: 'auto', mb: 2, fontWeight: 400 }}
       >
         <Grid item xs={4} md={2} sx={gridItemStyle}>
-          {' '}
           Дата замовлення
         </Grid>
         <Grid item xs={8} md={10} sx={gridItemStyle}>
-          {formatedDate}
+          <Typography>{formatedDate}</Typography>
         </Grid>
         <Grid item xs={4} md={2} sx={gridItemStyle}>
           Пріоритет
         </Grid>
         <Grid item xs={8} md={10} sx={gridItemStyle}>
-          {order?.priority}
+          <Typography>{order?.priority}</Typography>
         </Grid>
         <Grid item xs={4} md={2} sx={gridItemStyle}>
           Замовник
         </Grid>
         <Grid item xs={8} md={10} sx={gridItemStyle}>
-          {order?.contacts}
+          <Typography>{order?.contacts}</Typography>
         </Grid>
         <Grid item xs={4} md={2} sx={gridItemStyle}>
           Інформація
         </Grid>
         <Grid item xs={8} md={10} sx={gridItemStyle}>
-          {order?.info}
+          <Typography>{order?.info}</Typography>
         </Grid>
         <Grid item xs={4} md={2} sx={gridItemStyle}>
           Стан
         </Grid>
         <Grid item xs={8} md={10} sx={gridItemStyle}>
-          {order?.state}
+          <Typography>{order?.state}</Typography>
         </Grid>
         <Grid item xs={4} md={2} sx={gridItemStyle}>
           Дедлайн
         </Grid>
         <Grid item xs={8} md={10} sx={gridItemStyle}>
-          {formatedDeadline}
+          <Typography>{formatedDeadline}</Typography>
         </Grid>
       </Grid>
-      <Typography sx={{mt: 2}}>Товари:</Typography>
+      <Typography sx={{mt: 2, mb: 1}}>Товари:</Typography>
       {order?.goods?.map(good => (
-        <Box key={good._id} sx={{display: 'flex', border: '1px solid lightgrey'}}>
-        <Good good={good}></Good>
+        <Box key={good._id} sx={{display: 'flex', border: '1px solid lightgrey', mb: 1}}>
+          <Good good={good}/>
+          <Box sx={{display: 'flex', justifyContent: 'center', gap: 1, ml: 1, flexDirection: {xs: 'column', sm: 'row'}}}>
           <GoodEditComponent orderId={order._id} good={good} goodId={good._id} url={url}/>
           <GoodDeleteComponent orderId={order._id} goodId={good._id} url={url} />
+          </Box>
         </Box>
       ))}
       <GoodsAddComponent orderId={order._id} url={url}/>
-      <Typography sx={{ color: '#3f51b5', mt: 1 }}>
-        Загальна площа сіток: <strong>{goodsArea} м.кв.</strong> Загальна кількість сіток: <strong>{goodsQty} од.</strong>
+      <Box border={1} borderRadius={2} sx={{ p: 2, mt: 3, boxShadow: 2, width: 'max-content' }}>
+      <Typography color='primary'>
+        Загальна площа сіток: <strong>{goodsArea} м.кв.</strong> <br/> Загальна кількість сіток: <strong>{goodsQty} од.</strong>
       </Typography>
-      <Typography sx={{ color: '#3f51b5', mt: 1 }}>Витрати матеріалів:</Typography>
-      {goodsColor.map((color, index) => <Typography sx={{color: '#3f51b5'}}key={index}>{color.name}: <strong>{color.colorArea} м.кв.</strong></Typography>)}
+      <Typography color='primary' sx={{ mt: 2, mb: 1 }}>Витрати матеріалів:</Typography>
+      {goodsColor.map((color, index) => <Typography color='primary' key={index}>{color.name}: <strong>{color.colorArea} м.кв.</strong></Typography>)}
+      </Box>
     </>
   )
 }

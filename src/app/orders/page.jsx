@@ -6,10 +6,6 @@ import Box from '@mui/material/Box'
 import SelectComponent from '../components/Select/Select'
 import Typography from '@mui/material/Typography'
 import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add';
-
-
-
 
 const url = process.env.REACT_APP_SERVER_URL || ''
 
@@ -35,11 +31,18 @@ async function Orders () {
 
   return (
     <>
-      <Box sx={{display: 'flex', ml: 1, mb: 1, gap: 2}}><SelectComponent /></Box>
-      <Typography sx={{ml: 1, color: '#3f51b5'}}>Загальна площа сіток: <strong>{goodsArea} м.кв.</strong> Загальна кількість сіток: <strong>{goodsQty} од.</strong></Typography>
+      <Box sx={{display: 'flex', ml: 1, mb: 3, gap: 2}}><SelectComponent /></Box>
+      <Typography color='primary' sx={{ml: 1, mb: 2 }}>
+        Загальна площа сіток: <strong>{goodsArea} м.кв.</strong> Загальна кількість сіток: <strong>{goodsQty} од.</strong>
+      </Typography>
       <Box sx={{ml: 1, color: '#424242' }}>
         <Box sx={{ position: 'relative' }}>
-        <Link href='/orders/addNewOrder'><Fab sx={{ position: 'fixed', right: { xs: 20, sm: 30, lg: '10%', xl: '15%' }, bottom: { xs: 20, sm: 30, lg: 35 }}} color='primary' aria-label="Додати новий пост"><AddIcon/></Fab></Link>
+          <Link href='/orders/addNewOrder'>
+            <Fab
+              sx={{ position: 'fixed', textTransform: 'none', opacity: '90%', right: { xs: 20, sm: 30, xl: '5%' }, bottom: { xs: 20, sm: 30, lg: 35 } }}
+              color='primary' aria-label="Додати новий пост" variant='extended'> 
+              {/* <AddIcon />  */}
+              Нове замовлення</Fab></Link>
       </Box>
         <Grid
           container
