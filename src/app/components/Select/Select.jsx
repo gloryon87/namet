@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation'
 import Box from '@mui/material/Box';
@@ -23,7 +23,22 @@ function SelectComponent() {
   const handleSearch = (e) => {
     e.preventDefault()
     // Redirect to the search page with the search query as a parameter
-    router.push(`?priority=${priority}&state=${state}&search=${encodeURIComponent(searchQuery)}`);
+  let queryString = '';
+
+if (priority !== '') {
+  queryString += `priority=${priority}&`;
+}
+
+if (state !== '') {
+  queryString += `state=${state}&`;
+}
+
+if (searchQuery !== '') {
+  queryString += `search=${encodeURIComponent(searchQuery)}`;
+}
+
+// Construct the final URL and navigate using router.push
+router.push(`?${queryString}`);
   };
 
   const handleClear = () => {
@@ -37,22 +52,31 @@ function SelectComponent() {
   const selectedValue = event.target.value;
 
   if (type === 'priority') {
-    setPriority(() => {
-      // Update the URL with the selected value
-      
-      return selectedValue;
-    });
-    router.push(`/orders?priority=${selectedValue}&state=${state}&search=${encodeURIComponent(searchQuery)}`);
+    setPriority(() => selectedValue);
   }
 
   if (type === 'state') {
-    setState(() => {
-      // Update the URL with the selected value
-      return selectedValue;
-    });
-    router.push(`/orders?priority=${priority}&state=${selectedValue}&search=${encodeURIComponent(searchQuery)}`);
+    setState(() => selectedValue);
   }
 };
+
+useEffect(() => {
+  // Construct the query string with non-empty values
+  let queryString = '';
+  if (priority !== '') {
+    queryString += `priority=${encodeURIComponent(priority)}&`;
+  }
+  if (state !== '') {
+    queryString += `state=${encodeURIComponent(state)}&`;
+  }
+  if (searchQuery !== '') {
+    queryString += `search=${searchQuery}`;
+  }
+
+  // Construct the final URL and navigate using router.push
+  router.push(`?${queryString}`);
+}, [priority, state]);
+
 
   return (
     <Box sx={{ display: 'flex', gap: 2, width: '100%' }}>
@@ -66,9 +90,9 @@ function SelectComponent() {
           onChange={(e) => handleSelectChange(e, 'priority')}
         >
           <MenuItem value="">-</MenuItem>
-          <MenuItem value="high">Вис.</MenuItem>
-          <MenuItem value="medium">Норм.</MenuItem>
-          <MenuItem value="low">Низ.</MenuItem>
+          <MenuItem value="вис.">Вис.</MenuItem>
+          <MenuItem value="норм.">Норм.</MenuItem>
+          <MenuItem value="низ.">Низ.</MenuItem>
         </Select>
       </FormControl>
 
@@ -82,10 +106,10 @@ function SelectComponent() {
           onChange={(e) => handleSelectChange(e, 'state')}
         >
           <MenuItem value="">-</MenuItem>
-          <MenuItem value="recieved">Прийнято</MenuItem>
-          <MenuItem value="in-progress">В роботі</MenuItem>
-          <MenuItem value="completed">Виконано</MenuItem>
-          <MenuItem value="cancelled">Відміна</MenuItem>
+          <MenuItem value="прийнято">Прийнято</MenuItem>
+          <MenuItem value="в роботі">В роботі</MenuItem>
+          <MenuItem value="виконано">Виконано</MenuItem>
+          <MenuItem value="відміна">Відміна</MenuItem>
         </Select>
       </FormControl>
           <Box component="form" onSubmit={handleSearch} autoComplete="off" sx={{display: 'flex', width: '100%'}}>

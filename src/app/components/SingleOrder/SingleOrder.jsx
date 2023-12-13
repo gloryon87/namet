@@ -79,7 +79,7 @@ function SingleOrder({ order }) {
           <Typography>{order?.contacts}</Typography>
         </Grid>
         <Grid item xs={4} md={2} sx={gridItemStyle}>
-          Інформація
+          Коментар
         </Grid>
         <Grid item xs={8} md={10} sx={gridItemStyle}>
           <Typography>{order?.info}</Typography>

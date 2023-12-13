@@ -9,9 +9,11 @@ import Fab from '@mui/material/Fab';
 
 const url = process.env.REACT_APP_SERVER_URL || ''
 
-async function getData () {
+async function getData (params) {
   try {
-    const res = await fetch(`${url}/api/orders`, { next: { revalidate: 0 } })
+    const queryParams = new URLSearchParams(params).toString();
+    console.log(`${url}/api/orders?${queryParams}`);
+    const res = await fetch(`${url}/api/orders?${queryParams}`, { next: { revalidate: 0 } })
     const clonedResponse = res.clone();
     const jsonData = await clonedResponse.json();
     return jsonData;
@@ -20,14 +22,16 @@ async function getData () {
   }
 }
 
-async function Orders () {
-  const data  = await getData()
+async function Orders ({ searchParams }) {
+  const data = await getData(searchParams)
 
   const goodsArray = data?.flatMap(order => order.goods)
-  const goodsAreasArray = goodsArray?.map(good => good.a*good.b*good.qty)
-  const goodsQtyArray = goodsArray?.map(good => good.qty)
-  const goodsQty = goodsQtyArray.reduce((total, num) => total + num)
-  const goodsArea = goodsAreasArray.reduce((total, num) => total + num)
+  const goodsAreasArray = goodsArray?.map(good => good.a*good.b*good.qty) || []
+  const goodsQtyArray = goodsArray?.map(good => good.qty) || []
+  let goodsQty
+  goodsQtyArray.length > 0 ? goodsQty = goodsQtyArray.reduce((total, num) => total + num) : goodsQty = 0
+  let goodsArea
+  goodsAreasArray.length > 0 ? goodsArea = goodsAreasArray.reduce((total, num) => total + num): goodsArea = 0
 
   return (
     <>
@@ -79,7 +83,7 @@ async function Orders () {
             sx={{ border: 1 }}
             display={{ xs: 'none', md: 'block' }}
           >
-            Інфо
+            Коментар
           </Box>
           <Box
             component={Grid}
