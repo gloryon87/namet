@@ -29,10 +29,16 @@ function OrderControlBar({ order, url }) {
   return `${year}-${month}-${day}`;
 };
 
-  const formatToISOString = (dateString) => {
-    const date = new Date(dateString);
-    return date.toISOString();
-  };
+const formatToISOString = (dateString) => {
+  if (!dateString || dateString === "NaN-NaN-NaN") {
+    return null;
+  }
+  const date = new Date(dateString);
+  if (isNaN(date.getTime())) {
+    return null;
+  }
+  return date.toISOString();
+};
 
   const initialData = {...order, 
     date: formatDate(order.date),
@@ -40,11 +46,10 @@ function OrderControlBar({ order, url }) {
     goods: null}
     const [formData, setFormData] = useState(initialData);
 
-
   const handleChange = (e) => {
       const { name, value } = e.target;
       const formattedValue = name === 'date' || 'deadline' ? formatDate(new Date(value)) : value;
-    setFormData({ ...formData, [name]: formattedValue  });
+             setFormData({ ...formData, [name]: formattedValue  });
   };
 
 const handleSubmit = (e) => {
@@ -170,7 +175,7 @@ async function handleDelete() {
         label="Дедлайн"
         name="deadline"
         type="date"
-        value={formData.deadline || formatDate(new Date())}
+        value={formData.deadline !== '1970-01-01' ? formData.deadline : formatDate(new Date())}
         onChange={handleChange}
         InputLabelProps={{
           shrink: true,

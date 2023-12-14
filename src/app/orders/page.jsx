@@ -12,8 +12,7 @@ const url = process.env.REACT_APP_SERVER_URL || ''
 async function getData (params) {
   try {
     const queryParams = new URLSearchParams(params).toString();
-    console.log(`${url}/api/orders?${queryParams}`);
-    const res = await fetch(`${url}/api/orders?${queryParams}`, { next: { revalidate: 0 } })
+    const res = await fetch(`${url}/api/orders?${queryParams}`, { cache: 'no-store'})
     const clonedResponse = res.clone();
     const jsonData = await clonedResponse.json();
     return jsonData;
@@ -28,10 +27,9 @@ async function Orders ({ searchParams }) {
   const goodsArray = data?.flatMap(order => order.goods)
   const goodsAreasArray = goodsArray?.map(good => good.a*good.b*good.qty) || []
   const goodsQtyArray = goodsArray?.map(good => good.qty) || []
-  let goodsQty
-  goodsQtyArray.length > 0 ? goodsQty = goodsQtyArray.reduce((total, num) => total + num) : goodsQty = 0
-  let goodsArea
-  goodsAreasArray.length > 0 ? goodsArea = goodsAreasArray.reduce((total, num) => total + num): goodsArea = 0
+  const goodsQty = goodsQtyArray.reduce((total, num) => total + num, 0);
+  const goodsArea = goodsAreasArray.reduce((total, num) => total + num, 0);
+
 
   return (
     <>
