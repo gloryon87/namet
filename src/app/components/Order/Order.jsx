@@ -23,7 +23,7 @@ function Order({ order }) {
   }
   
   return (
-    <Box sx={[{ border: 1, boxShadow: 1 }, { '&:hover': { backgroundColor: '#eceff1' } }]}>
+    <Box sx={[{ border: 1, boxShadow: 1, fontSize: '1rem' }, { '&:hover': { backgroundColor: '#eceff1' } }]}>
       <Grid container spacing={1} sx={{ m: 0, mb: 1, width: '100%' }}>
         <Grid
           item

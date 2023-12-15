@@ -9,20 +9,28 @@ import Fab from '@mui/material/Fab';
 
 const url = process.env.REACT_APP_SERVER_URL || ''
 
-async function getData (params) {
+async function getData(params) {
   try {
     const queryParams = new URLSearchParams(params).toString();
-    const res = await fetch(`${url}/api/orders?${queryParams}`, { cache: 'no-store'})
+    const res = await fetch(`${url}/api/orders?${queryParams}`, {
+      cache: 'no-store',
+      headers: {
+        'Cache-Control': 'no-store',
+      },
+    });
+
     const clonedResponse = res.clone();
     const jsonData = await clonedResponse.json();
     return jsonData;
   } catch (error) {
-    throw new Error('Не вдалось отримати дані')
+    throw new Error('Не вдалось отримати дані');
   }
 }
 
+
 async function Orders ({ searchParams }) {
   const data = await getData(searchParams)
+  console.log(data);
 
   const goodsArray = data?.flatMap(order => order.goods)
   const goodsAreasArray = goodsArray?.map(good => good.a*good.b*good.qty) || []
@@ -32,7 +40,7 @@ async function Orders ({ searchParams }) {
 
 
   return (
-    <>
+    <Box sx={{ml: 1, mr: 1}}>
       <Box sx={{display: 'flex', ml: 1, mb: 3, gap: 2}}><SelectComponent /></Box>
       <Typography color='primary' sx={{ml: 1, mb: 2 }}>
         Загальна площа сіток: <strong>{goodsArea} м.кв.</strong> Загальна кількість сіток: <strong>{goodsQty} од.</strong>
@@ -107,7 +115,7 @@ async function Orders ({ searchParams }) {
         <ol>
           {data &&
             data.map(order => (
-              <li key={order._id}>
+              <li style={{fontSize: 13}} key={order._id}>
                 <Link href={`/orders/${order._id}`}>
                   <Order order={order} />
                 </Link>
@@ -115,7 +123,7 @@ async function Orders ({ searchParams }) {
             ))}
         </ol>
       </Box>
-    </>
+    </Box>
   )
 }
 

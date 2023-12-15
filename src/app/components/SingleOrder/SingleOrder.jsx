@@ -17,8 +17,8 @@ const gridItemStyle = { border: '1px solid lightgrey' }
 
 function SingleOrder({ order }) {
   console.log(order);
-  const formatedDate = format(Date.parse(order?.date), 'dd. MM. yyyy HH:mm')
-  const formatedDeadline = order.deadline ? format(Date.parse(order.deadline), 'dd. MM. yyyy') : ''
+  const formatedDate = format(Date.parse(order?.date), 'dd.MM.yyyy HH:mm')
+  const formatedDeadline = order.deadline ? format(Date.parse(order.deadline), 'dd.MM.yyyy') : ''
 
   // розрахунок загальної площі та кількості сіток в замовленні
   const goodsAreasArray = order.goods?.map(good => good.goodArea)
@@ -99,13 +99,13 @@ function SingleOrder({ order }) {
       </Grid>
       <Typography sx={{mt: 2, mb: 1}}>Товари:</Typography>
       {order?.goods?.map(good => (
-        <Box key={good._id} sx={{display: 'flex', border: '1px solid lightgrey', mb: 1}}>
+        <Box key={good._id} sx={{display: 'flex', flexDirection: {xs: 'column', md: 'row'}, justifyContent: 'space-between', mb: 1, border: '1px solid lightgrey'}}>
           <Good good={good}/>
-          <Box sx={{display: 'flex', justifyContent: 'center', gap: 1, ml: 1, flexDirection: {xs: 'column', sm: 'row'}}}>
+          <Box sx={{display: 'flex'}}>
           <GoodEditComponent orderId={order._id} good={good} goodId={good._id} url={url}/>
           <GoodDeleteComponent orderId={order._id} goodId={good._id} url={url} />
           </Box>
-        </Box>
+          </Box>
       ))}
       <GoodsAddComponent orderId={order._id} url={url}/>
       <Box border={1} borderRadius={2} sx={{ p: 2, mt: 3, boxShadow: 2, width: 'max-content' }}>

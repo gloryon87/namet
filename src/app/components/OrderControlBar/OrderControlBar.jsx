@@ -9,6 +9,7 @@ import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
+import Grid from '@mui/material/Grid'
 import { useRouter } from 'next/navigation'
 import { modalStyles } from '../../styles/modalStyles'
 import DeleteModal from '../DeleteModal/DeleteModal'
@@ -113,8 +114,9 @@ async function handleDelete() {
     <>
       <Box sx={{display: 'flex'}}>
         <Modal open={openEditModal} onClose={handleClose}>
-        <Box sx={modalStyles}>
-            <form onSubmit={(e) => handleSubmit(e)}>
+        <Box component='form' onSubmit={(e) => handleSubmit(e)} sx={modalStyles}>
+          <Grid container  rowSpacing={{xs: 0, md: 1}} columnSpacing={{xs: 1, md: 2}} sx={{mb: 2}}>
+            <Grid item xs={12}>
       <TextField
         label="Замовник"
         name="contacts"
@@ -123,7 +125,10 @@ async function handleDelete() {
         fullWidth
         margin="normal"
       />
+      </Grid>
+
       {/* Date */}
+      <Grid item xs={12} md={6}>
       <TextField
         label="Дата замовлення"
         name="date"
@@ -136,41 +141,10 @@ async function handleDelete() {
         fullWidth
         margin="normal"
       />
-
-      {/* Info */}
-      <TextField
-        label="Інфо"
-        name="info"
-        value={formData.info}
-        onChange={handleChange}
-        fullWidth
-        multiline
-        rows={4}
-        margin="normal"
-      />
-
-      {/* State */}
-      <FormControl fullWidth margin="normal">
-        <InputLabel>Стан</InputLabel>
-        <Select label="Стан" name="state" value={formData.state} onChange={handleChange}>
-          <MenuItem value="прийнято">Прийнято</MenuItem>
-          <MenuItem value="в роботі">В роботі</MenuItem>
-          <MenuItem value="виконано">Виконано</MenuItem>
-          <MenuItem value="відміна">Відміна</MenuItem>
-        </Select>
-      </FormControl>
-
-      {/* Priority */}
-      <FormControl fullWidth margin="normal">
-        <InputLabel>Пріоритет</InputLabel>
-        <Select label="Пріоритет" name="priority" value={formData.priority} onChange={handleChange}>
-          <MenuItem value="вис.">Високий</MenuItem>
-          <MenuItem value="норм.">Нормальний</MenuItem>
-          <MenuItem value="низ.">Низький</MenuItem>
-        </Select>
-      </FormControl>
+      </Grid>
 
       {/* Deadline */}
+      <Grid item xs={12} md={6}>
       <TextField
         label="Дедлайн"
         name="deadline"
@@ -183,12 +157,52 @@ async function handleDelete() {
         fullWidth
         margin="normal"
       />
+      </Grid>
 
-      <Button variant='outlined' color='error' onClick={handleClose} sx={{mr: 2}}>Відміна</Button>
-      <Button type="submit" variant="outlined" color="primary">
+      {/* Info */}
+      <Grid item xs={12}>
+      <TextField
+        label="Коментар"
+        name="info"
+        value={formData.info}
+        onChange={handleChange}
+        fullWidth
+        multiline
+        rows={4}
+        margin="normal"
+      />
+      </Grid>
+
+      {/* State */}
+      <Grid item xs={12} md={6}>
+      <FormControl fullWidth margin="normal">
+        <InputLabel>Стан</InputLabel>
+        <Select label="Стан" name="state" value={formData.state} onChange={handleChange}>
+          <MenuItem value="прийнято">Прийнято</MenuItem>
+          <MenuItem value="в роботі">В роботі</MenuItem>
+          <MenuItem value="виконано">Виконано</MenuItem>
+          <MenuItem value="відміна">Відміна</MenuItem>
+        </Select>
+      </FormControl>
+      </Grid>
+
+      {/* Priority */}
+      <Grid item xs={12} md={6}>
+      <FormControl fullWidth margin="normal">
+        <InputLabel>Пріоритет</InputLabel>
+        <Select label="Пріоритет" name="priority" value={formData.priority} onChange={handleChange}>
+          <MenuItem value="вис.">Високий</MenuItem>
+          <MenuItem value="норм.">Нормальний</MenuItem>
+          <MenuItem value="низ.">Низький</MenuItem>
+        </Select>
+      </FormControl>
+      </Grid>
+      </Grid>
+
+      <Button variant='outlined' color='error' onClick={handleClose} sx={{mr: 2, mb: 1}}>Відміна</Button>
+      <Button type="submit" variant="outlined" color="primary" sx={{mb: 1}}>
         Зберегти
       </Button>
-    </form>
         </Box>
         </Modal>
 

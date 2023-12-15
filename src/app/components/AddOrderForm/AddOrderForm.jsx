@@ -103,9 +103,10 @@ const handleAddGood = () => {
   const updatedGoods = [...formData.goods];
   updatedGoods.push({material: 'спанбонд'});
   setFormData((prevData) => ({ ...prevData, goods: updatedGoods }));
+  setTimeout(() => {window.scrollTo({top: document.body.scrollHeight, behavior: "smooth"}), 500})
 };
 
-const handleDeleteGood = (index) => {
+  const handleDeleteGood = (index) => {
   const updatedGoods = [...formData.goods];
   updatedGoods.splice(index, 1)
   setFormData((prevData) => ({ ...prevData, goods: updatedGoods }));
@@ -150,7 +151,10 @@ const handleDeleteGood = (index) => {
         Додати нове замовлення
       </Typography>
       <Box component='form' onSubmit={handleSubmit}>
-        <Grid container spacing={2} sx={{ flexGrow: 1 }}>
+        <Typography variant='h6' sx={{ mt: 2 }}>
+          Загальна інформація
+        </Typography>
+        <Grid container rowSpacing={1} columnSpacing={2} sx={{ flexGrow: 1 }}>
           <Grid item xs={12} sm={12} lg={4}>
             <TextField
               label='Замовник'
@@ -226,7 +230,7 @@ const handleDeleteGood = (index) => {
           </Grid>
           <Grid item xs={12}>
             <TextField
-              label='Інфо'
+              label='Коментар'
               name='info'
               type='text'
               value={formData.info || ''}
@@ -238,14 +242,14 @@ const handleDeleteGood = (index) => {
             />
           </Grid>
         </Grid>
-        <Typography color='primary' sx={{ mt: 2, mb: 2 }}>
+        <Typography variant='h6' sx={{ mt: 2, mb: 1 }}>
           Товари
         </Typography>
         {formData.goods.map((good, index) => (
           <Box key={index}>
             <Box sx={{display: 'flex', gap: 2, mb: 1}}>
-            <Typography sx={{display: 'flex', alignItems: 'center'}}>{`Товар №${index + 1}`}</Typography>
-            <Button color='error' onClick={e => handleDeleteGood(index)}><DeleteForeverOutlinedIcon/></Button>
+            <Typography sx={{display: 'flex', alignItems: 'center', fontWeight: 600}}>{`Товар №${index + 1}`}</Typography>
+            <Button color='error' onClick={e => setTimeout(() => handleDeleteGood(index), 500)}><DeleteForeverOutlinedIcon/></Button>
             </Box>
             <Grid container spacing={2} sx={{ flexGrow: 1 }}>
               <Grid item xs={6} sm={4} lg={2}>
@@ -320,7 +324,7 @@ const handleDeleteGood = (index) => {
                 />
               </Grid>
             </Grid>
-            <Typography color='primary' sx={{ mt: 2, mb: 2 }}>
+            <Typography variant='body2' sx={{ mt: 2, mb: 2 }}>
               Кольори
             </Typography>
             <Grid container spacing={2} sx={{ flexGrow: 1, mb: 2 }}>

@@ -1,0 +1,12 @@
+.link {
+  display: inline-block;
+  color: inherit;
+  width: 100%;
+  text-align: center;
+}
+
+.active {
+  color: white;
+  font-weight: 600;
+  text-decoration: underline;
+}/*# sourceMappingURL=navbar.module.css.map */

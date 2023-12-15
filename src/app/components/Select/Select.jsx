@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation'
 import Box from '@mui/material/Box';
@@ -10,6 +10,7 @@ import Select from '@mui/material/Select';
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button"
 import ClearIcon from '@mui/icons-material/Clear';
+import _debounce from 'lodash/debounce';
 
 function SelectComponent() {
   const searchParams = useSearchParams()
@@ -21,25 +22,36 @@ function SelectComponent() {
   const router = useRouter();
 
   const handleSearch = (e) => {
-    e.preventDefault()
-    // Redirect to the search page with the search query as a parameter
+  setSearchQuery(e.target.value);
+};
+
+// Use _debounce outside of the component to persist its identity
+const delayedRouterPush = _debounce((queryString) => {
+  router.push(`?${queryString}`);
+}, 800);
+
+useEffect(() => {
   let queryString = '';
 
-if (priority !== '') {
-  queryString += `priority=${priority}&`;
-}
+  if (priority !== '') {
+    queryString += `priority=${priority}&`;
+  }
 
-if (state !== '') {
-  queryString += `state=${state}&`;
-}
+  if (state !== '') {
+    queryString += `state=${state}&`;
+  }
 
-if (searchQuery !== '') {
-  queryString += `search=${encodeURIComponent(searchQuery)}`;
-}
+  if (searchQuery !== '') {
+    queryString += `search=${encodeURIComponent(searchQuery)}`;
+  }
 
-// Construct the final URL and navigate using router.push
-router.push(`?${queryString}`);
-  };
+  // Invoke the delayedRouterPush with the updated queryString
+  delayedRouterPush(queryString);
+
+  // Cleanup function to cancel any pending debounced execution on unmount
+  return delayedRouterPush.cancel;
+}, [searchQuery]);
+
 
   const handleClear = () => {
     setPriority('')
@@ -79,7 +91,7 @@ useEffect(() => {
 
 
   return (
-    <Box sx={{ display: 'flex', gap: 2, width: '100%' }}>
+    <Box sx={{ display: 'flex', gap: {xs: 1, md: 2}, width: '100%' }}>
       <FormControl sx={{width: '40%'}} size='small'>
         <InputLabel id="priority-label">Пріоритет</InputLabel>
         <Select
@@ -112,19 +124,17 @@ useEffect(() => {
           <MenuItem value="відміна">Відміна</MenuItem>
         </Select>
       </FormControl>
-          <Box component="form" onSubmit={handleSearch} autoComplete="off" sx={{display: 'flex', width: '100%'}}>
       <TextField
         fullWidth
         label="Пошук"
             variant="outlined"
             size="small"
         value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
+        onChange={handleSearch}
       />
-      <Button onClick={handleClear} sx={{ml: 1}}>
+      <Button sx={{minWidth: {xs: 36, md: 64}}} onClick={handleClear}>
         <ClearIcon/>
       </Button>
-    </Box>
     </Box>
   );
 }
