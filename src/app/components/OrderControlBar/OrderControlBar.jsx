@@ -199,10 +199,12 @@ async function handleDelete() {
       </Grid>
       </Grid>
 
-      <Button variant='outlined' color='error' onClick={handleClose} sx={{mr: 2, mb: 1}}>Відміна</Button>
+      <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
+      <Button variant='outlined' color='error' onClick={handleClose} sx={{ mr: 2, mb: 1}}>Відміна</Button>
       <Button type="submit" variant="outlined" color="primary" sx={{mb: 1}}>
         Зберегти
       </Button>
+      </Box>
         </Box>
         </Modal>
 

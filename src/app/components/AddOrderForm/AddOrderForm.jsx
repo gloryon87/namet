@@ -349,7 +349,7 @@ const handleAddGood = () => {
           Додати товар
         </Button>
 
-        <Box sx={{display: 'flex', gap: 2, mt: 2}}>
+        <Box sx={{display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 2}}>
         <Button
           variant='outlined'
           color='error'

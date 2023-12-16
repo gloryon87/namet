@@ -181,12 +181,14 @@ async function handleSubmit(e) {
           </Grid>
       ))}
       </Grid>
+          <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
             <Button variant='outlined' color='error' onClick={handleClose} sx={{mr: 2}}>
               Відміна
             </Button>
             <Button variant='outlined' color='primary' type='submit'>
               Зберегти
             </Button>
+          </Box>
           </Box>
         </Box>
       </Modal>
