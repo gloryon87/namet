@@ -57,7 +57,7 @@ useEffect(() => {
     setPriority('')
     setState('')
     setSearchQuery('')
-    router.replace('/orders', undefined, { shallow: true });
+    router.push('/orders?all=true');
   }
 
   const handleSelectChange = (event, type) => {

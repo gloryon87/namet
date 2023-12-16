@@ -3,6 +3,7 @@ import Order from '../components/Order/Order'
 import Grid from '@mui/material/Grid'
 import Link from 'next/link'
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import SelectComponent from '../components/Select/Select'
 import Typography from '@mui/material/Typography'
 import Fab from '@mui/material/Fab';
@@ -30,14 +31,12 @@ async function getData(params) {
 
 async function Orders ({ searchParams }) {
   const data = await getData(searchParams)
-  console.log(data);
 
   const goodsArray = data?.flatMap(order => order.goods)
   const goodsAreasArray = goodsArray?.map(good => good.a*good.b*good.qty) || []
   const goodsQtyArray = goodsArray?.map(good => good.qty) || []
   const goodsQty = goodsQtyArray.reduce((total, num) => total + num, 0);
   const goodsArea = goodsAreasArray.reduce((total, num) => total + num, 0);
-
 
   return (
     <Box sx={{ml: 1, mr: 1}}>
@@ -123,6 +122,7 @@ async function Orders ({ searchParams }) {
             ))}
         </ol>
       </Box>
+      {Object.keys(searchParams).length === 0 && <Box sx={{textAlign: 'center'}}><Link href='/orders?all=true'><Button color='primary' sx={{mt: 2}}>показати всі замовлення</Button></Link></Box>}
     </Box>
   )
 }
