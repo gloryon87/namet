@@ -95,7 +95,7 @@ async function handleSubmit(e) {
         <Box component='form' onSubmit={handleSubmit} >
           <Typography color='primary'>Додати новий товар до замовлення</Typography>
           <Grid container spacing={2} sx={{mt: 1, mb: 3}}>
-            <Grid item xs={12} md={4} >
+            <Grid item xs={12} md={3} >
     <TextField
             label='Ширина, м.'
             name={'a'}
@@ -107,7 +107,7 @@ async function handleSubmit(e) {
             required
               />
             </Grid>
-          <Grid item xs={12} md={4} >
+          <Grid item xs={12} md={3} >
           <TextField
             label="Довжина, м."
             name={'b'}
@@ -119,7 +119,7 @@ async function handleSubmit(e) {
             required
           />
           </Grid>
-          <Grid item xs={12} md={4} >
+          <Grid item xs={12} md={3} >
           <TextField
             label="Кількість"
             name={'qty'}
@@ -130,8 +130,19 @@ async function handleSubmit(e) {
             fullWidth
             required
           />
-          </Grid>
-          <Grid item xs={12} md={4} >
+              </Grid>
+          <Grid item xs={12} md={3}>
+                <TextField
+                  label='Видано'
+                  name={'delivered'}
+                  value={formData.delivered}
+                  onChange={handleChange}
+                  type='number'
+                  InputProps={{ inputProps: { min: 0 } }}
+                  fullWidth
+                />
+              </Grid>
+          <Grid item xs={12} md={3} >
           <FormControl fullWidth>
             <InputLabel>Сезон *</InputLabel>
             <Select
@@ -148,7 +159,7 @@ async function handleSubmit(e) {
             </Select>
           </FormControl>
           </Grid>
-          <Grid item xs={12} md={4} >
+          <Grid item xs={12} md={3} >
           <TextField
             label="Матеріал"
             name={'material'}
@@ -157,7 +168,7 @@ async function handleSubmit(e) {
             fullWidth
           />
           </Grid>
-          <Grid item xs={12} md={4} >
+          <Grid item xs={12} md={6} >
           <TextField
             label="Виробники"
             name={'production'}

@@ -288,7 +288,18 @@ const handleAddGood = () => {
                   required
                 />
               </Grid>
-              <Grid item xs={6} sm={6} lg={2}>
+               <Grid item xs={6} sm={4} lg={2}>
+                <TextField
+                  label='Видано'
+                  name={'delivered'}
+                  value={formData.delivered}
+                  onChange={e => handleChangeGood(e, index)}
+                  type='number'
+                  InputProps={{ inputProps: { min: 0 } }}
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={6} sm={4} lg={2}>
                 <FormControl fullWidth>
                   <InputLabel>Сезон *</InputLabel>
                   <Select
@@ -305,7 +316,7 @@ const handleAddGood = () => {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={6} lg={4}>
+              <Grid item xs={6} sm={4} lg={2}>
                 <TextField
                   label='Матеріал'
                   name={'material'}

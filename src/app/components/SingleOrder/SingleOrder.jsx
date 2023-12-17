@@ -49,7 +49,7 @@ function SingleOrder({ order }) {
 
   return (
     <>
-    <Link href='/orders'> <Button sx={{gap: 1, mb: 1 }}> <ArrowBackOutlinedIcon/> Назад до замовлень </Button></Link>
+    <Link href='/orders'> <Button sx={{gap: 1, mb: 1 }}> <ArrowBackOutlinedIcon/> До замовлень </Button></Link>
     <Box sx={{display: 'flex', gap: 2, mb: 2}}>
       <Typography sx={{display: 'flex', alignItems: 'center'}}> {`Замовлення № ${order._id}`} </Typography>
       <OrderControlBar order={order} url={url}/>

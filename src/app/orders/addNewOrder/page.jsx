@@ -9,7 +9,7 @@ const url = process.env.REACT_APP_SERVER_URL || ''
 function addNewOrder () {
   return (
     <>
-    <Link href='/orders'> <Button sx={{gap: 1, mb: 1 }}> <ArrowBackOutlinedIcon/> Назад до замовлень </Button></Link>
+    <Link href='/orders'> <Button sx={{gap: 1, mb: 1 }}> <ArrowBackOutlinedIcon/> До замовлень </Button></Link>
     <AddOrderForm url={url}/>
     </>
   )
