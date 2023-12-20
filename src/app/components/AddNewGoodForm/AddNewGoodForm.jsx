@@ -2,40 +2,34 @@
 import React, { useState } from 'react'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
-import Modal from '@mui/material/Modal'
 import Typography from '@mui/material/Typography'
-import { modalStyles } from '../../styles/modalStyles'
 import TextField from '@mui/material/TextField'
 import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import Grid from '@mui/material/Grid'
-import AddIcon from '@mui/icons-material/Add';
 import { useRouter } from 'next/navigation'
 import { colors } from '../../variables.js'
 
-const initialFormData = {material: "спанбонд", color: colors.map((color) => ({ name: color, qty: 0 })),}
+const initialFormData = {material: "спанбонд", color: colors.map((color) => ({ name: color, qty: 0 })), _id: 0}
 
-function GoodsAddComponent({ orderId, url }) {
-  const [openModal, setOpenModal] = useState(false)
+function AddNewGoodForm({url}) {
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(null)
   const [formData, setFormData] = useState(initialFormData);
   const router = useRouter() 
 
-
-    const handleChange = (e) => {
+  const handleChange = (e) => {
       const { name, value } = e.target;
       setFormData({ ...formData, [name]: value });
   };
 
-  function handleClose () {
-    setOpenModal(false)
-      setFormData(initialFormData)
+  function handleClear () {
+    setFormData(initialFormData)
   }
 
-const handleSelectColor = (name, value) => {
+  const handleSelectColor = (name, value) => {
   setFormData((prevData) => {
     const prevColor = prevData.color || [];
 
@@ -56,50 +50,40 @@ const handleSelectColor = (name, value) => {
   });
 };
 
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const updatedColorData = formData.color.filter((color) => color.qty > 0);
 
+    try {
+      setLoading(true);
+      setError(null);
 
-
-async function handleSubmit(e) {
-  e.preventDefault();
-  const updatedColorData = formData.color.filter((color) => color.qty > 0);
-
-  try {
-    setLoading(true);
-    setError(null);
-
-    const res = await fetch(`${url}/api/orders/${orderId}/add-good`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...formData, color: updatedColorData }),
-    });
+      const res = await fetch(`${url}/api/goods`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, color: updatedColorData }),
+      });
 
     if (!res.ok) {
       throw new Error(`HTTP помилка! Статус: ${res.status}`);
     }
-
-    setOpenModal(false);
-    router.refresh();
+    router.push('/goods');
   } catch (error) {
     setError('Не вдалось додати товар');
   } finally {
     setLoading(false);
-    setFormData(initialFormData);
   }
-
 }
-
-  return (
-    <Box sx={{ display: 'flex', gap: 2 }}>
-    <Modal open={openModal} onClose={handleClose}>
-        <Box sx={modalStyles}>
-        <Box component='form' onSubmit={handleSubmit} >
-          <Typography color='primary'>Додати новий товар до замовлення</Typography>
+    return (
+    <>
+      <Box component='form' onSubmit={handleSubmit} >
+          <Typography color='primary'>Додати новий товар</Typography>
           <Grid container spacing={2} sx={{mt: 1, mb: 3}}>
-            <Grid item xs={12} md={3} >
+            <Grid item xs={6} md={3} lg={2} >
     <TextField
             label='Ширина, м.'
             name={'a'}
-            value={formData.a}
+            value={formData.a || ''}
             onChange={handleChange}
             type="number"
             InputProps={{ inputProps: { min: 2, max: 8 } }}
@@ -107,11 +91,11 @@ async function handleSubmit(e) {
             required
               />
             </Grid>
-          <Grid item xs={12} md={3} >
+          <Grid item xs={6} md={3} lg={2} >
           <TextField
             label="Довжина, м."
             name={'b'}
-            value={formData.b}
+            value={formData.b || ''}
             onChange={handleChange}
             type="number"
             InputProps={{ inputProps: { min: 4, max: 16 } }}
@@ -119,11 +103,11 @@ async function handleSubmit(e) {
             required
           />
           </Grid>
-          <Grid item xs={12} md={3} >
+          <Grid item xs={6} md={3} lg={2} >
           <TextField
             label="Кількість"
             name={'qty'}
-            value={formData.qty}
+            value={formData.qty || ''}
             onChange={handleChange}
             type="number"
             InputProps={{ inputProps: { min: 1 } }}
@@ -131,18 +115,7 @@ async function handleSubmit(e) {
             required
           />
               </Grid>
-          <Grid item xs={12} md={3}>
-                <TextField
-                  label='Видано'
-                  name={'delivered'}
-                  value={formData.delivered}
-                  onChange={handleChange}
-                  type='number'
-                  InputProps={{ inputProps: { min: 0 } }}
-                  fullWidth
-                />
-              </Grid>
-          <Grid item xs={12} md={3} >
+          <Grid item xs={6} md={3} lg={2} >
           <FormControl fullWidth>
             <InputLabel>Сезон *</InputLabel>
             <Select
@@ -159,7 +132,7 @@ async function handleSubmit(e) {
             </Select>
           </FormControl>
           </Grid>
-          <Grid item xs={12} md={3} >
+          <Grid item xs={12} lg={4} >
           <TextField
             label="Матеріал"
             name={'material'}
@@ -168,18 +141,9 @@ async function handleSubmit(e) {
             fullWidth
           />
           </Grid>
-          <Grid item xs={12} md={6} >
-          <TextField
-            label="Виробники"
-            name={'production'}
-            value={formData.production}
-            onChange={handleChange}
-            fullWidth
-            />
-            </Grid>
             <Grid item xs={12}><Typography> Кольори </Typography></Grid>
               {colors.map((color) => (
-           <Grid item xs={12} md={4} key={color}>
+           <Grid item xs={6} md={3} lg={2} key={color}>
           <TextField
             label={color}
             name={color}
@@ -193,20 +157,15 @@ async function handleSubmit(e) {
       ))}
       </Grid>
           <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
-            <Button variant='outlined' color='error' onClick={handleClose} sx={{mr: 2}}>
-              Відміна
+            <Button variant='outlined' color='error' onClick={handleClear} sx={{mr: 2}}>
+              Очистити
             </Button>
             <Button variant='outlined' color='primary' type='submit'>
               Зберегти
             </Button>
           </Box>
           </Box>
-        </Box>
-      </Modal>
-      <Button  onClick={() => setOpenModal(true)}>
-          <AddIcon/> Додати товар
-        </Button>
-      {error && (
+          {error && (
         <Typography variant='h5' color='error'>
           {error}
         </Typography>
@@ -214,8 +173,8 @@ async function handleSubmit(e) {
       {loading && <Typography variant='h6' color='primary'>
           попийте чайок...
         </Typography>}
-      </Box>
+    </>
   )
 }
 
-export default GoodsAddComponent
+export default AddNewGoodForm

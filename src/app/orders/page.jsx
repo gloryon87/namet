@@ -50,7 +50,6 @@ async function Orders ({ searchParams }) {
             <Fab
               sx={{ position: 'fixed', textTransform: 'none', opacity: '90%', right: { xs: 20, sm: 30, xl: '5%' }, bottom: { xs: 20, sm: 30, lg: 35 } }}
               color='primary' aria-label="Додати новий пост" variant='extended'> 
-              {/* <AddIcon />  */}
               Нове замовлення</Fab></Link>
       </Box>
         <Grid
