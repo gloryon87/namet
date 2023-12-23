@@ -24,9 +24,14 @@ async function getData(params) {
       },
     });
 
+    if (res.ok) {
     const clonedResponse = res.clone();
     const jsonData = await clonedResponse.json();
     return jsonData;
+  } else {
+    throw new Error('Помилка сервера');
+  }
+
   } catch (error) {
     throw new Error('Не вдалось отримати дані');
   }
