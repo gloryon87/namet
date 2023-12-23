@@ -1,14 +1,18 @@
 import React from 'react'
-import Order from '../components/Order/Order'
+import Order from '../components/orders/Order/Order'
 import Grid from '@mui/material/Grid'
 import Link from 'next/link'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import SelectComponent from '../components/Select/Select'
+import SelectComponent from '../components/orders/Select/Select'
 import Typography from '@mui/material/Typography'
 import Fab from '@mui/material/Fab';
 
 const url = process.env.REACT_APP_SERVER_URL || ''
+
+export const metadata = {
+  title: 'Замовлення',
+};
 
 async function getData(params) {
   try {

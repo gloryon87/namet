@@ -101,7 +101,7 @@ function SingleOrder({ order }) {
       {order?.goods?.map(good => (
         <Box key={good._id} sx={{display: 'flex', flexDirection: {xs: 'column', md: 'row'}, justifyContent: 'space-between', mb: 1, border: '1px solid lightgrey'}}>
           <Good good={good}/>
-          <Box sx={{display: 'flex'}}>
+          <Box sx={{display: 'flex', ml: 'auto'}}>
           <GoodEditComponent orderId={order._id} good={good} goodId={good._id} url={url}/>
           <GoodDeleteComponent orderId={order._id} goodId={good._id} url={url} />
           </Box>

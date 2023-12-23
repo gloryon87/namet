@@ -1,10 +1,15 @@
 import React from 'react'
-import AddOrderForm from '@/app/components/AddOrderForm/AddOrderForm'
+import AddOrderForm from '@/app/components/orders/AddOrderForm/AddOrderForm'
 import Button from '@mui/material/Button'
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import Link from 'next/link'
 
 const url = process.env.REACT_APP_SERVER_URL || ''
+
+export const metadata = {
+  title: 'Нове замовлення',
+};
+
 
 function addNewOrder () {
   return (

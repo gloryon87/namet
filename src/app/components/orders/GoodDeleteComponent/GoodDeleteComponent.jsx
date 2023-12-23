@@ -4,7 +4,7 @@ import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
-import DeleteModal from '../DeleteModal/DeleteModal'
+import DeleteModal from '../../DeleteModal/DeleteModal'
 import { useRouter } from 'next/navigation'
 
 function GoodsEditComponent ({ orderId, goodId, url }) {

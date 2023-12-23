@@ -50,7 +50,7 @@ function Navbar () {
             pathname === '/goods' ? style.active : ''
           }`}
         >
-          Склад
+          Сіточки
         </Link>
       </MenuItem>
     </MenuList>

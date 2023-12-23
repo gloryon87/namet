@@ -10,7 +10,7 @@ import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import Grid from '@mui/material/Grid'
 import { useRouter } from 'next/navigation'
-import { colors } from '../../variables.js'
+import { colors } from '../../../variables.js'
 
 const initialFormData = {material: "спанбонд", color: colors.map((color) => ({ name: color, qty: 0 })), _id: 0}
 
@@ -67,6 +67,8 @@ function AddNewGoodForm({url}) {
     if (!res.ok) {
       throw new Error(`HTTP помилка! Статус: ${res.status}`);
     }
+      
+    await setFormData(() => initialFormData)
     router.push('/goods');
   } catch (error) {
     setError('Не вдалось додати товар');

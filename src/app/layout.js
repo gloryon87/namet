@@ -6,7 +6,7 @@ import Container from '@mui/material/Container'
 const roboto = Roboto({ subsets: ['latin'], weight: ['500'] })
 
 export const metadata = {
-  title: 'Namet',
+  title: 'Намет',
 }
 
 export default function RootLayout({ children }) {

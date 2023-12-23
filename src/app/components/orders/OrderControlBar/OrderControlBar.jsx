@@ -11,8 +11,8 @@ import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import Grid from '@mui/material/Grid'
 import { useRouter } from 'next/navigation'
-import { modalStyles } from '../../styles/modalStyles'
-import DeleteModal from '../DeleteModal/DeleteModal'
+import { modalStyles } from '../../../styles/modalStyles'
+import DeleteModal from '../../DeleteModal/DeleteModal'
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
   

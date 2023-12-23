@@ -4,7 +4,7 @@ import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 import Typography from '@mui/material/Typography'
-import { modalStyles } from '../../styles/modalStyles'
+import { modalStyles } from '../../../styles/modalStyles'
 import TextField from '@mui/material/TextField'
 import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
@@ -13,7 +13,7 @@ import MenuItem from '@mui/material/MenuItem'
 import Grid from '@mui/material/Grid'
 import AddIcon from '@mui/icons-material/Add';
 import { useRouter } from 'next/navigation'
-import { colors } from '../../variables.js'
+import { colors } from '../../../variables.js'
 
 const initialFormData = {material: "спанбонд", color: colors.map((color) => ({ name: color, qty: 0 })),}
 

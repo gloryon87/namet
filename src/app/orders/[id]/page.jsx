@@ -1,8 +1,13 @@
 import React from 'react'
-import SingleOrder from '@/app/components/SingleOrder/SingleOrder';
+import SingleOrder from '@/app/components/orders/SingleOrder/SingleOrder';
 import Typography from '@mui/material/Typography'
 
 const url = process.env.REACT_APP_SERVER_URL || ''
+
+export const metadata = {
+  title: 'Замовлення',
+};
+
 
 async function getData(id) {
   try {

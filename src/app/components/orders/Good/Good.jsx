@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography'
 import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined'
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined'
 
-const typographyStyle = { display: 'flex', alignItems: 'center', columnGap: 1 }
+const typographyStyle = { display: 'flex', alignItems: 'center', columnGap: 1, flexWrap: 'wrap' }
 
 function Good ({ good }) {
   const delivered = good.delivered || 0

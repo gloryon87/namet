@@ -10,10 +10,10 @@ import InputLabel from '@mui/material/InputLabel'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import Grid from '@mui/material/Grid'
-import { modalStyles } from '../../styles/modalStyles'
+import { modalStyles } from '../../../styles/modalStyles'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import { useRouter } from 'next/navigation'
-import { colors } from '../../variables.js'
+import { colors } from '../../../variables.js'
 
 function GoodEditComponent ({ orderId, good, url, goodId }) {
   const [openModal, setOpenModal] = useState(false)
@@ -110,7 +110,7 @@ function GoodEditComponent ({ orderId, good, url, goodId }) {
           <form onSubmit={e => handleSubmit(e)}>
             <Typography color='primary'>Редагувати товар</Typography>
             <Grid container spacing={2} sx={{ mt: 1, mb: 3 }}>
-              <Grid item xs={12} md={3}>
+              <Grid item xs={6} md={2}>
                 <TextField
                   label='Ширина, м.'
                   name={'a'}
@@ -122,7 +122,7 @@ function GoodEditComponent ({ orderId, good, url, goodId }) {
                   required
                 />
               </Grid>
-              <Grid item xs={12} md={3}>
+              <Grid item xs={6} md={2}>
                 <TextField
                   label='Довжина, м.'
                   name={'b'}
@@ -134,7 +134,7 @@ function GoodEditComponent ({ orderId, good, url, goodId }) {
                   required
                 />
               </Grid>
-              <Grid item xs={12} md={3}>
+              <Grid item xs={6} md={2}>
                 <TextField
                   label='Кількість'
                   name={'qty'}
@@ -146,7 +146,7 @@ function GoodEditComponent ({ orderId, good, url, goodId }) {
                   required
                 />
               </Grid>
-              <Grid item xs={12} md={3}>
+              <Grid item xs={6} md={2}>
                 <TextField
                   label='Видано'
                   name={'delivered'}
@@ -157,7 +157,7 @@ function GoodEditComponent ({ orderId, good, url, goodId }) {
                   fullWidth
                 />
               </Grid>
-              <Grid item xs={12} md={3}>
+              <Grid item xs={6} md={4}>
                 <FormControl fullWidth>
                   <InputLabel id='season'>Сезон *</InputLabel>
                   <Select
@@ -175,7 +175,7 @@ function GoodEditComponent ({ orderId, good, url, goodId }) {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={12} md={3}>
+              <Grid item xs={6} md={4}>
                 <TextField
                   label='Матеріал'
                   name={'material'}
@@ -184,7 +184,7 @@ function GoodEditComponent ({ orderId, good, url, goodId }) {
                   fullWidth
                 />
               </Grid>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={12} md={8}>
                 <TextField
                   label='Виробники'
                   name={'production'}
@@ -197,7 +197,7 @@ function GoodEditComponent ({ orderId, good, url, goodId }) {
                 <Typography> Кольори </Typography>
               </Grid>
               {colors.map(color => (
-                <Grid item xs={12} md={4} key={color}>
+                <Grid item xs={6} md={2} key={color}>
                   <TextField
                     label={color}
                     name={color}

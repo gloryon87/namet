@@ -1,10 +1,15 @@
 import React from 'react'
-import AddNewGoodForm from '@/app/components/AddNewGoodForm/AddNewGoodForm'
+import AddNewGoodForm from '@/app/components/goods/AddNewGoodForm/AddNewGoodForm'
 import Button from '@mui/material/Button'
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import Link from 'next/link'
 
 const url = process.env.REACT_APP_SERVER_URL || ''
+
+export const metadata = {
+  title: 'Нова сіточка',
+};
+
 
 function addNewGood() {
   return (
