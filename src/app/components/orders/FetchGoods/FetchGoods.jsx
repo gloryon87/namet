@@ -47,7 +47,7 @@ function FetchGoods ({ url, good, qty, setQty, selectedGood, setSelectedGood }) 
           onChange={handleGoodChange}
           required
         >
-          {data.map(good => (
+          {data.length > 0 && data.map(good => (
             <MenuItem value={good} sx={{ display: 'flex' }} key={good._id}>
               {' '}
               <Typography>
@@ -75,6 +75,7 @@ function FetchGoods ({ url, good, qty, setQty, selectedGood, setSelectedGood }) 
         required
       />
     </Box>
+      {data.length === 0 && <Typography sx={{ ml: 2 }} color='error'> Нажаль, на складі немає сіток такого розміру </Typography>}
     </>
   )
 }
