@@ -371,3 +371,9 @@ fieldset{border-width:0; padding:0; margin:0;}
 padding-top: 0;
 padding-bottom: 0;
 } */
+
+/* styling for input in FetchGoods */
+.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+  display: flex;
+  flex-wrap: wrap;
+}

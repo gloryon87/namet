@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import Order from '../components/orders/Order/Order'
 import Grid from '@mui/material/Grid'
 import Link from 'next/link'
@@ -48,8 +48,9 @@ async function Orders ({ searchParams }) {
   const goodsArea = goodsAreasArray.reduce((total, num) => total + num, 0);
 
   return (
-    <Box sx={{ml: 1, mr: 1}}>
-      <Box sx={{display: 'flex', ml: 1, mb: 3, gap: 2}}><SelectComponent /></Box>
+    <Box sx={{ mx: 2 }}>
+      <Typography variant='h5' sx={{ml: 1}}gutterBottom>Замовлення</Typography>
+      <Box sx={{display: 'flex', ml: 1, mb: 3, gap: 2}}><Suspense fallback={<Typography color='primary'>завантажується пошук...</Typography>}><SelectComponent /></Suspense></Box>
       <Typography color='primary' sx={{ml: 1, mb: 2 }}>
         Загальна площа сіток: <strong>{goodsArea} м.кв.</strong> Загальна кількість сіток: <strong>{goodsQty} од.</strong>
       </Typography>

@@ -141,7 +141,7 @@ function EditGood ({ good, url, goodId }) {
                   value={formData.qty}
                   onChange={handleChangeNumber}
                   type='number'
-                  InputProps={{ inputProps: { min: 1 } }}
+                  InputProps={{ inputProps: { min: 0 } }}
                   fullWidth
                   required
                 />

@@ -1,19 +1,17 @@
+import React, { Suspense } from 'react'
 import Link from 'next/link'
 import Box from '@mui/material/Box'
 import Fab from '@mui/material/Fab'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
 import GoodsSearch from '../components/goods/GoodsSearch/GoodsSearch'
-import EditGood from '../components/goods/EditGood/EditGood'
-
+import GoodItem from '../components/goods/GoodItem/GoodItem'
 
 const url = process.env.REACT_APP_SERVER_URL || ''
 
 export const metadata = {
   title: 'Сіточки',
 };
-
-const gridStyle = {border: '1px solid lightgray', borderTop: 0 }
 
 async function getData(params) {
 try {
@@ -52,8 +50,9 @@ export default async function Goods({ searchParams }) {
               color='primary' aria-label="Додати новий пост" variant='extended'> 
               Нова сіточка</Fab></Link>
       </Box>
-      <Box sx={{ mx: 2, mb: 11 }}>
-        <GoodsSearch/>
+      <Box sx={{ mx: 3, mb: 11 }}>
+        <Typography variant='h5' gutterBottom>Склад сіточок</Typography>
+        <Suspense fallback={<Typography color='primary'>завантажується пошук...</Typography>}><GoodsSearch/></Suspense>
         <Typography color='primary' sx={{display: 'flex', mt: 3, mb: 2, gap: 1}}> <span>Загальна площа сіточок: <strong>{goodsArea} м²</strong> </span> <span> Загальна кількість сіточок: <strong>{goodsQty} шт.</strong> </span></Typography>
         <Grid container spacing={1} sx={{border: 1, position: 'sticky', top: 0, backgroundColor: 'white', m: 0}}>
           <Grid item xs={3} md={1} sx={{border: 1}}>
@@ -77,27 +76,7 @@ export default async function Goods({ searchParams }) {
           <Grid item xs={2} md={1} sx={{border: 1, zIndex: 2000}}> </Grid>
         </Grid>
       <ol>
-          {goods && goods.length > 0 && goods.map(good => <li style={{ fontSize: 13 }} key={good._id}>
-          <Grid container spacing={1} sx={{ display: 'flex', fontSize: '1rem', m: 0, border: '1px solid lightgray', borderTop: 0}}>
-            <Grid item xs={3} md={1} sx={gridStyle}>{good.a} x {good.b}</Grid>
-            <Grid item xs={2} md={1} sx={gridStyle}>{good.qty}</Grid>
-            <Grid item xs={2} md={1} sx={gridStyle}>{good.season}</Grid>
-            <Grid item md={2} display={{ xs: 'none', md: 'block' }} sx={gridStyle}>{good.material}</Grid>
-            <Grid item xs={3} md={1} sx={gridStyle}>{good.goodArea} м²</Grid>
-            <Grid display={{xs: 'flex', md: 'none'}} item xs={2} sx={{...gridStyle, justifyContent: 'center', alignItems: 'center', zIndex: 1}}><EditGood good={good} url={url} goodId={good._id}/></Grid>
-            <Grid item xs={12} md={5} sx={gridStyle}>
-              <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 1}}>  
-                  <Typography display={{ xs: 'block', md: 'none' }}>{ good.material}. Кольори: </Typography>
-              {good.color?.map(color => (
-          <Typography key={color._id}>
-            {color.name}: {color.qty},
-          </Typography>
-        ))}
-        </Box>
-            </Grid>
-            <Grid item display={{xs: 'none', md: 'flex'}} xs={1} sx={{...gridStyle, justifyContent: 'center', alignItems: 'center'}}><EditGood good={good} url={url} goodId={good._id}/></Grid>
-          </Grid>
-        </li>)}
+          {goods && goods.length > 0 && goods.map(good => <GoodItem good={good} key={good._id}/>)}
       </ol>
       </Box>
     </>

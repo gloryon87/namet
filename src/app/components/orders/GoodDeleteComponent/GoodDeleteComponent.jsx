@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
+import Tooltip from '@mui/material/Tooltip';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import DeleteModal from '../../DeleteModal/DeleteModal'
 import { useRouter } from 'next/navigation'
@@ -34,7 +35,7 @@ function GoodsEditComponent ({ orderId, goodId, url }) {
        <DeleteModal open={openModal} onClose={handleClose} onConfirm={handleRemoveGood}/>
 
         <Button color='error' onClick={() => setOpenModal(true)}>
-          <DeleteForeverOutlinedIcon/>
+          <Tooltip title="Видалити товар"><DeleteForeverOutlinedIcon/></Tooltip>
         </Button>
       </Box>
       {error && (

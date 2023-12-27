@@ -10,6 +10,7 @@ import InputLabel from '@mui/material/InputLabel'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import Grid from '@mui/material/Grid'
+import Tooltip from '@mui/material/Tooltip';
 import { modalStyles } from '../../../styles/modalStyles'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import { useRouter } from 'next/navigation'
@@ -228,7 +229,7 @@ function GoodEditComponent ({ orderId, good, url, goodId }) {
       </Modal>
 
       <Button color='primary' onClick={() => setOpenModal(true)}>
-        <EditOutlinedIcon />
+        <Tooltip title="Редагувати товар"><EditOutlinedIcon /></Tooltip>
       </Button>
       {error && (
         <Typography variant='h4' color='error'>

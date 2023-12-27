@@ -10,13 +10,13 @@ import OrderControlBar from '../OrderControlBar/OrderControlBar'
 import GoodEditComponent from '../GoodEditComponent/GoodEditComponent'
 import GoodDeleteComponent from '../GoodDeleteComponent/GoodDeleteComponent'
 import GoodsAddComponent from '../GoodsAddComponent/GoodsAddComponent'
+import GoodDeliverComponent from '../GoodDeliverComponent/GoodDeliverComponent'
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 
 const url = process.env.REACT_APP_SERVER_URL || ''
 const gridItemStyle = { border: '1px solid lightgrey' }
 
 function SingleOrder({ order }) {
-  console.log(order);
   const formatedDate = format(Date.parse(order?.date), 'dd.MM.yyyy HH:mm')
   const formatedDeadline = order.deadline ? format(Date.parse(order.deadline), 'dd.MM.yyyy') : ''
 
@@ -82,7 +82,7 @@ function SingleOrder({ order }) {
           Коментар
         </Grid>
         <Grid item xs={8} md={10} sx={gridItemStyle}>
-          <Typography>{order?.info}</Typography>
+          <Typography>{order?.info  || '-'}</Typography>
         </Grid>
         <Grid item xs={4} md={2} sx={gridItemStyle}>
           Стан
@@ -94,14 +94,15 @@ function SingleOrder({ order }) {
           Дедлайн
         </Grid>
         <Grid item xs={8} md={10} sx={gridItemStyle}>
-          <Typography>{formatedDeadline}</Typography>
+          <Typography>{formatedDeadline || '-'}</Typography>
         </Grid>
       </Grid>
       <Typography sx={{mt: 2, mb: 1}}>Товари:</Typography>
       {order?.goods?.map(good => (
         <Box key={good._id} sx={{display: 'flex', flexDirection: {xs: 'column', md: 'row'}, justifyContent: 'space-between', mb: 1, border: '1px solid lightgrey'}}>
           <Good good={good}/>
-          <Box sx={{display: 'flex', ml: 'auto'}}>
+          <Box sx={{ display: 'flex', ml: 'auto' }}>
+          <GoodDeliverComponent orderId={order._id} good={good} goodId={good._id} url={url}/>
           <GoodEditComponent orderId={order._id} good={good} goodId={good._id} url={url}/>
           <GoodDeleteComponent orderId={order._id} goodId={good._id} url={url} />
           </Box>

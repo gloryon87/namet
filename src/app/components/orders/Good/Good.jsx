@@ -38,7 +38,7 @@ function Good ({ good }) {
           <strong>Кольори:</strong>
         </Typography>
         {good.color?.map(color => (
-          <Typography sx={typographyStyle} key={color._id}>
+          <Typography sx={typographyStyle} key={color.name}>
             {color.name}: {color.qty},
           </Typography>
         ))}
@@ -48,7 +48,6 @@ function Good ({ good }) {
       </Box>
       <Typography
         align='center'
-        color='primary'
         sx={{
           display: 'flex',
           mr: 1,
@@ -58,7 +57,7 @@ function Good ({ good }) {
           width: '4rem'
         }}
       >
-        {good.goodArea} м²
+        {good.a*good.b*good.qty} м²
       </Typography>
     </Box>
   )

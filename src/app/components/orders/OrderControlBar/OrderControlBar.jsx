@@ -10,6 +10,7 @@ import InputLabel from '@mui/material/InputLabel'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import Grid from '@mui/material/Grid'
+import Tooltip from '@mui/material/Tooltip';
 import { useRouter } from 'next/navigation'
 import { modalStyles } from '../../../styles/modalStyles'
 import DeleteModal from '../../DeleteModal/DeleteModal'
@@ -210,8 +211,8 @@ async function handleDelete() {
 
         <DeleteModal open={openDeleteModal} onClose={handleDeleteModalClose} onConfirm={handleDelete}/>
 
-          <Button onClick={() => setOpenEditModal(true)}><EditOutlinedIcon/></Button>
-          <Button color='error' onClick={() => setOpenDeleteModal(true)}><DeleteForeverOutlinedIcon/></Button> 
+          <Tooltip title="Редагувати замовлення"><Button onClick={() => setOpenEditModal(true)}><EditOutlinedIcon/></Button></Tooltip>
+          <Tooltip title="Видалити замовлення"><Button color='error' onClick={() => setOpenDeleteModal(true)}><DeleteForeverOutlinedIcon/></Button></Tooltip>
     </Box>
     {error && <Typography variant='h4' color='error'>{error}</Typography>}
     </>
