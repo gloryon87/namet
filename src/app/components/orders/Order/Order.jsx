@@ -79,7 +79,7 @@ function Order({ order }) {
         {order.goods?.map(good => (
           <Good key={good._id} good={good}></Good>
         ))}
-        <Typography color='primary' sx={{ml: 1, mb: 1, mt: 1}}>Загальна площа замовлення: <strong>{goodsArea} кв.м.</strong> Загальна кількість сіток: <strong>{goodsQty} од.</strong></Typography>
+        <Typography color='primary' sx={{ml: 1, mb: 1, mt: 1}}>Загальна площа замовлення: <strong>{goodsArea} м²</strong>. Загальна кількість сіточок: <strong>{goodsQty} шт.</strong></Typography>
       </Box>
     </Box>
   )

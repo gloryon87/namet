@@ -52,7 +52,7 @@ async function Orders ({ searchParams }) {
       <Typography variant='h5' sx={{ml: 1}}gutterBottom>Замовлення</Typography>
       <Box sx={{display: 'flex', ml: 1, mb: 3, gap: 2}}><Suspense fallback={<Typography color='primary'>завантажується пошук...</Typography>}><SelectComponent /></Suspense></Box>
       <Typography color='primary' sx={{ml: 1, mb: 2 }}>
-        Загальна площа сіток: <strong>{goodsArea} м.кв.</strong> Загальна кількість сіток: <strong>{goodsQty} од.</strong>
+        Загальна площа всіх замовлень: <strong>{goodsArea} м²</strong>. Загальна кількість сіточок: <strong>{goodsQty} шт.</strong>
       </Typography>
       <Box sx={{ml: 1, color: '#424242' }}>
         <Box sx={{ position: 'relative' }}>
