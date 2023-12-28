@@ -19,7 +19,7 @@ function GoodItem ({ good }) {
           display: 'flex',
           fontSize: '1rem',
           m: 0,
-          border: '1px solid lightgray',
+          border: 1,
           borderTop: 0
         }}
       >
@@ -46,7 +46,7 @@ function GoodItem ({ good }) {
             ...gridStyle,
             justifyContent: 'center',
             alignItems: 'center',
-            zIndex: 1
+            p: 0
           }}
         >
           <EditGood good={good} url={url} goodId={good._id} />

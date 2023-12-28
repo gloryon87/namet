@@ -104,7 +104,7 @@ function EditGood ({ good, url, goodId }) {
   }
 
   return (
-    <Box sx={{ display: 'flex', gap: 2 }}>
+    <Box sx={{ display: 'flex', gap: 2, mt: -1, ml: -1 }}>
       <Modal open={openModal} onClose={handleClose}>
         <Box sx={modalStyles}>
           <form onSubmit={e => handleSubmit(e)}>
