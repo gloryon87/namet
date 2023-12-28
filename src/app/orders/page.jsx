@@ -7,6 +7,7 @@ import Button from '@mui/material/Button'
 import SelectComponent from '../components/orders/Select/Select'
 import Typography from '@mui/material/Typography'
 import Fab from '@mui/material/Fab';
+import calculateGoodsData from '@/app/utils/calculateGoodsData'
 
 const url = process.env.REACT_APP_SERVER_URL || ''
 
@@ -42,20 +43,22 @@ async function Orders ({ searchParams }) {
   const data = await getData(searchParams)
 
   const goodsArray = data?.flatMap(order => order.goods)
-  const goodsAreasArray = goodsArray?.map(good => good.goodArea) ?? []
-  const goodsQtyArray = goodsArray?.map(good => good.qty) ?? []
-  const goodsQty = goodsQtyArray.reduce((total, num) => total + num, 0);
-  const goodsArea = goodsAreasArray.reduce((total, num) => total + num, 0);
-  const goodsDeliveredArray = goodsArray?.map(good => good.delivered) ?? []
-  const goodsDelivered = goodsDeliveredArray.reduce(
-      (total, num) => total + (num ?? 0),
-      0
-    )
-  const goodsDeliveredAreaArray = goodsArray?.map(good => (good.delivered ?? 0) * (good.a * good.b ?? 0)) ?? [];
-  const goodsDeliveredArea = goodsDeliveredAreaArray.reduce(
-  (total, num) => total + (num ?? 0),
-  0
-);
+  const { goodsQty, goodsArea, goodsDelivered, goodsDeliveredArea } = calculateGoodsData(goodsArray)
+
+//   const goodsAreasArray = goodsArray?.map(good => good.goodArea) ?? []
+//   const goodsQtyArray = goodsArray?.map(good => good.qty) ?? []
+//   const goodsQty = goodsQtyArray.reduce((total, num) => total + num, 0);
+//   const goodsArea = goodsAreasArray.reduce((total, num) => total + num, 0);
+//   const goodsDeliveredArray = goodsArray?.map(good => good.delivered) ?? []
+//   const goodsDelivered = goodsDeliveredArray.reduce(
+//       (total, num) => total + (num ?? 0),
+//       0
+//     )
+//   const goodsDeliveredAreaArray = goodsArray?.map(good => (good.delivered ?? 0) * (good.a * good.b ?? 0)) ?? [];
+//   const goodsDeliveredArea = goodsDeliveredAreaArray.reduce(
+//   (total, num) => total + (num ?? 0),
+//   0
+// );
 
 
   return (

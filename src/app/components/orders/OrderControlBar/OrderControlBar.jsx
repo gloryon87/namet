@@ -64,7 +64,7 @@ const handleSubmit = (e) => {
 
       function handleClose () {
     setOpenEditModal(false)
-    setFormData(initialData)
+    setFormData(() => initialData)
   }
 
   function handleDeleteModalClose() {

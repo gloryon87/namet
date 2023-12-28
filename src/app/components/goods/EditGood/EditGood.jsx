@@ -51,7 +51,7 @@ function EditGood ({ good, url, goodId }) {
   }
 
   function handleClose () {
-    setFormData(initialData)
+    setFormData(() => initialData)
     setOpenModal(false)
   }
 

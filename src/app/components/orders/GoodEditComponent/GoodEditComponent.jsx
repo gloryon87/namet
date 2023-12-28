@@ -52,7 +52,7 @@ function GoodEditComponent ({ orderId, good, url, goodId }) {
   }
 
   function handleClose () {
-    setFormData(initialData)
+    setFormData(() => initialData)
     setOpenModal(false)
   }
 

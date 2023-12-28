@@ -49,7 +49,7 @@ function AddOrderForm({url}) {
   }
 
   const handleCancel = () => {
-    setFormData(initialFormData)
+    setFormData(() => initialFormData)
   }
 
 const handleSelectColor = (name, value, index) => {

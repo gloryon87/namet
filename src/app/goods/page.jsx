@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
 import GoodsSearch from '../components/goods/GoodsSearch/GoodsSearch'
 import GoodItem from '../components/goods/GoodItem/GoodItem'
+import calculateGoodsData from '@/app/utils/calculateGoodsData'
 
 const url = process.env.REACT_APP_SERVER_URL || ''
 
@@ -36,10 +37,11 @@ try {
 
 export default async function Goods({ searchParams }) {
   const goods = await getData(searchParams)
-  const goodsAreasArray = goods?.map(good => good.goodArea) || []
-  const goodsQtyArray = goods?.map(good => good.qty) || []
-  const goodsQty = goodsQtyArray.reduce((total, num) => total + num, 0);
-  const goodsArea = goodsAreasArray.reduce((total, num) => total + num, 0);
+  const { goodsQty, goodsArea } = calculateGoodsData(goods)
+  // const goodsAreasArray = goods?.map(good => good.goodArea) || []
+  // const goodsQtyArray = goods?.map(good => good.qty) || []
+  // const goodsQty = goodsQtyArray.reduce((total, num) => total + num, 0);
+  // const goodsArea = goodsAreasArray.reduce((total, num) => total + num, 0);
 
   return (
     <>

@@ -26,7 +26,7 @@ function AddNewGoodForm({url}) {
   };
 
   function handleClear () {
-    setFormData(initialFormData)
+    setFormData(() => initialFormData)
   }
 
   const handleSelectColor = (name, value) => {

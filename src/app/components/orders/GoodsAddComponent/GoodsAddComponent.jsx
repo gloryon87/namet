@@ -31,7 +31,7 @@ function GoodsAddComponent({ orderId, url }) {
   };
 
   function handleClose () {
-    setFormData(initialFormData)
+    setFormData(() => initialFormData)
     setOpenModal(false)
   }
 

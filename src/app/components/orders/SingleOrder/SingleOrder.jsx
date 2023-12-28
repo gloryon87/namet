@@ -12,6 +12,7 @@ import GoodDeleteComponent from '../GoodDeleteComponent/GoodDeleteComponent'
 import GoodsAddComponent from '../GoodsAddComponent/GoodsAddComponent'
 import GoodDeliverComponent from '../GoodDeliverComponent/GoodDeliverComponent'
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined'
+import calculateGoodsData from '@/app/utils/calculateGoodsData'
 
 const url = process.env.REACT_APP_SERVER_URL || ''
 const gridItemStyle = { border: '1px solid lightgrey' }
@@ -23,31 +24,32 @@ function SingleOrder ({ order }) {
     : ''
 
   // розрахунок загальної площі та кількості сіток в замовленні
-  const goodsAreasArray = order.goods?.map(good => good.goodArea)
-  const goodsQtyArray = order.goods?.map(good => good.qty)
-  let goodsQty = 0
-  if (goodsAreasArray.length > 0) {
-    goodsQty = goodsQtyArray.reduce((total, num) => total + num)
-  }
-  let goodsArea = 0
-  if (goodsQtyArray.length > 0) {
-    goodsArea = goodsAreasArray.reduce((total, num) => total + num)
-  }
-  const goodsDeliveredArray = order.goods?.map(good => good.delivered) ?? []
-  let goodsDelivered = 0
+  const { goodsQty, goodsArea, goodsDelivered, goodsDeliveredArea } = calculateGoodsData(order.goods)
+//   const goodsAreasArray = order.goods?.map(good => good.goodArea)
+//   const goodsQtyArray = order.goods?.map(good => good.qty)
+//   let goodsQty = 0
+//   if (goodsAreasArray.length > 0) {
+//     goodsQty = goodsQtyArray.reduce((total, num) => total + num)
+//   }
+//   let goodsArea = 0
+//   if (goodsQtyArray.length > 0) {
+//     goodsArea = goodsAreasArray.reduce((total, num) => total + num)
+//   }
+//   const goodsDeliveredArray = order.goods?.map(good => good.delivered) ?? []
+//   let goodsDelivered = 0
 
-  if (goodsDeliveredArray.length > 0) {
-    goodsDelivered = goodsDeliveredArray.reduce(
-      (total, num) => total + (num ?? 0),
-      0
-    )
-  }
+//   if (goodsDeliveredArray.length > 0) {
+//     goodsDelivered = goodsDeliveredArray.reduce(
+//       (total, num) => total + (num ?? 0),
+//       0
+//     )
+//   }
 
-  const goodsDeliveredAreaArray = order.goods?.map(good => (good.delivered ?? 0) * (good.a * good.b ?? 0)) ?? [];
-  const goodsDeliveredArea = goodsDeliveredAreaArray.reduce(
-  (total, num) => total + (num ?? 0),
-  0
-);
+//   const goodsDeliveredAreaArray = order.goods?.map(good => (good.delivered ?? 0) * (good.a * good.b ?? 0)) ?? [];
+//   const goodsDeliveredArea = goodsDeliveredAreaArray.reduce(
+//   (total, num) => total + (num ?? 0),
+//   0
+// );
 
   // розрахунок співвідношення кольорів в замовленні
   const goodsColorArray = order.goods?.flatMap(good => {
