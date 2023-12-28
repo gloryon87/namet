@@ -13,7 +13,7 @@ import { useRouter } from 'next/navigation'
 import { format } from 'date-fns'
 
 
-function GoodDeliverComponent ({ orderId, good, url, goodId }) {
+function GoodDeliverComponent ({ orderId, orderContacts, good, url, goodId }) {
   const [openModal, setOpenModal] = useState(false)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(null)
@@ -38,7 +38,7 @@ function GoodDeliverComponent ({ orderId, good, url, goodId }) {
     });
 
     // Запит на оновлення кількості товару на складі
-    const deliveryInfo = { date: format(new Date, 'dd.MM.yyyy'), orderId: orderId, qty: +qty }
+    const deliveryInfo = { date: format(new Date, 'dd.MM.yyyy'), orderId: orderId, qty: +qty, orderContacts: orderContacts }
     const updateStock = fetch(`${url}/api/goods/${selectedGood._id}`, {
       method: 'PUT',
       headers: {

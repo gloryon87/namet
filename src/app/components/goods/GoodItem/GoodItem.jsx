@@ -2,6 +2,7 @@ import React from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
+import Tooltip from '@mui/material/Tooltip'
 import EditGood from '../EditGood/EditGood'
 import Link from 'next/link'
 
@@ -53,7 +54,7 @@ function GoodItem ({ good }) {
         <Grid item xs={12} md={5} sx={gridStyle}>
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
             <Typography display={{ xs: 'block', md: 'none' }}>
-              {good.material}. Кольори:{' '}
+              <strong>Матеріал:</strong> {good.material}. <strong>Кольори:</strong>
             </Typography>
             {good.color?.map(color => (
               <Typography key={color._id}>
@@ -71,11 +72,10 @@ function GoodItem ({ good }) {
           <EditGood good={good} url={url} goodId={good._id} />
         </Grid>
         {good.deliveries.length > 0 && <Grid item xs={12} sx={{ ...gridStyle, display: 'flex', gap: 2 }}>
-          <Typography>Видачі: </Typography>
+          <Typography><strong>Видачі:</strong> </Typography>
           {good.deliveries.map((del) => (
             <Box key={del._id} sx={{display: 'flex', gap: 1}}>
-              <Typography>{del.date} {del.qty} шт.</Typography>
-              <Link href={`/orders/${del.orderId}`}><Typography sx={{ '&:hover': { color: 'blue' } }}>Замовлення</Typography></Link> /
+              <Tooltip title={del.orderContacts}><Link href={`/orders/${del.orderId}`}><Typography sx={{ '&:hover': { color: 'blue' } }}>{del.date} {del.qty} шт.</Typography></Link></Tooltip> /
             </Box>
           ))}
         </Grid>}

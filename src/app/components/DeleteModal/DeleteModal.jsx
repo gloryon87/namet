@@ -9,7 +9,7 @@ import { modalStyles } from '../../styles/modalStyles'
 function DeleteModal({ open, onClose, onConfirm }) {
   return (
     <Modal open={open} onClose={onClose}>
-            <Box sx={modalStyles}>
+      <Box sx={{ ...modalStyles, maxWidth: 200 }}>
             <Typography align='center' gutterBottom color='primary'>Точно видалити?</Typography>
             <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', alignItems: 'center'}}>
             <Button variant='outlined' onClick={onClose}>Ні</Button>
