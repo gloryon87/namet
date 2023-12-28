@@ -31,8 +31,8 @@ function GoodsAddComponent({ orderId, url }) {
   };
 
   function handleClose () {
+    setFormData(initialFormData)
     setOpenModal(false)
-      setFormData(initialFormData)
   }
 
 const handleSelectColor = (name, value) => {
@@ -76,14 +76,12 @@ async function handleSubmit(e) {
     if (!res.ok) {
       throw new Error(`HTTP помилка! Статус: ${res.status}`);
     }
-
-    setOpenModal(false);
+    handleClose()
     router.refresh();
   } catch (error) {
     setError('Не вдалось додати товар');
   } finally {
     setLoading(false);
-    setFormData(initialFormData);
   }
 
 }

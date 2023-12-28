@@ -16,8 +16,6 @@ function FetchGoods ({ url, good, qty, setQty, selectedGood, setSelectedGood }) 
     `${url}/api/goods?a=${good.a}&b=${good.b}`,
     fetcher
   )
-  // const [selectedGood, setSelectedGood] = useState('')
-  // const [qty, setQty] = useState('')
 
   const handleQtyChange = e => {
     const { value } = e.target

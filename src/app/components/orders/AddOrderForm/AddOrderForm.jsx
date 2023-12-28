@@ -12,6 +12,7 @@ import Grid from '@mui/material/Grid'
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import { useRouter } from 'next/navigation'
 import { colors } from '../../../variables.js'
+import formatDate from '@/app/utils/formatDate'
 
 function AddOrderForm({url}) {
   const [error, setError] = useState(null)
@@ -19,14 +20,6 @@ function AddOrderForm({url}) {
   const initialFormData = { date: new Date(), goods: [{material: 'спанбонд'}], deadline: '', state: 'прийнято', priority: 'норм.' }
   const [formData, setFormData] = useState(initialFormData)
   const router = useRouter()
-
-  const formatDate = dateString => {
-    const date = new Date(dateString)
-    const year = date.getFullYear()
-    const month = String(date.getMonth() + 1).padStart(2, '0')
-    const day = String(date.getDate()).padStart(2, '0')
-    return `${year}-${month}-${day}`
-  }
 
   const formatToISOString = dateString => {
     if (dateString == '') {

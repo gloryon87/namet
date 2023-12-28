@@ -10,6 +10,8 @@ import Tooltip from '@mui/material/Tooltip'
 import { modalStyles } from '../../../styles/modalStyles'
 import ShoppingCartCheckoutOutlinedIcon from '@mui/icons-material/ShoppingCartCheckoutOutlined'
 import { useRouter } from 'next/navigation'
+import { format } from 'date-fns'
+
 
 function GoodDeliverComponent ({ orderId, good, url, goodId }) {
   const [openModal, setOpenModal] = useState(false)
@@ -32,16 +34,21 @@ function GoodDeliverComponent ({ orderId, good, url, goodId }) {
       headers: {
         'Content-type': 'application/json',
       },
-      body: JSON.stringify({ ...good, delivered: (good.delivered || 0) + qty }),
+      body: JSON.stringify({ ...good, delivered: (+good.delivered || 0) + +qty }),
     });
 
     // Запит на оновлення кількості товару на складі
+    const deliveryInfo = { date: format(new Date, 'dd.MM.yyyy'), orderId: orderId, qty: +qty }
     const updateStock = fetch(`${url}/api/goods/${selectedGood._id}`, {
       method: 'PUT',
       headers: {
         'Content-type': 'application/json',
       },
-      body: JSON.stringify({ ...selectedGood, qty: (selectedGood.qty - qty) }),
+      body: JSON.stringify({
+  ...selectedGood,
+  qty: selectedGood.qty - qty,
+  deliveries: [...selectedGood.deliveries, deliveryInfo]
+})
     });
 
     // Виконання обох запитів паралельно

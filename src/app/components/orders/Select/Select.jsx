@@ -92,7 +92,7 @@ useEffect(() => {
 
   return (
     <Box sx={{ display: 'flex', gap: {xs: 1, md: 2}, width: '100%' }}>
-      <FormControl sx={{width: '40%'}} size='small'>
+      <FormControl fullWidth sx={{maxWidth: 150, }} size='small'>
         <InputLabel id="priority-label">Пріоритет</InputLabel>
         <Select
           labelId="priority-label"
@@ -108,7 +108,7 @@ useEffect(() => {
         </Select>
       </FormControl>
 
-      <FormControl sx={{width: '40%'}} size='small'>
+      <FormControl fullWidth sx={{maxWidth: 150}} size='small'>
         <InputLabel id="state-label">Стан</InputLabel>
         <Select
           labelId="state-label"
@@ -131,6 +131,7 @@ useEffect(() => {
             size="small"
         value={searchQuery}
         onChange={handleSearch}
+        sx={{minWidth: '40%'}}
       />
       <Button sx={{minWidth: {xs: 36, md: 64}}} onClick={handleClear}>
         <ClearIcon/>

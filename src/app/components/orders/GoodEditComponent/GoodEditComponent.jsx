@@ -52,8 +52,8 @@ function GoodEditComponent ({ orderId, good, url, goodId }) {
   }
 
   function handleClose () {
-    setOpenModal(false)
     setFormData(initialData)
+    setOpenModal(false)
   }
 
   const handleSelectColor = (name, value) => {
@@ -95,12 +95,12 @@ function GoodEditComponent ({ orderId, good, url, goodId }) {
         throw new Error(`HTTP помилка! Статус: ${res.status}`)
       }
       router.refresh()
+      handleClose()
       return res.json()
     } catch (error) {
       setError('Не вдалось відредагувати замовлення')
     } finally {
       setLoading(false)
-      setOpenModal(false)
     }
   }
 

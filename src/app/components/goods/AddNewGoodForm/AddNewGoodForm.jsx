@@ -12,7 +12,7 @@ import Grid from '@mui/material/Grid'
 import { useRouter } from 'next/navigation'
 import { colors } from '../../../variables.js'
 
-const initialFormData = {material: "спанбонд", color: colors.map((color) => ({ name: color, qty: 0 })), _id: 0}
+const initialFormData = {material: "спанбонд", color: colors.map((color) => ({ name: color, qty: 0 })), deliveries: [], _id: 0}
 
 function AddNewGoodForm({url}) {
   const [error, setError] = useState(null)
