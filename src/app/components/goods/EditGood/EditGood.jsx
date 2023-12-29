@@ -231,7 +231,7 @@ function EditGood ({ good, url, goodId }) {
               </>
             )}
 
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
               <Button
                 variant='outlined'
                 color='error'
