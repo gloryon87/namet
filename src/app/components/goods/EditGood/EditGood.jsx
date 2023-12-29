@@ -1,5 +1,6 @@
 'use client'
 import React, { useState } from 'react'
+import Link from 'next/link'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
@@ -12,6 +13,7 @@ import MenuItem from '@mui/material/MenuItem'
 import Grid from '@mui/material/Grid'
 import { modalStyles } from '../../../styles/modalStyles'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
+import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined'
 import { useRouter } from 'next/navigation'
 import { colors } from '../../../variables.js'
 
@@ -53,6 +55,14 @@ function EditGood ({ good, url, goodId }) {
   function handleClose () {
     setFormData(() => initialData)
     setOpenModal(false)
+  }
+
+  function handleDeleteDelivery (index) {
+    const deliveries = formData.deliveries.filter((del, i) => i !== index)
+    setFormData(prevData => ({
+      ...prevData,
+      deliveries: deliveries
+    }))
   }
 
   const handleSelectColor = (name, value) => {
@@ -190,7 +200,38 @@ function EditGood ({ good, url, goodId }) {
                 </Grid>
               ))}
             </Grid>
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            {formData.deliveries.length > 0 && (
+              <>
+                <Typography> Видачі </Typography>
+                {formData.deliveries?.map((del, index) => (
+                  <Box
+                    key={del._id}
+                    sx={{
+                      display: 'flex',
+                      my: 1,
+                      p: 1,
+                      border: '1px solid lightgray',
+                      borderRadius: 1
+                    }}
+                  >
+                    <Link href={`/orders/${del.orderId}`} target='_blank'>
+                      <Typography sx={{ '&:hover': { color: 'blue' } }}>
+                        {del.date} видано {del.qty} шт. {del.orderContacts}
+                      </Typography>
+                    </Link>
+                    <Button
+                      onClick={() => handleDeleteDelivery(index)}
+                      color='error'
+                      sx={{ ml: 'auto', mr: 1 }}
+                    >
+                      <DeleteForeverOutlinedIcon />
+                    </Button>
+                  </Box>
+                ))}
+              </>
+            )}
+
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
               <Button
                 variant='outlined'
                 color='error'
