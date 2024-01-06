@@ -24,51 +24,8 @@ function SingleOrder ({ order }) {
     : ''
 
   // розрахунок загальної площі та кількості сіток в замовленні
-  const { goodsQty, goodsArea, goodsDelivered, goodsDeliveredArea } = calculateGoodsData(order.goods)
-//   const goodsAreasArray = order.goods?.map(good => good.goodArea)
-//   const goodsQtyArray = order.goods?.map(good => good.qty)
-//   let goodsQty = 0
-//   if (goodsAreasArray.length > 0) {
-//     goodsQty = goodsQtyArray.reduce((total, num) => total + num)
-//   }
-//   let goodsArea = 0
-//   if (goodsQtyArray.length > 0) {
-//     goodsArea = goodsAreasArray.reduce((total, num) => total + num)
-//   }
-//   const goodsDeliveredArray = order.goods?.map(good => good.delivered) ?? []
-//   let goodsDelivered = 0
+  const { goodsQty, goodsArea, goodsDelivered, goodsDeliveredArea, goodsColor } = calculateGoodsData(order.goods)
 
-//   if (goodsDeliveredArray.length > 0) {
-//     goodsDelivered = goodsDeliveredArray.reduce(
-//       (total, num) => total + (num ?? 0),
-//       0
-//     )
-//   }
-
-//   const goodsDeliveredAreaArray = order.goods?.map(good => (good.delivered ?? 0) * (good.a * good.b ?? 0)) ?? [];
-//   const goodsDeliveredArea = goodsDeliveredAreaArray.reduce(
-//   (total, num) => total + (num ?? 0),
-//   0
-// );
-
-  // розрахунок співвідношення кольорів в замовленні
-  const goodsColorArray = order.goods?.flatMap(good => {
-    return good.color?.map(color => ({
-      name: color.name,
-      colorArea: color.colorArea
-    }))
-  })
-  const goodsColor = goodsColorArray.reduce((acc, current) => {
-    const existingItem = acc.find(item => item.name === current.name)
-
-    if (existingItem) {
-      existingItem.colorArea += current.colorArea
-    } else {
-      acc.push({ name: current.name, colorArea: current.colorArea })
-    }
-
-    return acc
-  }, [])
 
   return (
     <>

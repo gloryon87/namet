@@ -19,10 +19,30 @@ export default function calculateGoodsData(goodsArray) {
     0
   )
 
+  const goodsColorArray = goodsArray.flatMap(good => {
+  return good.color?.map(color => ({
+    name: color.name,
+    colorArea: color.colorArea / good.qty * (good.qty - (good.delivered ?? 0))
+  }))
+})
+const goodsColor = goodsColorArray.reduce((acc, current) => {
+  const existingItem = acc.find(item => item.name === current.name)
+
+  if (existingItem) {
+    existingItem.colorArea += current.colorArea
+  } else {
+    acc.push({ name: current.name, colorArea: current.colorArea })
+  }
+
+  return acc
+}, [])
+
+
   return {
     goodsQty,
     goodsArea,
     goodsDelivered,
-    goodsDeliveredArea
+    goodsDeliveredArea,
+    goodsColor
   }
 }

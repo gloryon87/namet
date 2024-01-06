@@ -45,30 +45,15 @@ async function Orders ({ searchParams }) {
   const goodsArray = data?.flatMap(order => order.goods)
   const { goodsQty, goodsArea, goodsDelivered, goodsDeliveredArea } = calculateGoodsData(goodsArray)
 
-//   const goodsAreasArray = goodsArray?.map(good => good.goodArea) ?? []
-//   const goodsQtyArray = goodsArray?.map(good => good.qty) ?? []
-//   const goodsQty = goodsQtyArray.reduce((total, num) => total + num, 0);
-//   const goodsArea = goodsAreasArray.reduce((total, num) => total + num, 0);
-//   const goodsDeliveredArray = goodsArray?.map(good => good.delivered) ?? []
-//   const goodsDelivered = goodsDeliveredArray.reduce(
-//       (total, num) => total + (num ?? 0),
-//       0
-//     )
-//   const goodsDeliveredAreaArray = goodsArray?.map(good => (good.delivered ?? 0) * (good.a * good.b ?? 0)) ?? [];
-//   const goodsDeliveredArea = goodsDeliveredAreaArray.reduce(
-//   (total, num) => total + (num ?? 0),
-//   0
-// );
-
 
   return (
-    <Box sx={{ mx: 2 }}>
-      <Typography variant='h5' sx={{ml: 1}}gutterBottom>Замовлення</Typography>
-      <Box sx={{display: 'flex', ml: 1, mb: 3, gap: 2}}><Suspense fallback={<Typography color='primary'>завантажується пошук...</Typography>}><SelectComponent /></Suspense></Box>
+    <>
+      <Typography variant='h5' gutterBottom>Замовлення</Typography>
+      <Box sx={{display: 'flex', mb: 3, gap: 2}}><Suspense fallback={<Typography color='primary'>завантажується пошук...</Typography>}><SelectComponent /></Suspense></Box>
       {Object.keys(searchParams).length !== 0 && <Typography color='primary' sx={{ml: 1, mb: 2 }}>
         Загальна площа всіх замовлень: <strong>{goodsArea} м²</strong>. Загальна кількість сіточок: <strong>{goodsQty} шт.</strong> Видано: <strong>{goodsDelivered} шт. ({goodsDeliveredArea} м²) </strong>
       </Typography>}
-      <Box sx={{ml: 1, color: '#424242' }}>
+      <Box sx={{ color: '#424242' }}>
         <Box sx={{ position: 'relative' }}>
           <Link href='/orders/addNewOrder'>
             <Fab
@@ -81,7 +66,7 @@ async function Orders ({ searchParams }) {
           spacing={1}
           sx={{
             m: 0,
-            width: '100%',
+            width: 'auto',
             border: 1,
             position: 'sticky',
             top: 0,
@@ -146,7 +131,7 @@ async function Orders ({ searchParams }) {
         </ol>
       </Box>
       {Object.keys(searchParams).length === 0 && <Box sx={{textAlign: 'center'}}><Link href='/orders?all=true'><Button color='primary' sx={{mt: 2}}>показати всі замовлення</Button></Link></Box>}
-    </Box>
+    </>
   )
 }
 

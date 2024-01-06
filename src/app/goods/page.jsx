@@ -38,10 +38,7 @@ try {
 export default async function Goods({ searchParams }) {
   const goods = await getData(searchParams)
   const { goodsQty, goodsArea } = calculateGoodsData(goods)
-  // const goodsAreasArray = goods?.map(good => good.goodArea) || []
-  // const goodsQtyArray = goods?.map(good => good.qty) || []
-  // const goodsQty = goodsQtyArray.reduce((total, num) => total + num, 0);
-  // const goodsArea = goodsAreasArray.reduce((total, num) => total + num, 0);
+  console.log(goods)
 
   return (
     <>
@@ -52,7 +49,7 @@ export default async function Goods({ searchParams }) {
               color='primary' aria-label="Додати новий пост" variant='extended'> 
               Нова сіточка</Fab></Link>
       </Box>
-      <Box sx={{ mx: 3, mb: 11 }}>
+      <Box sx={{ mb: 11 }}>
         <Typography variant='h5' gutterBottom>Склад сіточок</Typography>
         <Suspense fallback={<Typography color='primary'>завантажується пошук...</Typography>}><GoodsSearch/></Suspense>
         <Typography color='primary' sx={{display: 'flex', mt: 3, mb: 2, gap: 1}}> <span>Загальна площа сіточок: <strong>{goodsArea} м²</strong> </span> <span> Загальна кількість сіточок: <strong>{goodsQty} шт.</strong> </span></Typography>

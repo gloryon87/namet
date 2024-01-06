@@ -3,8 +3,14 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined'
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined'
+import Link from 'next/link'
 
-const typographyStyle = { display: 'flex', alignItems: 'center', columnGap: 1, flexWrap: 'wrap' }
+const typographyStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  columnGap: 1,
+  flexWrap: 'wrap'
+}
 
 function Good ({ good }) {
   const delivered = good.delivered || 0
@@ -13,12 +19,12 @@ function Good ({ good }) {
   return (
     <Box sx={{ display: 'flex', width: '100%', alignItems: 'center', ml: 1 }}>
       {isDelivered ? (
-            <CheckCircleOutlinedIcon color='success' sx={{ fontSize: 20}} /> 
-          ) : (
-              <RadioButtonUncheckedOutlinedIcon
-                sx={{ fontSize: 20, color: delivered > 0 ? '#388e3c' : 'lightgrey' }}
-            /> 
-        )}
+        <CheckCircleOutlinedIcon color='success' sx={{ fontSize: 20 }} />
+      ) : (
+        <RadioButtonUncheckedOutlinedIcon
+          sx={{ fontSize: 20, color: delivered > 0 ? '#388e3c' : 'lightgrey' }}
+        />
+      )}
       <Box
         sx={{
           display: 'flex',
@@ -28,11 +34,12 @@ function Good ({ good }) {
           pl: 1,
           mr: 1
         }}
-      >  
+      >
         <Typography sx={typographyStyle}>
           <strong>
             {good.a} x {good.b}
-          </strong> - видано {delivered}/{good.qty} шт. {good.season} {good.material}
+          </strong>{' '}
+          {delivered}/{good.qty} шт. {good.season} {good.material}
         </Typography>
         <Typography sx={typographyStyle}>
           <strong>Кольори:</strong>
@@ -42,9 +49,11 @@ function Good ({ good }) {
             {color.name}: {color.qty},
           </Typography>
         ))}
-        <Typography sx={typographyStyle}>
-          <strong>{good.production && 'Виробництво:'}</strong> {good.production}
-        </Typography>
+        {good.production && (
+            <Typography sx={[typographyStyle, {'&:hover': { color: 'blue' }}]}>
+              <strong>Виробництво:</strong> {good.production}
+            </Typography>
+        )}
       </Box>
       <Typography
         align='center'
@@ -57,7 +66,7 @@ function Good ({ good }) {
           width: '4rem'
         }}
       >
-        {good.a*good.b*good.qty} м²
+        {good.a * good.b * good.qty} м²
       </Typography>
     </Box>
   )

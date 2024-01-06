@@ -22,7 +22,6 @@ function GoodDeliverComponent ({ orderId, orderContacts, good, url, goodId }) {
   const router = useRouter()
 
   const handleSubmit = async (e) => {
-    console.log('test')
   e.preventDefault();
   try {
     setLoading(true);
