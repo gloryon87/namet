@@ -12,7 +12,6 @@ import ShoppingCartCheckoutOutlinedIcon from '@mui/icons-material/ShoppingCartCh
 import { useRouter } from 'next/navigation'
 import { format } from 'date-fns'
 
-
 function GoodDeliverComponent ({ orderId, orderContacts, good, url, goodId }) {
   const [openModal, setOpenModal] = useState(false)
   const [error, setError] = useState(null)
@@ -21,55 +20,73 @@ function GoodDeliverComponent ({ orderId, orderContacts, good, url, goodId }) {
   const [qty, setQty] = useState('')
   const router = useRouter()
 
-  const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    setLoading(true);
-    setError(null);
+  const handleSubmit = async e => {
+    e.preventDefault()
+    try {
+      setLoading(true)
+      setError(null)
 
-    // Запит на оновлення товару у замовленні
-    const updateGoodInOrder = fetch(`${url}/api/orders/${orderId}/goods/${goodId}`, {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify({ ...good, delivered: (+good.delivered || 0) + +qty }),
-    });
+      // Запит на оновлення товару у замовленні
+      const updateGoodInOrder = fetch(
+        `${url}/api/orders/${orderId}/goods/${goodId}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-type': 'application/json'
+          },
+          body: JSON.stringify({
+            ...good,
+            delivered: (+good.delivered || 0) + +qty
+          })
+        }
+      )
 
-    // Запит на оновлення кількості товару на складі
-    const deliveryInfo = { date: format(new Date, 'dd.MM.yyyy'), orderId: orderId, qty: +qty, orderContacts: orderContacts }
-    const updateStock = fetch(`${url}/api/goods/${selectedGood._id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify({
-  ...selectedGood,
-  qty: selectedGood.qty - qty,
-  deliveries: [...selectedGood.deliveries, deliveryInfo]
-})
-    });
+      // Запит на оновлення кількості товару на складі
+      const deliveryInfo = {
+        date: format(new Date(), 'dd.MM.yyyy'),
+        orderId: orderId,
+        qty: +qty,
+        orderContacts: orderContacts
+      }
+      const updateStock = fetch(`${url}/api/goods/${selectedGood._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+          ...selectedGood,
+          qty: selectedGood.qty - qty,
+          deliveries: [...selectedGood.deliveries, deliveryInfo]
+        })
+      })
 
-    // Виконання обох запитів паралельно
-    const [resGoodInOrder, resStock] = await Promise.all([updateGoodInOrder, updateStock]);
+      // Виконання обох запитів паралельно
+      const [resGoodInOrder, resStock] = await Promise.all([
+        updateGoodInOrder,
+        updateStock
+      ])
 
-    if (!resGoodInOrder.ok) {
-      throw new Error(`Не вдалось оновити замовлення! УВАГА! Товар міг списатись`);
+      if (!resGoodInOrder.ok) {
+        throw new Error(
+          `Не вдалось оновити замовлення! УВАГА! Товар міг списатись`
+        )
+      }
+
+      if (!resStock.ok) {
+        throw new Error(
+          `Не вдалось списати товар. УВАГА! Замовлення могло оновитись`
+        )
+      }
+
+      handleClose()
+      router.refresh()
+      return resGoodInOrder.json() // Повертаємо результат першого запиту
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
     }
-
-    if (!resStock.ok) {
-      throw new Error(`Не вдалось списати товар. УВАГА! Замовлення могло оновитись`);
-    }
-
-    handleClose();
-    router.refresh();
-    return resGoodInOrder.json(); // Повертаємо результат першого запиту
-  } catch (err) {
-    setError({err});
-  } finally {
-    setLoading(false);
   }
-};
 
   function handleClose () {
     setQty('')
@@ -96,12 +113,18 @@ function GoodDeliverComponent ({ orderId, orderContacts, good, url, goodId }) {
               selectedGood={selectedGood}
               setSelectedGood={setSelectedGood}
             />
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: {xs: 0, lg: 2} }}>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                mt: { xs: 0, lg: 2 }
+              }}
+            >
               <Button
                 variant='outlined'
                 color='error'
                 onClick={handleClose}
-                sx={{ mr: 2}}
+                sx={{ mr: 2 }}
               >
                 Відміна
               </Button>
@@ -110,6 +133,16 @@ function GoodDeliverComponent ({ orderId, orderContacts, good, url, goodId }) {
               </Button>
             </Box>
           </Box>
+          {error && (
+            <Typography variant='h4' color='error'>
+              {error}
+            </Typography>
+          )}
+          {loading && (
+            <Typography variant='h6' color='primary'>
+              попийте чайок...
+            </Typography>
+          )}
         </Box>
       </Modal>
 
@@ -118,16 +151,6 @@ function GoodDeliverComponent ({ orderId, orderContacts, good, url, goodId }) {
           <ShoppingCartCheckoutOutlinedIcon />
         </Tooltip>
       </Button>
-      {error && (
-        <Typography variant='h4' color='error'>
-          {error}
-        </Typography>
-      )}
-      {loading && (
-        <Typography variant='h6' color='primary'>
-          попийте чайок...
-        </Typography>
-      )}
     </Box>
   )
 }

@@ -13,6 +13,7 @@ import GoodsAddComponent from '../GoodsAddComponent/GoodsAddComponent'
 import GoodDeliverComponent from '../GoodDeliverComponent/GoodDeliverComponent'
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined'
 import calculateGoodsData from '@/app/utils/calculateGoodsData'
+import GoodProductionComponent from '../GoodProductionComponent/GoodProductionComponent'
 
 const url = process.env.REACT_APP_SERVER_URL || ''
 const gridItemStyle = { border: '1px solid lightgrey' }
@@ -100,6 +101,13 @@ function SingleOrder ({ order }) {
         >
           <Good good={good} />
           <Box sx={{ display: 'flex', ml: 'auto' }}>
+            <GoodProductionComponent
+              orderId={order._id}
+              orderContacts={order.contacts}
+              good={good}
+              goodId={good._id}
+              url={url}
+            />
             <GoodDeliverComponent
               orderId={order._id}
               orderContacts={order.contacts}

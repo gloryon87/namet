@@ -29,10 +29,13 @@ function SingleProduction ({ production }) {
     goodsColor
   } = calculateGoodsData(production.goods)
 
+  console.log(goodsColor)
+
   const materialDifferenceArray = calculateMaterialsData(
     production.materials,
     goodsColor
   )
+
 
   return (
     <>

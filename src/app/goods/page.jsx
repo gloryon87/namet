@@ -38,7 +38,6 @@ try {
 export default async function Goods({ searchParams }) {
   const goods = await getData(searchParams)
   const { goodsQty, goodsArea } = calculateGoodsData(goods)
-  console.log(goods)
 
   return (
     <>

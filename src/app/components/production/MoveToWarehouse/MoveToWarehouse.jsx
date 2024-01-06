@@ -19,6 +19,8 @@ function MoveToWarehouse ({ good, url, production }) {
   const [qty, setQty] = useState(good.qty - (good.delivered || 0))
   const router = useRouter()
   const { goodsColor } = calculateGoodsData([good])
+  const goodId = good._id
+  const productionId = production._id
 
   const productionMaterials = production.materials.map(material => {
     const matchingGood = goodsColor.find(color => color.name === material.color)
@@ -40,7 +42,7 @@ function MoveToWarehouse ({ good, url, production }) {
   })
 
   function handleClose () {
-    setQty('')
+    setQty(good.qty - (good.delivered || 0))
     setOpenModal(false)
   }
 
@@ -52,7 +54,7 @@ function MoveToWarehouse ({ good, url, production }) {
 
       // Запит на оновлення товару на виробництві
       const updateGood = fetch(
-        `${url}/api/production/${production._id}/goods/${good._id}`,
+        `${url}/api/production/${productionId}/goods/${goodId}`,
         {
           method: 'PUT',
           headers: {
@@ -66,7 +68,7 @@ function MoveToWarehouse ({ good, url, production }) {
         }
       )
 
-      const updateProduction = fetch(`${url}/api/production/${production._id}`, {
+      const updateProduction = fetch(`${url}/api/production/${productionId}`, {
         method: 'PUT',
         headers: {
           'Content-type': 'application/json'
@@ -86,6 +88,9 @@ function MoveToWarehouse ({ good, url, production }) {
         body: JSON.stringify({
           ...good,
           qty: +qty,
+          colorCode: good.color.map(color => `${color.name}:${color.qty}`)
+  .join(', ')
+
         })
       })
 

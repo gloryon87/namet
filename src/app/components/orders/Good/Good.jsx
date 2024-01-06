@@ -39,7 +39,7 @@ function Good ({ good }) {
           <strong>
             {good.a} x {good.b}
           </strong>{' '}
-          {delivered}/{good.qty} шт. {good.season} {good.material}
+          Видано {delivered}/{good.qty} шт. {good.season} {good.material}
         </Typography>
         <Typography sx={typographyStyle}>
           <strong>Кольори:</strong>
