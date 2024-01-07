@@ -53,7 +53,7 @@ async function Orders ({ searchParams }) {
       {Object.keys(searchParams).length !== 0 && <Typography color='primary' sx={{ml: 1, mb: 2 }}>
         Загальна площа всіх замовлень: <strong>{goodsArea} м²</strong>. Загальна кількість сіточок: <strong>{goodsQty} шт.</strong> Видано: <strong>{goodsDelivered} шт. ({goodsDeliveredArea} м²) </strong>
       </Typography>}
-      <Box sx={{ color: '#424242' }}>
+      <Box >
         <Box sx={{ position: 'relative' }}>
           <Link href='/orders/addNewOrder'>
             <Fab

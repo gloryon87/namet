@@ -96,7 +96,7 @@ function GoodsAddComponent ({ orderId, url }) {
               Додати новий товар до замовлення
             </Typography>
             <Grid container spacing={2} sx={{ mt: 1, mb: 3 }}>
-              <Grid item xs={12} md={3}>
+              <Grid item xs={12} md={2}>
                 <TextField
                   label='Ширина, м.'
                   name={'a'}
@@ -108,7 +108,7 @@ function GoodsAddComponent ({ orderId, url }) {
                   required
                 />
               </Grid>
-              <Grid item xs={12} md={3}>
+              <Grid item xs={12} md={2}>
                 <TextField
                   label='Довжина, м.'
                   name={'b'}
@@ -120,7 +120,7 @@ function GoodsAddComponent ({ orderId, url }) {
                   required
                 />
               </Grid>
-              <Grid item xs={12} md={3}>
+              <Grid item xs={12} md={2}>
                 <TextField
                   label='Кількість'
                   name={'qty'}
@@ -132,7 +132,7 @@ function GoodsAddComponent ({ orderId, url }) {
                   required
                 />
               </Grid>
-              <Grid item xs={12} md={3}>
+              <Grid item xs={12} md={2}>
                 <TextField
                   label='Видано'
                   name={'delivered'}
@@ -143,7 +143,7 @@ function GoodsAddComponent ({ orderId, url }) {
                   fullWidth
                 />
               </Grid>
-              <Grid item xs={12} md={3}>
+              <Grid item xs={12} md={2}>
                 <FormControl fullWidth>
                   <InputLabel>Сезон *</InputLabel>
                   <Select
@@ -160,7 +160,7 @@ function GoodsAddComponent ({ orderId, url }) {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={12} md={3}>
+              <Grid item xs={12} md={2}>
                 <TextField
                   label='Матеріал'
                   name={'material'}
@@ -169,20 +169,11 @@ function GoodsAddComponent ({ orderId, url }) {
                   fullWidth
                 />
               </Grid>
-              <Grid item xs={12} md={6}>
-                <TextField
-                  label='Виробники'
-                  name={'production'}
-                  value={formData.production}
-                  onChange={handleChange}
-                  fullWidth
-                />
-              </Grid>
               <Grid item xs={12}>
                 <Typography> Кольори </Typography>
               </Grid>
               {colors.map(color => (
-                <Grid item xs={12} md={4} key={color}>
+                <Grid item xs={12} md={2} key={color}>
                   <TextField
                     label={color}
                     name={color}

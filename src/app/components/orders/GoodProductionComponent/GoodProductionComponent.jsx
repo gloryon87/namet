@@ -16,14 +16,12 @@ import { productions } from '@/app/variables'
 import { TextField } from '@mui/material'
 import { useRouter } from 'next/navigation'
 
-
-
 function GoodProductionComponent ({
   good,
+  goodId,
   url,
   orderId,
   orderContacts,
-  goodId
 }) {
   const [openModal, setOpenModal] = useState(false)
   const [error, setError] = useState(null)
@@ -33,14 +31,14 @@ function GoodProductionComponent ({
     id: '',
     name: ''
   })
-    const router = useRouter()
+  const router = useRouter()
+
 
   // Функція закриття модального вікна
 
-
   function handleClose () {
-      setQty(good.qty - good.delivered)
-      setError(null)
+    setQty(good.qty - good.delivered)
+    setError(null)
     setOpenModal(false)
   }
 
@@ -67,7 +65,7 @@ function GoodProductionComponent ({
           },
           body: JSON.stringify({
             ...good,
-              qty: qty,
+            qty: qty,
             orderId: orderId,
             orderContacts: orderContacts
           })
@@ -123,36 +121,39 @@ function GoodProductionComponent ({
           >
             <Typography color='primary'>Відправити у виробництво</Typography>
             <Good good={good} />
-            <TextField
-              type='number'
-              label='Кількість'
-              value={qty}
-              onChange={e => setQty(e.target.value)}
-              required
-              InputProps={{
-                inputProps: {
-                  min: 1
-                }
-              }}
-            />
-            <FormControl fullWidth>
-              <InputLabel id='production'>Виробництво *</InputLabel>
-              <Select
-                name={'production'}
-                labelId='production'
-                label='Виробництво *'
-                value={production.name || ''}
-                onChange={e => handleChange(e)}
+            <Box display='flex' gap={2}>
+              <FormControl fullWidth>
+                <InputLabel id='production'>Виробництво *</InputLabel>
+                <Select
+                  name={'production'}
+                  labelId='production'
+                  label='Виробництво *'
+                  value={production.name || ''}
+                  onChange={e => handleChange(e)}
+                  required
+                >
+                  {productions.map(production => (
+                    <MenuItem key={production.id} value={production.name}>
+                      {production.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <TextField
+                type='number'
+                label='Кількість'
+                value={qty}
+                onChange={e => setQty(e.target.value)}
+                sx={{ maxWidth: 150 }}
+                fullwidth
                 required
-              >
-                {productions.map(production => (
-                  <MenuItem key={production.id} value={production.name}>
-                    {production.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
+                InputProps={{
+                  inputProps: {
+                    min: 1
+                  }
+                }}
+              />
+            </Box>
             <Box
               sx={{
                 display: 'flex',

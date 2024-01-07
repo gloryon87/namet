@@ -16,11 +16,10 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import { useRouter } from 'next/navigation'
 import { colors } from '../../../variables.js'
 
-function GoodEditComponent({ orderId, good, url, goodId }) {
+function ProductionGoodEdit ({ productionId, good, url, goodId }) {
   const [openModal, setOpenModal] = useState(false)
   const initialData = good
   delete initialData._id
-  delete initialData.goodArea
   initialData.color = initialData.color?.map(color => ({
     name: color.name,
     qty: color.qty
@@ -32,12 +31,13 @@ function GoodEditComponent({ orderId, good, url, goodId }) {
 
   const handleSubmit = async e => {
     e.preventDefault()
-    const hasChanges = JSON.stringify(formData) !== JSON.stringify(good)
+    const hasChanges = JSON.stringify(formData) !== JSON.stringify(initialData)
+    console.log(hasChanges)
 
     if (hasChanges) {
       handleEdit()
     } else {
-      setOpenModal(false)
+      handleClose()
     }
   }
 
@@ -51,12 +51,13 @@ function GoodEditComponent({ orderId, good, url, goodId }) {
     setFormData({ ...formData, [name]: +value })
   }
 
-  function handleClose () {
-    setFormData(() => initialData)
-    setOpenModal(false)
-  }
+  function handleClose() {
+  setFormData(prevData => ({ ...initialData }))
+  setOpenModal(false)
+}
 
-  const handleSelectColor = (name, value) => {
+
+const handleSelectColor = (name, value) => {
   setFormData(prevData => {
     const prevColor = prevData.color || []
 
@@ -85,13 +86,16 @@ function GoodEditComponent({ orderId, good, url, goodId }) {
     try {
       setLoading(true)
       setError(null)
-      const res = await fetch(`${url}/api/orders/${orderId}/goods/${goodId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-      })
+      const res = await fetch(
+        `${url}/api/production/${productionId}/goods/${goodId}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        }
+      )
       if (!res.ok) {
         throw new Error(`HTTP помилка! Статус: ${res.status}`)
       }
@@ -99,7 +103,7 @@ function GoodEditComponent({ orderId, good, url, goodId }) {
       handleClose()
       return res.json()
     } catch (error) {
-      setError('Не вдалось відредагувати замовлення')
+      setError('Не вдалось відредагувати товар')
     } finally {
       setLoading(false)
     }
@@ -239,4 +243,4 @@ function GoodEditComponent({ orderId, good, url, goodId }) {
   )
 }
 
-export default GoodEditComponent
+export default ProductionGoodEdit

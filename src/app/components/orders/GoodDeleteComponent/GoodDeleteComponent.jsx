@@ -9,7 +9,7 @@ import DeleteModal from '../../DeleteModal/DeleteModal'
 import { useRouter } from 'next/navigation'
 
 function GoodsEditComponent ({ orderId, goodId, url }) {
-   const [openModal, setOpenModal] = useState(false)
+  const [openModal, setOpenModal] = useState(false)
   const [error, setError] = useState(null)
   const router = useRouter()
 
@@ -19,8 +19,7 @@ function GoodsEditComponent ({ orderId, goodId, url }) {
       const res = await fetch(`${url}/api/orders/${orderId}/remove-good/${goodId}`, { method: 'PUT', })
       if (res.ok) { router.refresh() }
   } catch (error) {
-    // setError('Не вдалось видалити товар')
-    setError(error.message)
+    setError('Не вдалось видалити товар')
   }
   finally {setOpenModal(false)}
   }

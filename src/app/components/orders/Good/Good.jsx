@@ -3,7 +3,6 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import RadioButtonUncheckedOutlinedIcon from '@mui/icons-material/RadioButtonUncheckedOutlined'
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined'
-import Link from 'next/link'
 
 const typographyStyle = {
   display: 'flex',
@@ -35,12 +34,15 @@ function Good ({ good }) {
           mr: 1
         }}
       >
-        <Typography sx={typographyStyle}>
+        <Typography sx={{ ...typographyStyle, width: '6ch' }}>
           <strong>
             {good.a} x {good.b}
           </strong>{' '}
-          Видано {delivered}/{good.qty} шт. {good.season} {good.material}
         </Typography>
+        <Typography sx={typographyStyle}>
+          Видано {delivered}/{good.qty} шт. {good.season} {good.material}.
+        </Typography>
+        
         <Typography sx={typographyStyle}>
           <strong>Кольори:</strong>
         </Typography>
@@ -49,11 +51,6 @@ function Good ({ good }) {
             {color.name}: {color.qty},
           </Typography>
         ))}
-        {good.production && (
-            <Typography sx={[typographyStyle, {'&:hover': { color: 'blue' }}]}>
-              <strong>Виробництво:</strong> {good.production}
-            </Typography>
-        )}
       </Box>
       <Typography
         align='center'
@@ -63,7 +60,7 @@ function Good ({ good }) {
           ml: 'auto',
           alignItems: 'center',
           justifyContent: 'center',
-          width: '4rem'
+          width: '10ch'
         }}
       >
         {good.a * good.b * good.qty} м²

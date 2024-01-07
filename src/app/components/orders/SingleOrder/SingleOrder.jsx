@@ -25,8 +25,13 @@ function SingleOrder ({ order }) {
     : ''
 
   // розрахунок загальної площі та кількості сіток в замовленні
-  const { goodsQty, goodsArea, goodsDelivered, goodsDeliveredArea, goodsColor } = calculateGoodsData(order.goods)
-
+  const {
+    goodsQty,
+    goodsArea,
+    goodsDelivered,
+    goodsDeliveredArea,
+    goodsColor
+  } = calculateGoodsData(order.goods)
 
   return (
     <>
@@ -100,7 +105,17 @@ function SingleOrder ({ order }) {
           }}
         >
           <Good good={good} />
-          <Box sx={{ display: 'flex', ml: 'auto' }}>
+          <Box sx={{ display: 'flex', ml: 'auto', alignItems: 'center' }}>
+            <Box sx={{ width: '120px'}}>
+            {good.production && (
+              <Link href={`/production/${good.production}`}>
+                  <Typography color='primary' sx={{pl: 1,'&:hover':{color: 'blue'}}}>
+                {good.production}
+                </Typography>
+              </Link>
+              )}
+            </Box>
+
             <GoodProductionComponent
               orderId={order._id}
               orderContacts={order.contacts}
@@ -138,7 +153,9 @@ function SingleOrder ({ order }) {
         <Typography color='primary'>
           Загальна площа: <strong>{goodsArea} м²</strong> <br /> Загальна
           кількість сіточок: <strong>{goodsQty} шт.</strong> <br /> Видано:{' '}
-          <strong>{goodsDelivered} шт. ({goodsDeliveredArea} м²)</strong>
+          <strong>
+            {goodsDelivered} шт. ({goodsDeliveredArea} м²)
+          </strong>
         </Typography>
         <Typography color='primary' sx={{ mt: 2, mb: 1 }}>
           Витрати матеріалів:

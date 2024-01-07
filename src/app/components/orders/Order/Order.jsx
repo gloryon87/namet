@@ -74,7 +74,10 @@ function Order ({ order }) {
       </Grid>
       <Box>
         {order.goods?.map(good => (
-          <Good key={good._id} good={good}></Good>
+          <Box key={good._id} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Good good={good} />
+            <Typography sx={{width: '120px'}}> { good.production} </Typography>
+          </Box>
         ))}
         <Typography color='primary' sx={{ ml: 1, mb: 1, mt: 1 }}>
           Загальна площа замовлення: <strong>{goodsArea} м²</strong>. Загальна

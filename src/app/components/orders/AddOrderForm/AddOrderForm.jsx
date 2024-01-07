@@ -318,15 +318,6 @@ const handleAddGood = () => {
                   fullWidth
                 />
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  label='Виробники'
-                  name={'production'}
-                  value={good.production || ''}
-                  onChange={e => handleChangeGood(e, index)}
-                  fullWidth
-                />
-              </Grid>
             </Grid>
             <Typography variant='body2' sx={{ mt: 2, mb: 2 }}>
               Кольори
