@@ -4,7 +4,7 @@ export const modalStyles = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   overflowY: 'auto',
-  width: { xs: '90%', md: '80%'},
+  width: { xs: '90%', sm: '80%'},
   maxHeight: '100vh',
   maxHeight: '100lvh',
   bgcolor: 'background.paper',

@@ -8,7 +8,7 @@ import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined
 import DeleteModal from '../../DeleteModal/DeleteModal'
 import { useRouter } from 'next/navigation'
 
-function ProductionGoodDelete ({ productionId, goodId, url }) {
+function ProductionGoodDelete({ productionId, goodId, url }) {
   const [openModal, setOpenModal] = useState(false)
   const [error, setError] = useState(null)
   const router = useRouter()

@@ -13,6 +13,7 @@ import calculateMaterialsData from '@/app/utils/calculateMaterialsData'
 import MoveToWarehouse from '../MoveToWarehouse/MoveToWarehouse'
 import ProductionGoodDelete from '../ProductionGoodDelete/ProductionGoodDelete'
 import ProductionGoodEdit from '../ProductionGoodEdit/ProductionGoodEdit'
+import ProductionEdit from '../ProductionEdit/ProductionEdit'
 
 const url = process.env.REACT_APP_SERVER_URL || ''
 
@@ -25,12 +26,11 @@ function SingleProduction ({ production }) {
     goodsColor
   } = calculateGoodsData(production.goods)
 
-  console.log(goodsColor)
-
   const materialDifferenceArray = calculateMaterialsData(
     production.materials,
     goodsColor
   )
+  
 
   return (
     <>
@@ -41,9 +41,12 @@ function SingleProduction ({ production }) {
           <ArrowBackOutlinedIcon /> До списку виробників{' '}
         </Button>
       </Link>
-      <Typography variant='h6' sx={{ mb: 1 }}>
-        {production.name}
-      </Typography>
+      <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
+        <Typography variant='h6' sx={{ alignSelf: 'center' }}>
+          {production.name}
+        </Typography>
+        <ProductionEdit production={production} url={url} />
+      </Box>
       <Grid container spacing={1} sx={{ m: 0, border: 1, width: 'auto' }}>
         <Grid item xs={4} lg={2} border={1}>
           <Typography>Контакти </Typography>
@@ -55,11 +58,13 @@ function SingleProduction ({ production }) {
           <Typography>Матеріали </Typography>
         </Grid>
         <Grid item xs={8} lg={10} border={1}>
-          {production.materials.map(material => (
-            <Typography key={material._id}>
-              {material.material} {material.color}: {material.qty} м²,
-            </Typography>
-          ))}
+          {production.materials
+            .filter(material => material.qty > 0)
+            .map(material => (
+              <Typography key={material._id}>
+                {material.material} {material.color}: {material.qty} м²
+              </Typography>
+            ))}
         </Grid>
       </Grid>
       <Typography sx={{ mt: 2, mb: 1 }}>Товари:</Typography>
@@ -77,7 +82,14 @@ function SingleProduction ({ production }) {
           {good.orderId ? (
             <Tooltip title={good.orderContacts}>
               <Link style={{ width: '100%' }} href={`/orders/${good.orderId}`}>
-                <Box sx={{display: 'flex', alignItems: 'center', height: '100%', width: '100%'}}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    height: '100%',
+                    width: '100%'
+                  }}
+                >
                   <Good good={good} />
                 </Box>
               </Link>
@@ -92,7 +104,12 @@ function SingleProduction ({ production }) {
                 {format(new Date(good.date), 'dd.MM.yyyy')}{' '}
               </Typography>
             </Box>
-            <MoveToWarehouse good={good} url={url} production={production} />
+            <MoveToWarehouse
+              good={good}
+              goodId={good._id}
+              url={url}
+              production={production}
+            />
             <ProductionGoodEdit
               productionId={production._id}
               good={good}

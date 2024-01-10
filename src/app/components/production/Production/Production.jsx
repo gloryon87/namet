@@ -55,7 +55,7 @@ function Production ({ prod }) {
           <Grid
             item
             xs={12}
-            sx={{ display: 'flex', gap: 1, border: '1px solid lightgrey' }}
+            sx={{ display: 'flex', gap: 1, border: '1px solid lightgrey', flexWrap: 'wrap' }}
           >
             {' '}
             {/* <Typography>
@@ -85,12 +85,14 @@ function Production ({ prod }) {
             <Typography>  <strong>Залишки матеріалів</strong>:
             </Typography>
             {materialDifferenceArray.map((material, index) => (
+              console.log(material.color, material.difference),
+              material.difference ?
               <Typography
                 color={material.difference > 0 ? null : 'error'}
                 key={index}
               >
                 {material.color}: {material.difference} м²,
-              </Typography>
+              </Typography> : null
             ))}
           </Grid>
         )}

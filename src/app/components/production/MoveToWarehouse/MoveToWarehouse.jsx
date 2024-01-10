@@ -12,15 +12,16 @@ import { useRouter } from 'next/navigation'
 import TextField from '@mui/material/TextField'
 import calculateGoodsData from '@/app/utils/calculateGoodsData'
 
-function MoveToWarehouse ({ good, url, production }) {
+function MoveToWarehouse({ good, url, production, goodId }) {
   const [openModal, setOpenModal] = useState(false)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(null)
   const [qty, setQty] = useState(good.qty - (good.delivered || 0))
   const router = useRouter()
   const { goodsColor } = calculateGoodsData([good])
-  const goodId = good._id
   const productionId = production._id
+  console.log(goodId)
+
 
   const productionMaterials = production.materials.map(material => {
     const matchingGood = goodsColor.find(color => color.name === material.color)

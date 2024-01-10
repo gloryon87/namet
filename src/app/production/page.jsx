@@ -1,7 +1,9 @@
 import React from 'react'
 import Grid from '@mui/material/Grid'
+import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import calculateGoodsData from '../utils/calculateGoodsData'
+import calculateMaterialsData from '../utils/calculateMaterialsData'
 import Production from '../components/production/Production/Production'
 
 
@@ -33,10 +35,17 @@ export default async function ProductionPage () {
   // Get data
   const data = await getData()
   const goodsArray = data?.flatMap(prod => prod.goods)
+  const materialsArray = data?.flatMap(prod => prod.materials)
 
   // Calculate goods data
-  const { goodsQty, goodsArea, goodsDelivered, goodsDeliveredArea } =
+  const { goodsQty, goodsArea, goodsDelivered, goodsDeliveredArea, goodsColor } =
     calculateGoodsData(goodsArray)
+  
+  const materialDifferenceArray = calculateMaterialsData(
+  materialsArray,
+  goodsColor
+)
+
 
   return (
     <>
@@ -44,13 +53,29 @@ export default async function ProductionPage () {
         Виробники
       </Typography>
       <Typography color='primary' sx={{ mb: 2 }}>
-        Загальна площа сіточок на виробництві:{' '}
-        <strong>{goodsArea - goodsDeliveredArea} м²</strong>. Загальна кількість сіточок:{' '}
+        Загальна площа сіточок в роботі:{' '}
+        <strong>{goodsArea - goodsDeliveredArea} м²</strong>. Загальна кількість сіточок в роботі:{' '}
         <strong>{goodsQty - goodsDelivered} шт.</strong> Видано на склад:{' '}
         <strong>
           {goodsDelivered} шт. ({goodsDeliveredArea} м²){' '}
         </strong>
       </Typography>
+       <Box sx={{display: 'flex', columnGap: 1, flexWrap: 'wrap'}}> <Typography color='primary' sx={{mb: 2}}>Загальні залишки матеріалів:</Typography>
+        {materialDifferenceArray.map(
+          (material, index) => (
+            console.log(material.color, material.difference),
+            material.difference ? (
+              <Typography
+                color={material.difference > 0 ? null : 'error'}
+                key={index}
+              >
+                {material.color}: {material.difference} м², 
+              </Typography>
+            ) : null
+          )
+        )}
+        </Box>
+
       <Grid
         container
         spacing={1}

@@ -16,7 +16,7 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import { useRouter } from 'next/navigation'
 import { colors } from '../../../variables.js'
 
-function ProductionGoodEdit ({ productionId, good, url, goodId }) {
+function ProductionGoodEdit({ productionId, good, url, goodId }) {
   const [openModal, setOpenModal] = useState(false)
   const initialData = good
   delete initialData._id
@@ -52,7 +52,7 @@ function ProductionGoodEdit ({ productionId, good, url, goodId }) {
   }
 
   function handleClose() {
-  setFormData(prevData => ({ ...initialData }))
+  setFormData(() => ({ ...initialData }))
   setOpenModal(false)
 }
 

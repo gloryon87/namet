@@ -20,7 +20,8 @@ function GoodItem ({ good }) {
           fontSize: '1rem',
           m: 0,
           border: 1,
-          borderTop: 0
+          borderTop: 0,
+          width: 'auto'
         }}
       >
         <Grid item xs={3} md={1} sx={gridStyle}>

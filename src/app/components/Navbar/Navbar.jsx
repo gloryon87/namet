@@ -7,7 +7,7 @@ import MenuItem from '@mui/material/MenuItem'
 import style from './navbar.module.scss'
 
 
-const menuItemStyle = { width: '25%', justifyContent: 'center', overflow: 'hidden', color: 'white' }
+const menuItemStyle = { flex: 1, justifyContent: 'center', overflow: 'hidden', color: 'white' }
 
 function Navbar () {
   const pathname = usePathname()

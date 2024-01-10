@@ -26,7 +26,7 @@ function GoodProductionComponent ({
   const [openModal, setOpenModal] = useState(false)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(null)
-  const [qty, setQty] = useState(good.qty - good.delivered)
+  const [qty, setQty] = useState(good.qty - (good.delivered || 0))
   const [production, setProduction] = useState({
     id: '',
     name: ''
@@ -37,7 +37,7 @@ function GoodProductionComponent ({
   // Функція закриття модального вікна
 
   function handleClose () {
-    setQty(good.qty - good.delivered)
+    setQty(good.qty - (good.delivered || 0))
     setError(null)
     setOpenModal(false)
   }
@@ -59,7 +59,7 @@ function GoodProductionComponent ({
       const updateProduction = fetch(
         `${url}/api/production/${production.id}/goods`,
         {
-          method: 'POST',
+          method: 'PUT',
           headers: {
             'Content-type': 'application/json'
           },
@@ -145,7 +145,7 @@ function GoodProductionComponent ({
                 value={qty}
                 onChange={e => setQty(e.target.value)}
                 sx={{ maxWidth: 150 }}
-                fullwidth
+                fullWidth
                 required
                 InputProps={{
                   inputProps: {
