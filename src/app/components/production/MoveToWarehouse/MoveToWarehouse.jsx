@@ -20,7 +20,6 @@ function MoveToWarehouse({ good, url, production, goodId }) {
   const router = useRouter()
   const { goodsColor } = calculateGoodsData([good])
   const productionId = production._id
-  console.log(goodId)
 
 
   const productionMaterials = production.materials.map(material => {

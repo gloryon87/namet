@@ -33,11 +33,6 @@ function SingleOrder ({ order }) {
     goodsColor
   } = calculateGoodsData(order.goods)
 
-  order.goods.map((good, index) => {
-  console.log(good._id)
-})
-
-
   return (
     <>
       <Link href='/orders'>

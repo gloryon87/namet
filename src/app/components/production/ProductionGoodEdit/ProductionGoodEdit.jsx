@@ -32,7 +32,6 @@ function ProductionGoodEdit({ productionId, good, url, goodId }) {
   const handleSubmit = async e => {
     e.preventDefault()
     const hasChanges = JSON.stringify(formData) !== JSON.stringify(initialData)
-    console.log(hasChanges)
 
     if (hasChanges) {
       handleEdit()

@@ -58,13 +58,12 @@ function TransferMaterial ({ url, materials }) {
       qty: material.transferQty
     }))
 
-
     try {
       setLoading(true)
       setError(null)
 
       // Оновити матеріали та виробництво одночасно
-      await Promise.all([
+      const [materialsResponse, productionResponse] = await Promise.all([
         fetch(`${url}/api/materials`, {
           method: 'PUT',
           headers: {
@@ -81,10 +80,43 @@ function TransferMaterial ({ url, materials }) {
         })
       ])
 
-      handleClose
+      // Обробка помилок матеріалів
+      if (!materialsResponse.ok) {
+        throw new Error(
+          'Помилка! не вдалось оновити матеріали. Увага! Виробництво могло оновитись'
+        )
+      } else {
+        setFormData(prevData => {
+          // Оновити дані на основі старих даних (prevData) та оновлених матеріалів (updatedDataMaterials)
+          const updatedFormData = prevData.map(material => {
+            const updatedMaterial = updatedDataMaterials.find(
+              updatedMaterial => updatedMaterial._id === material._id
+            )
+            if (updatedMaterial) {
+              updatedMaterial.transferQty = 0
+            }
+            return updatedMaterial || material
+          })
+
+          return updatedFormData
+        })
+      }
+
+      // Обробка помилок виробництва
+      if (!productionResponse.ok) {
+        throw new Error(
+          'Помилка! не вдалось оновити виробництво. Увага! Матеріали могли списатись'
+        )
+      } else {
+        setSelectedProductionId('')
+      }
+
+      setError(null)
+      setLoading(null)
+      setOpenModal(false)
       router.refresh()
     } catch (error) {
-      setError('Не вдалось списати матеріал')
+      setError(error.message)
     } finally {
       setLoading(false)
     }

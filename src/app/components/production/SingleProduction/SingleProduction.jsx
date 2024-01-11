@@ -57,12 +57,12 @@ function SingleProduction ({ production }) {
         <Grid item xs={4} lg={2} border={1}>
           <Typography>Матеріали </Typography>
         </Grid>
-        <Grid item xs={8} lg={10} border={1}>
+        <Grid item xs={8} lg={10} border={1} sx={{display: 'flex', columnGap: 1, flexWrap: 'wrap'}}>
           {production.materials
             .filter(material => material.qty > 0)
             .map(material => (
               <Typography key={material._id}>
-                {material.material} {material.color}: {material.qty} м²
+                {material.material} {material.color}: {material.qty} м²,
               </Typography>
             ))}
         </Grid>
@@ -159,7 +159,9 @@ function SingleProduction ({ production }) {
         <Typography color='primary' sx={{ mt: 3 }}>
           Залишки матеріалів:
         </Typography>
-        {materialDifferenceArray.map((material, index) => (
+        {materialDifferenceArray.filter(
+          material => material.difference !== 0
+        ).map((material, index) => (
           <Typography
             color={material.difference > 0 ? null : 'error'}
             key={index}

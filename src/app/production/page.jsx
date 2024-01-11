@@ -35,13 +35,30 @@ export default async function ProductionPage () {
   // Get data
   const data = await getData()
   const goodsArray = data?.flatMap(prod => prod.goods)
-  const materialsArray = data?.flatMap(prod => prod.materials)
-
+  
   // Calculate goods data
   const { goodsQty, goodsArea, goodsDelivered, goodsDeliveredArea, goodsColor } =
-    calculateGoodsData(goodsArray)
+  calculateGoodsData(goodsArray)
   
-  const materialDifferenceArray = calculateMaterialsData(
+  // Calculate materials data
+  const materialsArray = data?.flatMap(prod => prod.materials).reduce((accumulator, currentValue) => {
+    const existingMaterialIndex = accumulator.findIndex(
+      obj => obj.color === currentValue.color
+      )
+      
+      if (existingMaterialIndex !== -1) {
+        // Якщо матеріал знайдено, об'єднайте його з поточним значенням
+        accumulator[existingMaterialIndex].qty += currentValue.qty
+      } else {
+        // Якщо матеріал не знайдено, додайте поточне значення в аккумулятор
+        accumulator.push(currentValue)
+      }
+      
+      return accumulator
+    }, [])
+    
+    // Calculate materials difference
+    const materialDifferenceArray = calculateMaterialsData(
   materialsArray,
   goodsColor
 )
@@ -61,9 +78,8 @@ export default async function ProductionPage () {
         </strong>
       </Typography>
        <Box sx={{display: 'flex', columnGap: 1, flexWrap: 'wrap'}}> <Typography color='primary' sx={{mb: 2}}>Загальні залишки матеріалів:</Typography>
-        {materialDifferenceArray.map(
+        {materialDifferenceArray.flatMap(
           (material, index) => (
-            console.log(material.color, material.difference),
             material.difference ? (
               <Typography
                 color={material.difference > 0 ? null : 'error'}

@@ -85,7 +85,6 @@ function Production ({ prod }) {
             <Typography>  <strong>Залишки матеріалів</strong>:
             </Typography>
             {materialDifferenceArray.map((material, index) => (
-              console.log(material.color, material.difference),
               material.difference ?
               <Typography
                 color={material.difference > 0 ? null : 'error'}

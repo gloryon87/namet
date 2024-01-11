@@ -3,8 +3,9 @@ export default function calculateMaterialsData(materials, goodsColor) {
   materials.forEach(material => {
   materialQtyMap[material.color] = material.qty
 })
-
-const materialDifferenceArray = goodsColor.map(color => {
+//  console.log(goodsColor)
+  
+const materialDifferenceArray = goodsColor.flatMap(color => {
   const colorName = color.name
   const qtyInProdMaterials = materialQtyMap[colorName] || 0
 
@@ -13,6 +14,7 @@ const materialDifferenceArray = goodsColor.map(color => {
     difference: qtyInProdMaterials - (color.colorArea || 0)
   }
 })
+  // console.log(materialDifferenceArray)
 
 // Додаємо відсутні кольори з materials
   materials.forEach(material => {

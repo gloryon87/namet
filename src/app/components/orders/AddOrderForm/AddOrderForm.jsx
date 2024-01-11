@@ -131,8 +131,7 @@ const handleAddGood = () => {
       }
       router.push(`/orders/${orderId}`)
     } catch (error) {
-      // setError('Не вдалось додати замовлення')
-      console.error(error);
+      setError('Не вдалось додати замовлення')
     } finally {
       setLoading(false)
     }
