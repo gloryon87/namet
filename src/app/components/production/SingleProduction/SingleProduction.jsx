@@ -25,6 +25,7 @@ function SingleProduction ({ production }) {
     goodsDeliveredArea,
     goodsColor
   } = calculateGoodsData(production.goods)
+  // console.log(goodsColor)
 
   const materialDifferenceArray = calculateMaterialsData(
     production.materials,
@@ -107,6 +108,7 @@ function SingleProduction ({ production }) {
             <MoveToWarehouse
               good={good}
               goodId={good._id}
+              goodColor={good.color}
               url={url}
               production={production}
             />

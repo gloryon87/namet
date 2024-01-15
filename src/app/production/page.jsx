@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography'
 import calculateGoodsData from '../utils/calculateGoodsData'
 import calculateMaterialsData from '../utils/calculateMaterialsData'
 import Production from '../components/production/Production/Production'
-
+const _ = require('lodash')
 
 // Metadata
 
@@ -34,14 +34,16 @@ async function getData () {
 export default async function ProductionPage () {
   // Get data
   const data = await getData()
-  const goodsArray = data?.flatMap(prod => prod.goods)
-  
+
+  const copiedData = _.cloneDeep(data)
+  const goodsArray = copiedData?.flatMap(prod => prod.goods)
+
   // Calculate goods data
   const { goodsQty, goodsArea, goodsDelivered, goodsDeliveredArea, goodsColor } =
-  calculateGoodsData(goodsArray)
-  
+    calculateGoodsData(goodsArray)
+
   // Calculate materials data
-  const materialsArray = data?.flatMap(prod => prod.materials).reduce((accumulator, currentValue) => {
+  const materialsArray = copiedData?.flatMap(prod => prod.materials).reduce((accumulator, currentValue) => {
     const existingMaterialIndex = accumulator.findIndex(
       obj => obj.color === currentValue.color
       )
@@ -55,29 +57,38 @@ export default async function ProductionPage () {
       }
       
       return accumulator
-    }, [])
-    
+  }, [])
+  
+  // console.log(materialsArray)
+  
     // Calculate materials difference
     const materialDifferenceArray = calculateMaterialsData(
   materialsArray,
   goodsColor
 )
 
-
   return (
     <>
       <Typography variant='h5' sx={{ mb: 2 }}>
         Виробники
       </Typography>
-      <Typography color='primary' sx={{ mb: 2 }}>
+      <Box sx={{ display: 'flex', columnGap: 1, flexWrap: 'wrap', mb: 2 }}>
+      <Typography color='primary'>
         Загальна площа сіточок в роботі:{' '}
-        <strong>{goodsArea - goodsDeliveredArea} м²</strong>. Загальна кількість сіточок в роботі:{' '}
-        <strong>{goodsQty - goodsDelivered} шт.</strong> Видано на склад:{' '}
+        <strong>{goodsArea - goodsDeliveredArea} м²</strong>.
+      </Typography>
+      <Typography color='primary'>
+        Загальна кількість сіточок в роботі:{' '}
+        <strong>{goodsQty - goodsDelivered} шт.</strong>
+      </Typography>
+      <Typography color='primary'>
+        Видано на склад:{' '}
         <strong>
           {goodsDelivered} шт. ({goodsDeliveredArea} м²){' '}
         </strong>
-      </Typography>
-       <Box sx={{display: 'flex', columnGap: 1, flexWrap: 'wrap'}}> <Typography color='primary' sx={{mb: 2}}>Загальні залишки матеріалів:</Typography>
+        </Typography>
+        </Box>
+       <Box sx={{display: 'flex', columnGap: 1, flexWrap: 'wrap'}}> <Typography color='primary'>Загальні залишки матеріалів:</Typography>
         {materialDifferenceArray.flatMap(
           (material, index) => (
             material.difference ? (
@@ -97,6 +108,7 @@ export default async function ProductionPage () {
         spacing={1}
         sx={{
           m: 0,
+          mt: 2,
           width: 'auto',
           border: 1,
           position: 'sticky',

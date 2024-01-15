@@ -33,11 +33,17 @@ function GoodProductionComponent ({
   })
   const router = useRouter()
 
+  const goodToProductionColor = good.color.map(color => { color.name = color.name, color.colorArea = Math.ceil(color.colorArea / good.qty * qty) })
+
 
   // Функція закриття модального вікна
 
   function handleClose () {
     setQty(good.qty - (good.delivered || 0))
+    setProduction({
+      id: '',
+      name: ''
+    })
     setError(null)
     setOpenModal(false)
   }
@@ -59,7 +65,7 @@ function GoodProductionComponent ({
       const updateProduction = fetch(
         `${url}/api/production/${production.id}/goods`,
         {
-          method: 'PUT',
+          method: 'POST',
           headers: {
             'Content-type': 'application/json'
           },
@@ -102,7 +108,7 @@ function GoodProductionComponent ({
 
       handleClose()
       router.refresh()
-      return res.json() // Повертаємо результат запиту
+      return resProduction.json() // Повертаємо результат запиту
     } catch (err) {
       setError(err.message)
     } finally {

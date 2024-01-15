@@ -16,7 +16,7 @@ function Good ({ good }) {
   const isDelivered = delivered >= good.qty
 
   return (
-    <Box sx={{ display: 'flex', width: '100%', alignItems: 'center', ml: 1 }}>
+    <Box sx={{ display: 'flex', width: '100%', alignItems: 'center', p: 1 }}>
       {isDelivered ? (
         <CheckCircleOutlinedIcon color='success' sx={{ fontSize: 20 }} />
       ) : (

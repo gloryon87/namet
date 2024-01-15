@@ -12,26 +12,42 @@ import { useRouter } from 'next/navigation'
 import TextField from '@mui/material/TextField'
 import calculateGoodsData from '@/app/utils/calculateGoodsData'
 
-function MoveToWarehouse({ good, url, production, goodId }) {
+function MoveToWarehouse({ good, url, production, goodId, goodColor }) {
   const [openModal, setOpenModal] = useState(false)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(null)
   const [qty, setQty] = useState(good.qty - (good.delivered || 0))
+
   const router = useRouter()
-  const { goodsColor } = calculateGoodsData([good])
+  const { goodsColor } = calculateGoodsData([{ ...good, color: goodColor }])
   const productionId = production._id
 
+  // console.log(goodsColor)
+  
 
-  const productionMaterials = production.materials.map(material => {
-    const matchingGood = goodsColor.find(color => color.name === material.color)
+  function handleClose () {
+    setQty(good.qty - (good.delivered || 0))
+    setOpenModal(false)
+  }
 
-    if (matchingGood) {
+  const handleSubmit = async e => {
+    e.preventDefault()
+
+    // Отримати поточні матеріали виробництва
+      const productionMaterials = production.materials.map(material => {
+    const matchingColor = goodsColor.find(color => color.name === material.color)
+    // If there is a matching color in goodsColor, return the difference
+
+    if (matchingColor) {
+
       const difference =
-        material.qty - (matchingGood.colorArea / good.qty) * qty
+        material.qty - matchingColor.colorArea
+
       return {
         color: material.color,
         qty: difference
       }
+      
     }
 
     // If there is no matching color in goodsColor, return the original material
@@ -41,13 +57,6 @@ function MoveToWarehouse({ good, url, production, goodId }) {
     }
   })
 
-  function handleClose () {
-    setQty(good.qty - (good.delivered || 0))
-    setOpenModal(false)
-  }
-
-  const handleSubmit = async e => {
-    e.preventDefault()
     try {
       setLoading(true)
       setError(null)
@@ -62,8 +71,7 @@ function MoveToWarehouse({ good, url, production, goodId }) {
           },
           body: JSON.stringify({
             ...good,
-            delivered: Number(good.delivered) + Number(qty),
-            materials: productionMaterials
+            delivered: Number(good.delivered) + Number(qty)
           })
         }
       )
@@ -87,10 +95,6 @@ function MoveToWarehouse({ good, url, production, goodId }) {
         },
         body: JSON.stringify({
           ...good,
-          qty: +qty,
-          colorCode: good.color.map(color => `${color.name}:${color.qty}`)
-  .join(', ')
-
         })
       })
 

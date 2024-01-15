@@ -7,7 +7,7 @@ import calculateGoodsData from '@/app/utils/calculateGoodsData'
 import Good from '../../orders/Good/Good'
 import calculateMaterialsData from '@/app/utils/calculateMaterialsData'
 
-function Production ({ prod }) {
+function Production({ prod }) {
   const {
     goodsQty,
     goodsArea,
@@ -15,11 +15,13 @@ function Production ({ prod }) {
     goodsDeliveredArea,
     goodsColor
   } = calculateGoodsData(prod.goods)
+  //  console.log(goodsColor)
 
   const materialDifferenceArray = calculateMaterialsData(
     prod.materials,
     goodsColor
   )
+  // console.log(prod)
 
   return (
     <Link href={`/production/${prod.name}`}>
@@ -42,20 +44,25 @@ function Production ({ prod }) {
           {prod.contacts}
         </Grid>
         {/* Товари */}
+        <Box sx={{mt: 1}}>
         {prod.goods.length > 0 && (
-          <Grid item xs={12} sx={{ border: '1px solid lightgrey' }}>
-            {prod.goods.map(good => (
-              <Good key={good._id} good={good} />
-            ))}
-          </Grid>
+            prod.goods.map(good => (
+            <Good key={good._id} good={good} />
+            ))
         )}
+          </Box>
 
         {/* Матеріали */}
         {prod.materials.length > 0 && (
           <Grid
             item
             xs={12}
-            sx={{ display: 'flex', gap: 1, border: '1px solid lightgrey', flexWrap: 'wrap' }}
+            sx={{
+              display: 'flex',
+              columnGap: 1,
+              border: '1px solid lightgrey',
+              flexWrap: 'wrap'
+            }}
           >
             {' '}
             {/* <Typography>
@@ -82,28 +89,40 @@ function Production ({ prod }) {
               </Typography>
             )}
             <Typography> */}
-            <Typography>  <strong>Залишки матеріалів</strong>:
+            <Typography>
+              {' '}
+              <strong>Залишки матеріалів</strong>:
             </Typography>
-            {materialDifferenceArray.map((material, index) => (
-              material.difference ?
-              <Typography
-                color={material.difference > 0 ? null : 'error'}
-                key={index}
-              >
-                {material.color}: {material.difference} м²,
-              </Typography> : null
-            ))}
+            {materialDifferenceArray
+              .filter(material => material.difference !== 0)
+              .map((material, index) => (
+                <Typography
+                  color={material.difference > 0 ? null : 'error'}
+                  key={index}
+                >
+                  {material.color}: {material.difference} м²,
+                </Typography>
+              ))}
           </Grid>
         )}
-        <Typography color='primary' sx={{ ml: 1, my: 1 }}>
-          Площа сіточок в роботі:{' '}
-          <strong>{goodsArea - goodsDeliveredArea} м²</strong>. Кількість
-          сіточок в роботі: <strong>{goodsQty - goodsDelivered} шт.</strong>{' '}
-          Видано на склад:{' '}
-          <strong>
-            {goodsDelivered} шт. ({goodsDeliveredArea} м²){' '}
-          </strong>
-        </Typography>
+        <Box
+          sx={{ display: 'flex', columnGap: 1, flexWrap: 'wrap', ml: 1, my: 1 }}
+        >
+          <Typography color='primary'>
+            Площа сіточок в роботі:{' '}
+            <strong>{goodsArea - goodsDeliveredArea} м²</strong>.
+          </Typography>
+          <Typography color='primary'>
+            Кількість сіточок в роботі:{' '}
+            <strong>{goodsQty - goodsDelivered} шт.</strong>{' '}
+          </Typography>
+          <Typography color='primary'>
+            Видано на склад:{' '}
+            <strong>
+              {goodsDelivered} шт. ({goodsDeliveredArea} м²){' '}
+            </strong>
+          </Typography>
+        </Box>
       </Grid>
     </Link>
   )

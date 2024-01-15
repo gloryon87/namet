@@ -18,7 +18,8 @@ import GoodProductionComponent from '../GoodProductionComponent/GoodProductionCo
 const url = process.env.REACT_APP_SERVER_URL || ''
 const gridItemStyle = { border: '1px solid lightgrey' }
 
-function SingleOrder ({ order }) {
+function SingleOrder({ order }) {
+  
   const formatedDate = format(Date.parse(order?.date), 'dd.MM.yyyy HH:mm')
   const formatedDeadline = order.deadline
     ? format(Date.parse(order.deadline), 'dd.MM.yyyy')
