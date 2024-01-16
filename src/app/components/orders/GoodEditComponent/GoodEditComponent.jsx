@@ -96,7 +96,7 @@ function GoodEditComponent({ orderId, good, url, goodId }) {
         throw new Error(`HTTP помилка! Статус: ${res.status}`)
       }
       router.refresh()
-      handleClose()
+      setOpenModal(false)
       return res.json()
     } catch (error) {
       setError('Не вдалось відредагувати замовлення')

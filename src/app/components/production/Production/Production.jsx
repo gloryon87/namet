@@ -6,8 +6,10 @@ import Link from 'next/link'
 import calculateGoodsData from '@/app/utils/calculateGoodsData'
 import Good from '../../orders/Good/Good'
 import calculateMaterialsData from '@/app/utils/calculateMaterialsData'
+import { format } from 'date-fns'
 
-function Production({ prod }) {
+
+function Production ({ prod }) {
   const {
     goodsQty,
     goodsArea,
@@ -44,13 +46,26 @@ function Production({ prod }) {
           {prod.contacts}
         </Grid>
         {/* Товари */}
-        <Box sx={{mt: 1}}>
-        {prod.goods.length > 0 && (
+          {prod.goods.length > 0 &&
             prod.goods.map(good => (
-            <Good key={good._id} good={good} />
-            ))
-        )}
-          </Box>
+              <Box
+                key={good._id}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  width: '100%',
+                  border: '1px solid lightgrey',
+                }}
+              >
+                <Good good={good} />
+                <Box sx={{ width: '120px' }}>
+                  <Typography align='center'>
+                    {format(new Date(good.date), 'dd.MM.yyyy')}{' '}
+                  </Typography>
+                </Box>
+              </Box>
+            ))}
 
         {/* Матеріали */}
         {prod.materials.length > 0 && (

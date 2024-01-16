@@ -34,6 +34,8 @@ function SingleOrder({ order }) {
     goodsColor
   } = calculateGoodsData(order.goods)
 
+  
+
   return (
     <>
       <Link href='/orders'>
