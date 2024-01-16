@@ -12,6 +12,7 @@ import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import Fab from '@mui/material/Fab'
 import Grid from '@mui/material/Grid'
+import EngineeringOutlinedIcon from '@mui/icons-material/EngineeringOutlined'
 import { modalStyles } from '@/app/styles/modalStyles'
 import { productions } from '@/app/variables'
 
@@ -216,7 +217,7 @@ function TransferMaterial ({ url, materials }) {
           )}
         </Box>
       </Modal>
-      <Box sx={{ position: 'relative', backgroundColor: 'white' }}>
+      {/* <Box sx={{ position: 'relative', backgroundColor: 'white' }}>
         <Fab
           sx={{
             position: 'fixed',
@@ -229,10 +230,12 @@ function TransferMaterial ({ url, materials }) {
           aria-label='Перемістити'
           variant='extended'
           onClick={() => setOpenModal(true)}
-        >
-          Перемістити
-        </Fab>
-      </Box>
+        > */}
+      <Button onClick={() => setOpenModal(true)} color='primary'>
+        <EngineeringOutlinedIcon sx={{ mr: 1 }} /> Перемістити
+      </Button>
+      {/* </Fab>
+      </Box> */}
     </Box>
   )
 }

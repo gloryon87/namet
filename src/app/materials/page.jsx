@@ -3,6 +3,7 @@ import AddMaterial from '../components/materials/AddMaterial/AddMaterial'
 import Grid from '@mui/material/Grid'
 import TransferMaterial from '../components/materials/TransferMaterial/TransferMaterial'
 import EditMaterial from '../components/materials/EditMaterial/EditMaterial'
+import { Box } from '@mui/material'
 
 // Metadata
 
@@ -36,22 +37,24 @@ async function getData () {
 export default async function Materials () {
   const materials = await getData()
   const filteredMaterials = materials.filter(material => material.qty > 0)
-  const materilsQtyArray = filteredMaterials.map(material => material.qty)
+  const materilsQtyArray = materials.map(material => material.qty)
   const materialsQty = materilsQtyArray.reduce((a, b) => a + b, 0)
 
   return (
     <>
-      <Typography variant='h5'>
-        Матеріали
-      </Typography>
-      <AddMaterial url={url} />
-      <TransferMaterial url={url} materials={filteredMaterials} />
-      <Typography
-        color='primary'
-        sx={{ display: 'flex', mt: 3, mb: 2, gap: 1 }}
-      >
-        Загальна площа матеріалів: <strong>{materialsQty} м²</strong>{' '}
-      </Typography>
+      <Typography variant='h5'>Матеріали</Typography>
+      <Box sx={{ display: 'flex', columnGap: 2, justifyContent: 'space-between', flexWrap: 'wrap', mb: 1, mt: 2 }}>
+        <Typography
+          color='primary'
+          sx={{ display: 'flex', gap: 1, alignItems: 'center' }}
+        >
+          Загальна площа матеріалів: <strong>{materialsQty} м²</strong>{' '}
+        </Typography>
+        <Box sx={{ display: 'flex', gap: 1, ml: 'auto' }}>
+          <AddMaterial url={url} />
+          <TransferMaterial url={url} materials={filteredMaterials} />
+        </Box>
+      </Box>
 
       <Grid
         container
@@ -78,7 +81,7 @@ export default async function Materials () {
           {' '}
         </Grid>
       </Grid>
-      {filteredMaterials.map(material => (
+      {materials.map(material => (
         <Grid
           key={material._id}
           container

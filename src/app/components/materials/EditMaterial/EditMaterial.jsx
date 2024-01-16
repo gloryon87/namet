@@ -7,6 +7,7 @@ import Modal from '@mui/material/Modal'
 import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
 import Grid from '@mui/material/Grid'
+import Tooltip from '@mui/material/Tooltip'
 import { modalStyles } from '../../../styles/modalStyles'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 
@@ -116,10 +117,11 @@ function EditMaterial ({ material, url, materialId }) {
           )}
         </Box>
       </Modal>
-
-      <Button color='primary' onClick={() => setOpenModal(true)}>
-        <EditOutlinedIcon />
-      </Button>
+      <Tooltip title='Редагувати'>
+        <Button color='primary' onClick={() => setOpenModal(true)}>
+          <EditOutlinedIcon />
+        </Button>
+      </Tooltip>
     </Box>
   )
 }

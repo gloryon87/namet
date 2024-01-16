@@ -88,7 +88,7 @@ export default async function ProductionPage () {
         </strong>
         </Typography>
         </Box>
-       <Box sx={{display: 'flex', columnGap: 1, flexWrap: 'wrap'}}> <Typography color='primary'>Загальні залишки матеріалів:</Typography>
+       <Box sx={{display: 'flex', columnGap: 1, flexWrap: 'wrap', mb: 1 }}> <Typography color='primary'>Загальні залишки матеріалів:</Typography>
         {materialDifferenceArray.flatMap(
           (material, index) => (
             material.difference ? (
@@ -103,7 +103,7 @@ export default async function ProductionPage () {
         )}
         </Box>
 
-      <Grid
+      {/* <Grid
         container
         spacing={1}
         sx={{
@@ -124,7 +124,7 @@ export default async function ProductionPage () {
           {' '}
           Контакти{' '}
         </Grid>
-      </Grid>
+      </Grid> */}
 
       {/* Виробництва */}
       <ol>

@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
 import Fab from '@mui/material/Fab'
 import Grid from '@mui/material/Grid'
+import AddIcon from '@mui/icons-material/Add'
 import { modalStyles } from '@/app/styles/modalStyles'
 import { colors } from '@/app/variables'
 
@@ -25,12 +26,11 @@ function AddMaterial ({ url }) {
   const router = useRouter()
 
   const handleChange = (e, index) => {
-  const { name, value } = e.target
-  const newFormData = [...formData]
-  newFormData[index] = { ...newFormData[index], [name]: value }
-  setFormData(newFormData)
-}
-
+    const { name, value } = e.target
+    const newFormData = [...formData]
+    newFormData[index] = { ...newFormData[index], [name]: value }
+    setFormData(newFormData)
+  }
 
   function handleClose () {
     setFormData(() => initialFormData)
@@ -72,27 +72,53 @@ function AddMaterial ({ url }) {
           <Typography variant='h5' sx={{ mb: 3 }}>
             Додати матеріали
           </Typography>
-          <Grid container spacing={1} sx={{m: 0, width: 'auto'}}>
+          <Grid container spacing={2} sx={{ m: 0, width: 'auto' }}>
             {formData.map((color, index) => (
-              <Grid item xs={12} sm={6} lg={3} key={color.color}>
-                <Typography sx={{ mb: 2 }}>{color.color}</Typography>
-                <Box sx={{ display: 'flex', gap: 1 }}>
-                <TextField
-                  label='Матеріал'
-                  name='material'
-                  type='text'
-                  value={color.material}
-                  onChange={(e) => handleChange(e, index)}
-                />
-                <TextField
-                  label='Кількість'
-                  name='qty'
-                  type='number'
-                  value={color.qty}
-                  inputProps={{ min: 0 }}  
-                  onChange={(e) => handleChange(e, index)}
+              <Grid
+                item
+                xs={12}
+                md={6}
+                lg={4}
+                key={color._id}
+              >
+                <Box
+                  sx={{
+                    display: 'flex',
+                    gap: 1,
+                    border: 1,
+                    // borderColor: 'grey.400',
+                    borderRadius: 1,
+                    p: 2
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      display: 'flex',
+                      width: 240,
+                      p: 1,
+                      alignItems: 'center',
+                      justifyContent: 'flex-end'
+                    }}
+                  >
+                    {color.color}
+                  </Typography>
+                  <TextField
+                    label='Матеріал'
+                    name='material'
+                    type='text'
+                    value={color.material}
+                    onChange={e => handleChange(e, index)}
+                    sx={{ width: 240 }}
                   />
-                  </Box>
+                  <TextField
+                    label='Кількість'
+                    name='qty'
+                    type='number'
+                    value={color.qty}
+                    inputProps={{ min: 0 }}
+                    onChange={e => handleChange(e, index)}
+                  />
+                </Box>
               </Grid>
             ))}
           </Grid>
@@ -124,8 +150,8 @@ function AddMaterial ({ url }) {
           )}
         </Box>
       </Modal>
-      <Box sx={{ position: 'relative', backgroundColor: 'white' }}>
-        <Fab
+      {/* <Box sx={{ position: 'relative', backgroundColor: 'white' }}> */}
+      {/* <Fab
           sx={{
             position: 'fixed',
             textTransform: 'none',
@@ -137,10 +163,12 @@ function AddMaterial ({ url }) {
           aria-label='Додати матеріали'
           variant='extended'
           onClick={() => setOpenModal(true)}
-        >
-          Додати матеріали
-        </Fab>
-      </Box>
+        > */}
+      <Button onClick={() => setOpenModal(true)} color='primary'>
+        <AddIcon sx={{ mr: 1 }} /> Додати
+      </Button>
+      {/* </Fab> */}
+      {/* </Box> */}
     </Box>
   )
 }

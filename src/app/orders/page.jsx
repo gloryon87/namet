@@ -6,62 +6,93 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import SelectComponent from '../components/orders/Select/Select'
 import Typography from '@mui/material/Typography'
-import Fab from '@mui/material/Fab';
+import Fab from '@mui/material/Fab'
 import calculateGoodsData from '@/app/utils/calculateGoodsData'
 
 const url = process.env.REACT_APP_SERVER_URL || ''
 
 export const metadata = {
-  title: 'Замовлення',
-};
+  title: 'Замовлення'
+}
 
-async function getData(params) {
+async function getData (params) {
   try {
-    const queryParams = new URLSearchParams(params).toString();
+    const queryParams = new URLSearchParams(params).toString()
     const res = await fetch(`${url}/api/orders?${queryParams}`, {
       cache: 'no-store',
       headers: {
-        'Cache-Control': 'no-store',
-      },
-    });
+        'Cache-Control': 'no-store'
+      }
+    })
 
     if (res.ok) {
-    const clonedResponse = res.clone();
-    const jsonData = await clonedResponse.json();
-    return jsonData;
-  } else {
-    throw new Error('Помилка сервера');
-  }
-
+      const clonedResponse = res.clone()
+      const jsonData = await clonedResponse.json()
+      return jsonData
+    } else {
+      throw new Error('Помилка сервера')
+    }
   } catch (error) {
-    throw new Error('Не вдалось отримати дані');
+    throw new Error('Не вдалось отримати дані')
   }
 }
-
 
 async function Orders ({ searchParams }) {
   const data = await getData(searchParams)
 
   const goodsArray = data?.flatMap(order => order.goods)
-  const { goodsQty, goodsArea, goodsDelivered, goodsDeliveredArea } = calculateGoodsData(goodsArray)
-
+  const { goodsQty, goodsArea, goodsDelivered, goodsDeliveredArea } =
+    calculateGoodsData(goodsArray)
 
   return (
     <>
-      <Typography variant='h5' gutterBottom>Замовлення</Typography>
-      <Box sx={{display: 'flex', mb: 3, gap: 2}}><Suspense fallback={<Typography color='primary'>завантажується пошук...</Typography>}><SelectComponent /></Suspense></Box>
-      {Object.keys(searchParams).length !== 0 && <Typography color='primary' sx={{ml: 1, mb: 2 }}>
-        Загальна площа всіх замовлень: <strong>{goodsArea} м²</strong>. Загальна кількість сіточок: <strong>{goodsQty} шт.</strong> Видано: <strong>{goodsDelivered} шт. ({goodsDeliveredArea} м²) </strong>
-      </Typography>}
-      <Box >
+      <Typography variant='h5' gutterBottom>
+        Замовлення
+      </Typography>
+      <Box sx={{ display: 'flex', mb: 3, gap: 2 }}>
+        <Suspense
+          fallback={
+            <Typography color='primary'>завантажується пошук...</Typography>
+          }
+        >
+          <SelectComponent />
+        </Suspense>
+      </Box>
+      {Object.keys(searchParams).length !== 0 ? (
+        <Typography color='primary' sx={{ ml: 1, mb: 2 }}>
+          Загальна площа всіх замовлень: <strong>{goodsArea} м²</strong>.
+          Загальна кількість сіточок: <strong>{goodsQty} шт.</strong> Видано:{' '}
+          <strong>
+            {goodsDelivered} шт. ({goodsDeliveredArea} м²){' '}
+          </strong>
+        </Typography>
+      ) : (
+          <Link href='/orders?all=true'>
+            <Button color='primary' sx={{ mb: 1 }}>
+              показати всі замовлення
+            </Button>
+          </Link>
+      )}
+      <Box>
         <Box sx={{ position: 'relative' }}>
           <Link href='/orders/addNewOrder'>
             <Fab
-              sx={{ position: 'fixed', textTransform: 'none', opacity: '90%', right: { xs: 20, sm: 30, xl: '5%' }, bottom: { xs: 20, sm: 30, lg: 35 } }}
-              color='primary' aria-label="Додати новий пост" variant='extended'> 
-              Нове замовлення</Fab></Link>
-      </Box>
-        <Grid
+              sx={{
+                position: 'fixed',
+                textTransform: 'none',
+                opacity: '90%',
+                right: { xs: 20, sm: 30, xl: '5%' },
+                bottom: { xs: 20, sm: 30, lg: 35 }
+              }}
+              color='primary'
+              aria-label='Додати новий пост'
+              variant='extended'
+            >
+              Нове замовлення
+            </Fab>
+          </Link>
+        </Box>
+        {/* <Grid
           container
           spacing={1}
           sx={{
@@ -75,30 +106,29 @@ async function Orders ({ searchParams }) {
         >
           <Grid item xs={6} sm={3} md={2} sx={{ border: 1 }}>
             Дата замовлення
-          </Grid>
-          <Box
+          </Grid> */}
+          {/* <Box
             component={Grid}
             item
             md={1}
-            lg={1}
             sx={{ border: 1 }}
             display={{ xs: 'none', md: 'block' }}
           >
             Пріор.
-          </Box>
-          <Grid item xs={6} sm={4} md={3} sx={{ border: 1 }}>
+          </Box> */}
+          {/* <Grid item xs={6} sm={6} md={3} sx={{ border: 1 }}>
             Замовник
           </Grid>
           <Box
             component={Grid}
             item
-            md={3}
+            md={5}
             sx={{ border: 1 }}
             display={{ xs: 'none', md: 'block' }}
           >
             Коментар
-          </Box>
-          <Box
+          </Box> */}
+          {/* <Box
             component={Grid}
             item
             sm={2}
@@ -107,8 +137,8 @@ async function Orders ({ searchParams }) {
             display={{ xs: 'none', sm: 'block' }}
           >
             Стан
-          </Box>
-          <Box
+          </Box> */}
+          {/* <Box
             component={Grid}
             item
             sm={3}
@@ -118,11 +148,11 @@ async function Orders ({ searchParams }) {
           >
             Дедлайн
           </Box>
-        </Grid>
+        </Grid> */}
         <ol>
           {data &&
             data.map(order => (
-              <li style={{fontSize: 13}} key={order._id}>
+              <li style={{ fontSize: 13 }} key={order._id}>
                 <Link href={`/orders/${order._id}`}>
                   <Order order={order} />
                 </Link>
@@ -130,7 +160,15 @@ async function Orders ({ searchParams }) {
             ))}
         </ol>
       </Box>
-      {Object.keys(searchParams).length === 0 && <Box sx={{textAlign: 'center'}}><Link href='/orders?all=true'><Button color='primary' sx={{mt: 2}}>показати всі замовлення</Button></Link></Box>}
+      {Object.keys(searchParams).length === 0 && (
+        <Box sx={{ textAlign: 'center' }}>
+          <Link href='/orders?all=true'>
+            <Button color='primary' sx={{ mt: 2 }}>
+              показати всі замовлення
+            </Button>
+          </Link>
+        </Box>
+      )}
     </>
   )
 }

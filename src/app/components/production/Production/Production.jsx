@@ -34,7 +34,7 @@ function Production ({ prod }) {
           m: 0,
           border: 1,
           width: 'auto',
-          borderTop: 0,
+          // borderTop: 0,
           fontSize: '1rem',
           '&:hover': { backgroundColor: '#eceff1' }
         }}
@@ -43,7 +43,7 @@ function Production ({ prod }) {
           {prod.name}
         </Grid>
         <Grid item xs={8} sx={{ border: '1px solid lightgrey' }}>
-          {prod.contacts}
+          Контакти: {prod.contacts}
         </Grid>
         {/* Товари */}
           {prod.goods.length > 0 &&
@@ -55,7 +55,8 @@ function Production ({ prod }) {
                   justifyContent: 'space-between',
                   alignItems: 'center',
                   width: '100%',
-                  border: '1px solid lightgrey',
+                  // p: 1,
+                  // border: '1px solid lightgrey',
                 }}
               >
                 <Good good={good} />

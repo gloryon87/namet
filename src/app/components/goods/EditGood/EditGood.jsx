@@ -11,6 +11,7 @@ import InputLabel from '@mui/material/InputLabel'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import Grid from '@mui/material/Grid'
+import Tooltip from '@mui/material/Tooltip'
 import { modalStyles } from '../../../styles/modalStyles'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined'
@@ -255,10 +256,11 @@ function EditGood ({ good, url, goodId }) {
           )}
         </Box>
       </Modal>
-
-      <Button color='primary' onClick={() => setOpenModal(true)}>
-        <EditOutlinedIcon />
-      </Button>
+      <Tooltip title='Редагувати'>
+        <Button color='primary' onClick={() => setOpenModal(true)}>
+          <EditOutlinedIcon />
+        </Button>
+      </Tooltip>
     </Box>
   )
 }

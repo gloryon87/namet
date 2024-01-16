@@ -11,11 +11,11 @@ const gridItemStyle = { border: '1px solid lightgray', borderTop: 0 }
 function Order ({ order }) {
   const formatedDate = format(Date.parse(order.date), 'dd.MM.yyyy HH:mm')
   const formatedDeadline = order.deadline
-    ? format(Date.parse(order.deadline), 'dd. MM. yyyy')
+    ? format(Date.parse(order.deadline), 'dd.MM.yyyy')
     : ''
-  
-  const { goodsQty, goodsArea, goodsDelivered, goodsDeliveredArea } = calculateGoodsData(order.goods)
 
+  const { goodsQty, goodsArea, goodsDelivered, goodsDeliveredArea } =
+    calculateGoodsData(order.goods)
 
   return (
     <Box
@@ -24,34 +24,34 @@ function Order ({ order }) {
         { '&:hover': { backgroundColor: '#eceff1' } }
       ]}
     >
-      <Grid container spacing={1} sx={{ m: 0, mb: 1, width: 'auto' }}>
+      <Grid container spacing={1} sx={{ m: 0, width: 'auto' }}>
         <Grid item xs={6} sm={3} md={2} sx={gridItemStyle}>
           {formatedDate}
         </Grid>
-        <Box
+        {/* <Box
           component={Grid}
           item
           md={1}
-          lg={1}
           sx={gridItemStyle}
           display={{ xs: 'none', md: 'block' }}
         >
           {order?.priority}
-        </Box>
-        <Grid item xs={6} sm={4} md={3} sx={gridItemStyle}>
-          {order?.contacts}
+        </Box> */}
+        <Grid item xs={6} sm={6} md={3} sx={gridItemStyle}>
+          Замовник: {order?.contacts}
         </Grid>
         <Box
           component={Grid}
           item
-          md={3}
+          md={5}
           sx={gridItemStyle}
           display={{ xs: 'none', md: 'block' }}
         >
-          {order?.info?.slice(0, 150)}
-          {order?.info?.length > 150 && '...'}
+          Інфо: {order.info?.slice(0, 150)}
+          {order.info?.length > 150 && '...'}
+          {!order.info && '---'}
         </Box>
-        <Box
+        {/* <Box
           component={Grid}
           item
           sm={2}
@@ -60,7 +60,7 @@ function Order ({ order }) {
           display={{ xs: 'none', sm: 'block' }}
         >
           {order?.state}
-        </Box>
+        </Box> */}
         <Box
           component={Grid}
           item
@@ -69,21 +69,25 @@ function Order ({ order }) {
           sx={gridItemStyle}
           display={{ xs: 'none', sm: 'block' }}
         >
-          {formatedDeadline}
+          До: {' '}{formatedDeadline || '---'}
         </Box>
       </Grid>
       <Box>
         {order.goods?.map(good => (
-          <Box key={good._id} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <Box
+            key={good._id}
+            sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+          >
             <Good good={good} />
-            <Typography sx={{width: '120px'}}> { good.production} </Typography>
+            <Typography sx={{ width: '120px' }}> {good.production} </Typography>
           </Box>
         ))}
         <Typography color='primary' sx={{ ml: 1, mb: 1, mt: 1 }}>
           Загальна площа замовлення: <strong>{goodsArea} м²</strong>. Загальна
           кількість сіточок: <strong>{goodsQty} шт.</strong> Видано:{' '}
-          <strong>{goodsDelivered} шт.
-          ({goodsDeliveredArea} м²)</strong>
+          <strong>
+            {goodsDelivered} шт. ({goodsDeliveredArea} м²)
+          </strong>
         </Typography>
       </Box>
     </Box>
