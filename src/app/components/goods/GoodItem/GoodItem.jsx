@@ -76,7 +76,7 @@ function GoodItem ({ good }) {
           <Typography><strong>Видачі:</strong> </Typography>
           {good.deliveries.map((del) => (
             <Box key={del._id} sx={{display: 'flex', gap: 1}}>
-              <Tooltip title={del.orderContacts}><Link href={`/orders/${del.orderId}`}><Typography sx={{ '&:hover': { color: 'blue' } }}>{del.date} {del.qty} шт.</Typography></Link></Tooltip> /
+              <Tooltip title={del.orderContacts}><Link target='_blank' href={`/orders/${del.orderId}`}><Typography sx={{ '&:hover': { color: 'blue' } }}>{del.date} {del.qty} шт.</Typography></Link></Tooltip> /
             </Box>
           ))}
         </Grid>}

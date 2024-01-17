@@ -18,8 +18,7 @@ import GoodProductionComponent from '../GoodProductionComponent/GoodProductionCo
 const url = process.env.REACT_APP_SERVER_URL || ''
 const gridItemStyle = { border: '1px solid lightgrey' }
 
-function SingleOrder({ order }) {
-  
+function SingleOrder ({ order }) {
   const formatedDate = format(Date.parse(order?.date), 'dd.MM.yyyy HH:mm')
   const formatedDeadline = order.deadline
     ? format(Date.parse(order.deadline), 'dd.MM.yyyy')
@@ -33,8 +32,6 @@ function SingleOrder({ order }) {
     goodsDeliveredArea,
     goodsColor
   } = calculateGoodsData(order.goods)
-
-  
 
   return (
     <>
@@ -109,13 +106,16 @@ function SingleOrder({ order }) {
         >
           <Good good={good} />
           <Box sx={{ display: 'flex', ml: 'auto', alignItems: 'center' }}>
-            <Box sx={{ width: '120px'}}>
-            {good.production && (
-              <Link href={`/production/${good.production}`}>
-                  <Typography color='primary' sx={{pl: 1,'&:hover':{color: 'blue'}}}>
-                {good.production}
-                </Typography>
-              </Link>
+            <Box sx={{ width: '120px' }}>
+              {good.production && (
+                <Link target='_blank' href={`/production/${good.production}`}>
+                  <Typography
+                    color='primary'
+                    sx={{ pl: 1, '&:hover': { color: 'blue' } }}
+                  >
+                    {good.production}
+                  </Typography>
+                </Link>
               )}
             </Box>
 
@@ -148,26 +148,34 @@ function SingleOrder({ order }) {
         </Box>
       ))}
       <GoodsAddComponent orderId={order._id} url={url} />
-      <Box
-        border={1}
-        borderRadius={2}
-        sx={{ p: 2, mt: 3, boxShadow: 2, width: 'max-content' }}
-      >
-        <Typography color='primary'>
-          Загальна площа: <strong>{goodsArea} м²</strong> <br /> Загальна
-          кількість сіточок: <strong>{goodsQty} шт.</strong> <br /> Видано:{' '}
-          <strong>
-            {goodsDelivered} шт. ({goodsDeliveredArea} м²)
-          </strong>
-        </Typography>
-        <Typography color='primary' sx={{ mt: 2, mb: 1 }}>
-          Витрати матеріалів:
-        </Typography>
-        {goodsColor.map((color, index) => (
-          <Typography color='primary' key={index}>
-            {color.name}: <strong>{color.colorArea} м²</strong>
+      <Box sx={{ display: 'flex', gap: 2, mt: 3, flexWrap: 'wrap' }}>
+        <Box
+          border={1}
+          borderRadius={2}
+          sx={{ p: 2, boxShadow: 2, width: 'max-content' }}
+        >
+          <Typography color='primary'>
+            Загальна площа: <strong>{goodsArea} м²</strong> <br /> Загальна
+            кількість сіточок: <strong>{goodsQty} шт.</strong> <br /> Видано:{' '}
+            <strong>
+              {goodsDelivered} шт. ({goodsDeliveredArea} м²)
+            </strong>
           </Typography>
-        ))}
+        </Box>
+        <Box
+          border={1}
+          borderRadius={2}
+          sx={{ p: 2, boxShadow: 2, width: 'max-content' }}
+        >
+          <Typography color='primary'>
+            Витрати матеріалів:
+          </Typography>
+          {goodsColor.map((color, index) => (
+            <Typography key={index}>
+              {color.name}: <strong>{color.colorArea} м²</strong>
+            </Typography>
+          ))}
+        </Box>
       </Box>
     </>
   )

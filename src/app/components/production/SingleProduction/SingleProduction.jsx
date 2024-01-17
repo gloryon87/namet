@@ -31,7 +31,6 @@ function SingleProduction ({ production }) {
     production.materials,
     goodsColor
   )
-  
 
   return (
     <>
@@ -58,7 +57,13 @@ function SingleProduction ({ production }) {
         <Grid item xs={4} lg={2} border={1}>
           <Typography>Матеріали </Typography>
         </Grid>
-        <Grid item xs={8} lg={10} border={1} sx={{display: 'flex', columnGap: 1, flexWrap: 'wrap'}}>
+        <Grid
+          item
+          xs={8}
+          lg={10}
+          border={1}
+          sx={{ display: 'flex', columnGap: 1, flexWrap: 'wrap' }}
+        >
           {production.materials
             .filter(material => material.qty > 0)
             .map(material => (
@@ -82,7 +87,11 @@ function SingleProduction ({ production }) {
         >
           {good.orderId ? (
             <Tooltip title={good.orderContacts}>
-              <Link style={{ width: '100%' }} href={`/orders/${good.orderId}`}>
+              <Link
+                style={{ width: '100%' }}
+                target='_blank'
+                href={`/orders/${good.orderId}`}
+              >
                 <Box
                   sx={{
                     display: 'flex',
@@ -126,51 +135,74 @@ function SingleProduction ({ production }) {
           </Box>
         </Box>
       ))}
-      <Box
-        border={1}
-        borderRadius={2}
-        sx={{
-          p: 2,
-          mt: 3,
-          boxShadow: 2,
-          width: 'max-content',
-          maxWidth: '100%'
-        }}
-      >
-        <Typography color='primary' sx={{ my: 1 }}>
-          Площа сіточок в роботі:{' '}
-          <strong>{goodsArea - goodsDeliveredArea} м²</strong>.
-          <br />
-          Кількість сіточок в роботі:{' '}
-          <strong>{goodsQty - goodsDelivered} шт.</strong> <br />
-          Видано на склад:{' '}
-          <strong>
-            {goodsDelivered} шт. ({goodsDeliveredArea} м²){' '}
-          </strong>
-        </Typography>
-        <Typography color='primary' sx={{ mt: 3 }}>
-          Витрати матеріалів:
-        </Typography>
-        {goodsColor.map((color, index) =>
-          color.colorArea > 0 ? (
-            <Typography key={index}>
-              {color.name}: {color.colorArea} м²
-            </Typography>
-          ) : null
-        )}
-        <Typography color='primary' sx={{ mt: 3 }}>
-          Залишки матеріалів:
-        </Typography>
-        {materialDifferenceArray.filter(
-          material => material.difference !== 0
-        ).map((material, index) => (
-          <Typography
-            color={material.difference > 0 ? null : 'error'}
-            key={index}
-          >
-            {material.color}: {material.difference} м²
+      <Box sx={{ display: 'flex', gap: 2, mt: 3, flexWrap: 'wrap' }}>
+        <Box
+          border={1}
+          borderRadius={2}
+          sx={{
+            p: 2,
+            boxShadow: 2,
+            width: 'max-content',
+            maxWidth: '100%'
+          }}
+        >
+          <Typography color='primary' sx={{ my: 1 }}>
+            Площа сіточок в роботі:{' '}
+            <strong>{goodsArea - goodsDeliveredArea} м²</strong>.
+            <br />
+            Кількість сіточок в роботі:{' '}
+            <strong>{goodsQty - goodsDelivered} шт.</strong> <br />
+            Видано на склад:{' '}
+            <strong>
+              {goodsDelivered} шт. ({goodsDeliveredArea} м²){' '}
+            </strong>
           </Typography>
-        ))}
+          </Box>
+          <Box
+          border={1}
+          borderRadius={2}
+          sx={{
+            p: 2,
+            boxShadow: 2,
+            width: 'max-content',
+            maxWidth: '100%'
+          }}
+        >
+          <Typography color='primary'>
+            Витрати матеріалів:
+          </Typography>
+          {goodsColor.map((color, index) =>
+            color.colorArea > 0 ? (
+              <Typography key={index}>
+                {color.name}: {color.colorArea} м²
+              </Typography>
+            ) : null
+            )}
+          </Box>
+          <Box
+          border={1}
+          borderRadius={2}
+          sx={{
+            p: 2,
+            boxShadow: 2,
+            width: 'max-content',
+            maxWidth: '100%'
+          }}
+        >
+          <Typography color='primary'>
+            Залишки матеріалів:
+          </Typography>
+          {materialDifferenceArray
+            .filter(material => material.difference !== 0)
+            .map((material, index) => (
+              <Typography
+                color={material.difference > 0 ? null : 'error'}
+                key={index}
+              >
+                {material.color}: {material.difference} м²
+              </Typography>
+            ))}
+            </Box>
       </Box>
     </>
   )
