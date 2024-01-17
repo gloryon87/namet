@@ -127,14 +127,14 @@ export default async function ProductionPage () {
       </Grid> */}
 
       {/* Виробництва */}
-      <ol>
+      <Box component='ol' sx={{ border: 1}}>
         {data?.length > 0 &&
           data.map(prod => (
             <li key={prod._id} style={{ fontSize: 13 }}>
               <Production prod={ prod } />
             </li>
           ))}
-      </ol>
+      </Box>
     </>
   )
 }

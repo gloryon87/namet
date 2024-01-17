@@ -73,7 +73,7 @@ async function Orders ({ searchParams }) {
             </Button>
           </Link>
       )}
-      <Box>
+      {/* <Box> */}
         <Box sx={{ position: 'relative' }}>
           <Link href='/orders/addNewOrder'>
             <Fab
@@ -149,7 +149,7 @@ async function Orders ({ searchParams }) {
             Дедлайн
           </Box>
         </Grid> */}
-        <ol>
+      <Box component='ol' sx={{ border: 1}}>
           {data &&
             data.map(order => (
               <li style={{ fontSize: 13 }} key={order._id}>
@@ -158,8 +158,8 @@ async function Orders ({ searchParams }) {
                 </Link>
               </li>
             ))}
-        </ol>
       </Box>
+      {/* </Box> */}
       {Object.keys(searchParams).length === 0 && (
         <Box sx={{ textAlign: 'center' }}>
           <Link href='/orders?all=true'>
