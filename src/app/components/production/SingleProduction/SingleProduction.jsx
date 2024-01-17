@@ -97,7 +97,8 @@ function SingleProduction ({ production }) {
                     display: 'flex',
                     alignItems: 'center',
                     height: '100%',
-                    width: '100%'
+                    width: '100%',
+                    '&:hover': { backgroundColor: '#eceff1' }
                   }}
                 >
                   <Good good={good} />

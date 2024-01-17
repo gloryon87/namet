@@ -109,12 +109,12 @@ function SingleOrder ({ order }) {
             <Box sx={{ width: '120px' }}>
               {good.production && (
                 <Link target='_blank' href={`/production/${good.production}`}>
-                  <Typography
-                    color='primary'
-                    sx={{ pl: 1, '&:hover': { color: 'blue' } }}
-                  >
-                    {good.production}
-                  </Typography>
+                    <Typography
+                      color='primary'
+                      sx={{ pl: 1, '&:hover': { color: '#2c387e' } }}
+                    >
+                      {good.production}
+                    </Typography>
                 </Link>
               )}
             </Box>
@@ -167,12 +167,10 @@ function SingleOrder ({ order }) {
           borderRadius={2}
           sx={{ p: 2, boxShadow: 2, width: 'max-content' }}
         >
-          <Typography color='primary'>
-            Витрати матеріалів:
-          </Typography>
+          <Typography color='primary'>Потреби в матеріалах:</Typography>
           {goodsColor.map((color, index) => (
             <Typography key={index}>
-              {color.name}: <strong>{color.colorArea} м²</strong>
+              {color.name}: {color.colorArea} м²
             </Typography>
           ))}
         </Box>
