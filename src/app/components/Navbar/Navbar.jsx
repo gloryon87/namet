@@ -18,7 +18,7 @@ function Navbar () {
       <MenuItem sx={menuItemStyle}>
         <Link
           href='/production'
-          className={`${style.link} ${pathname === '/production' ? style.active : ''}`}
+          className={`${style.link} ${pathname.startsWith('/production') ? style.active : ''}`}
         >
             Виробники
         </Link>
@@ -27,7 +27,7 @@ function Navbar () {
         <Link
           href='/orders'
           className={`${style.link} ${
-            pathname === '/orders' ? style.active : ''
+            pathname.startsWith('/orders') ? style.active : ''
           }`}
         >
           Замовлення

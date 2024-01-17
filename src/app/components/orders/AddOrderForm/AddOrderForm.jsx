@@ -13,6 +13,8 @@ import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined
 import { useRouter } from 'next/navigation'
 import { colors } from '../../../variables.js'
 import formatDate from '@/app/utils/formatDate'
+import { revalidatePath } from 'next/cache'
+
 
 function AddOrderForm({url}) {
   const [error, setError] = useState(null)
@@ -61,7 +63,7 @@ const handleSelectColor = (name, value, index) => {
       if (i === index) {
         const prevColor = good.color || [];
 
-        if (value === 0) {
+        if (value === 0 || '') {
           // If value is 0, remove the color with the specified name
           return {
             ...good,
@@ -130,6 +132,7 @@ const handleAddGood = () => {
         throw new Error(`HTTP помилка! Статус: ${res.status}`)
       }
       router.push(`/orders/${orderId}`)
+      revalidatePath('/orders')
     } catch (error) {
       setError('Не вдалось додати замовлення')
     } finally {
@@ -280,7 +283,7 @@ const handleAddGood = () => {
                   required
                 />
               </Grid>
-               <Grid item xs={6} sm={4} lg={2}>
+               {/* <Grid item xs={6} sm={4} lg={2}>
                 <TextField
                   label='Видано'
                   name={'delivered'}
@@ -290,7 +293,7 @@ const handleAddGood = () => {
                   InputProps={{ inputProps: { min: 0 } }}
                   fullWidth
                 />
-              </Grid>
+              </Grid> */}
               <Grid item xs={6} sm={4} lg={2}>
                 <FormControl fullWidth>
                   <InputLabel>Сезон *</InputLabel>
@@ -308,7 +311,7 @@ const handleAddGood = () => {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={6} sm={4} lg={2}>
+              <Grid item xs={12} sm={8} lg={4}>
                 <TextField
                   label='Матеріал'
                   name={'material'}
@@ -323,14 +326,14 @@ const handleAddGood = () => {
             </Typography>
             <Grid container spacing={2} sx={{ flexGrow: 1, mb: 2 }}>
               {colors?.map(color => (
-                <Grid item xs={6} md={3} lg={2} key={color}>
+                <Grid item xs={6} sm={4} md={3} lg={2} key={color}>
                   <TextField
                     label={color}
                     name={color}
-                    value={good.color?.find(c => c.name === color)?.qty || 0}
+                    value={good.color?.find(c => c.name === color)?.qty || ''}
                     onChange={e => handleSelectColor(color, +e.target.value, index)}
                     type='number'
-                    InputProps={{ inputProps: { min: 0 } }}
+                    InputProps={{ inputProps: { min: 0, max: 4 } }}
                     fullWidth
                   />
                 </Grid>

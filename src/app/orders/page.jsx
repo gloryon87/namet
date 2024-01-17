@@ -67,7 +67,7 @@ async function Orders ({ searchParams }) {
           </strong>
         </Typography>
       ) : (
-          <Link href='/orders?all=true'>
+          <Link href='/orders?all=true' scroll={false}>
             <Button color='primary' sx={{ mb: 1 }}>
               показати всі замовлення
             </Button>
@@ -162,7 +162,7 @@ async function Orders ({ searchParams }) {
       {/* </Box> */}
       {Object.keys(searchParams).length === 0 && (
         <Box sx={{ textAlign: 'center' }}>
-          <Link href='/orders?all=true'>
+          <Link href='/orders?all=true' scroll={false}>
             <Button color='primary' sx={{ mt: 2 }}>
               показати всі замовлення
             </Button>

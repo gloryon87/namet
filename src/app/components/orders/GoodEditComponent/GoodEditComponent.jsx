@@ -60,7 +60,7 @@ function GoodEditComponent({ orderId, good, url, goodId }) {
   setFormData(prevData => {
     const prevColor = prevData.color || []
 
-    if (value === 0) {
+    if (value === 0 || '') {
       return {
         ...prevData,
         color: prevColor.filter(color => color.name !== name)
@@ -194,10 +194,10 @@ function GoodEditComponent({ orderId, good, url, goodId }) {
                   <TextField
                     label={color}
                     name={color}
-                    value={formData.color.find(c => c.name === color)?.qty || 0}
+                    value={formData.color.find(c => c.name === color)?.qty || ''}
                     onChange={e => handleSelectColor(color, +e.target.value)}
                     type='number'
-                    InputProps={{ inputProps: { min: 0 } }}
+                    InputProps={{ inputProps: { min: 0, max: 4 } }}
                     fullWidth
                   />
                 </Grid>

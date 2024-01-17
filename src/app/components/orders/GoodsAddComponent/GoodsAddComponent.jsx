@@ -41,7 +41,7 @@ function GoodsAddComponent ({ orderId, url }) {
     setFormData(prevData => {
       const prevColor = prevData.color || []
 
-      if (value === 0) {
+      if (value === 0 || '') {
         return {
           ...prevData,
           color: prevColor.filter(color => color.name !== name)
@@ -96,7 +96,7 @@ function GoodsAddComponent ({ orderId, url }) {
               Додати новий товар до замовлення
             </Typography>
             <Grid container spacing={2} sx={{ mt: 1, mb: 3 }}>
-              <Grid item xs={12} md={2}>
+              <Grid item xs={6} sm={4} lg={2}>
                 <TextField
                   label='Ширина, м.'
                   name={'a'}
@@ -108,7 +108,7 @@ function GoodsAddComponent ({ orderId, url }) {
                   required
                 />
               </Grid>
-              <Grid item xs={12} md={2}>
+              <Grid item xs={6} sm={4} lg={2}>
                 <TextField
                   label='Довжина, м.'
                   name={'b'}
@@ -120,7 +120,7 @@ function GoodsAddComponent ({ orderId, url }) {
                   required
                 />
               </Grid>
-              <Grid item xs={12} md={2}>
+              <Grid item xs={6} sm={4} lg={2}>
                 <TextField
                   label='Кількість'
                   name={'qty'}
@@ -132,7 +132,7 @@ function GoodsAddComponent ({ orderId, url }) {
                   required
                 />
               </Grid>
-              <Grid item xs={12} md={2}>
+              {/* <Grid item xs={12} md={2}>
                 <TextField
                   label='Видано'
                   name={'delivered'}
@@ -142,8 +142,8 @@ function GoodsAddComponent ({ orderId, url }) {
                   InputProps={{ inputProps: { min: 0 } }}
                   fullWidth
                 />
-              </Grid>
-              <Grid item xs={12} md={2}>
+              </Grid> */}
+              <Grid item xs={6} sm={4} lg={2}>
                 <FormControl fullWidth>
                   <InputLabel>Сезон *</InputLabel>
                   <Select
@@ -160,7 +160,7 @@ function GoodsAddComponent ({ orderId, url }) {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={12} md={2}>
+              <Grid item xs={12} sm={8} lg={4}>
                 <TextField
                   label='Матеріал'
                   name={'material'}
@@ -173,14 +173,14 @@ function GoodsAddComponent ({ orderId, url }) {
                 <Typography> Кольори </Typography>
               </Grid>
               {colors.map(color => (
-                <Grid item xs={12} md={2} key={color}>
+                <Grid item xs={6} sm={4} md={3} lg={2} key={color}>
                   <TextField
                     label={color}
                     name={color}
-                    value={formData.color.find(c => c.name === color)?.qty || 0}
+                    value={formData.color.find(c => c.name === color)?.qty || ''}
                     onChange={e => handleSelectColor(color, +e.target.value)}
                     type='number'
-                    InputProps={{ inputProps: { min: 0 } }}
+                    InputProps={{ inputProps: { min: 0, max: 4 } }}
                     fullWidth
                   />
                 </Grid>
