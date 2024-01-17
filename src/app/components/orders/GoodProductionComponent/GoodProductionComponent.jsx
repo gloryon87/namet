@@ -33,7 +33,7 @@ function GoodProductionComponent ({
   })
   const router = useRouter()
 
-  const goodToProductionColor = good.color.map(color => { color.name = color.name, color.colorArea = Math.ceil(color.colorArea / good.qty * qty) })
+  // const goodToProductionColor = good.color.map(color => { color.name = color.name, color.colorArea = Math.ceil(color.colorArea / good.qty * qty) })
 
 
   // Функція закриття модального вікна
@@ -71,7 +71,7 @@ function GoodProductionComponent ({
           },
           body: JSON.stringify({
             ...good,
-            qty: qty,
+            qty: +qty,
             orderId: orderId,
             orderContacts: orderContacts
           })

@@ -46,7 +46,7 @@ function OrderControlBar ({ order, url }) {
   const handleChange = e => {
     const { name, value } = e.target
     const formattedValue =
-      name === 'date' || 'deadline' ? formatDate(new Date(value)) : value
+  name === 'date' || name === 'deadline' ? formatDate(new Date(value)) : value
     setFormData({ ...formData, [name]: formattedValue })
   }
 
@@ -147,8 +147,9 @@ function OrderControlBar ({ order, url }) {
                 <TextField
                   label='Замовник'
                   name='contacts'
+                  type='text'
                   value={formData.contacts}
-                  onChange={handleChange}
+                  onChange={e => handleChange(e)}
                   fullWidth
                   margin='normal'
                 />
@@ -161,7 +162,7 @@ function OrderControlBar ({ order, url }) {
                   name='date'
                   type='date'
                   value={formData.date}
-                  onChange={handleChange}
+                  onChange={e => handleChange(e)}
                   InputLabelProps={{
                     shrink: true
                   }}
@@ -181,7 +182,7 @@ function OrderControlBar ({ order, url }) {
                       ? formData.deadline
                       : formatDate(new Date())
                   }
-                  onChange={handleChange}
+                  onChange={e => handleChange(e)}
                   InputLabelProps={{
                     shrink: true
                   }}
@@ -195,8 +196,9 @@ function OrderControlBar ({ order, url }) {
                 <TextField
                   label='Коментар'
                   name='info'
+                  type='text'
                   value={formData.info}
-                  onChange={handleChange}
+                  onChange={e => handleChange(e)}
                   fullWidth
                   multiline
                   rows={4}
@@ -211,8 +213,9 @@ function OrderControlBar ({ order, url }) {
                   <Select
                     label='Стан'
                     name='state'
+                    type='text'
                     value={formData.state}
-                    onChange={handleChange}
+                    onChange={e => handleChange(e)}
                   >
                     <MenuItem value='прийнято'>Прийнято</MenuItem>
                     <MenuItem value='в роботі'>В роботі</MenuItem>
@@ -229,8 +232,9 @@ function OrderControlBar ({ order, url }) {
                   <Select
                     label='Пріоритет'
                     name='priority'
+                    type='text'
                     value={formData.priority}
-                    onChange={handleChange}
+                    onChange={e => handleChange(e)}
                   >
                     <MenuItem value='вис.'>Високий</MenuItem>
                     <MenuItem value='норм.'>Нормальний</MenuItem>
