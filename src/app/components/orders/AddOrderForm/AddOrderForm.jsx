@@ -9,17 +9,21 @@ import InputLabel from '@mui/material/InputLabel'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import Grid from '@mui/material/Grid'
-import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
+import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined'
 import { useRouter } from 'next/navigation'
 import { colors } from '../../../variables.js'
 import formatDate from '@/app/utils/formatDate'
-import { revalidatePath } from 'next/cache'
 
-
-function AddOrderForm({url}) {
+function AddOrderForm ({ url }) {
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(null)
-  const initialFormData = { date: new Date(), goods: [{material: 'спанбонд'}], deadline: '', state: 'прийнято', priority: 'норм.' }
+  const initialFormData = {
+    date: new Date(),
+    goods: [{ material: 'спанбонд' }],
+    deadline: '',
+    state: 'прийнято',
+    priority: 'норм.'
+  }
   const [formData, setFormData] = useState(initialFormData)
   const router = useRouter()
 
@@ -52,60 +56,64 @@ function AddOrderForm({url}) {
 
   const handleCancel = () => {
     setFormData(() => initialFormData)
+    setError(null)
+    setLoading(null)
   }
 
-const handleSelectColor = (name, value, index) => {
-  setFormData((prevData) => {
-    const prevGoods = prevData.goods || [];
+  const handleSelectColor = (name, value, index) => {
+    setFormData(prevData => {
+      const prevGoods = prevData.goods || []
 
-    const updatedGoods = prevGoods.map((good, i) => {
-      // Check if the current good is the one at the specified index
-      if (i === index) {
-        const prevColor = good.color || [];
+      const updatedGoods = prevGoods.map((good, i) => {
+        // Check if the current good is the one at the specified index
+        if (i === index) {
+          const prevColor = good.color || []
 
-        if (value === 0 || '') {
-          // If value is 0, remove the color with the specified name
-          return {
-            ...good,
-            color: prevColor.filter((color) => color.name !== name),
-          };
+          if (value === 0 || '') {
+            // If value is 0, remove the color with the specified name
+            return {
+              ...good,
+              color: prevColor.filter(color => color.name !== name)
+            }
+          }
+
+          const existingColor = prevColor.find(color => color.name === name)
+
+          if (existingColor) {
+            // If color already exists, update its quantity
+            existingColor.qty = +value
+          } else {
+            // If color doesn't exist, add a new color
+            const updatedColor = { name, qty: +value }
+            prevColor.push(updatedColor)
+          }
+
+          return { ...good, color: prevColor }
         }
 
-        const existingColor = prevColor.find((color) => color.name === name);
+        // For goods other than the one at the specified index, return as is
+        return good
+      })
 
-        if (existingColor) {
-          // If color already exists, update its quantity
-          existingColor.qty = +value;
-        } else {
-          // If color doesn't exist, add a new color
-          const updatedColor = { name, qty: +value };
-          prevColor.push(updatedColor);
-        }
+      return { ...prevData, goods: updatedGoods }
+    })
+  }
 
-        return { ...good, color: prevColor };
-      }
+  const handleAddGood = () => {
+    const updatedGoods = [...formData.goods]
+    updatedGoods.push({ material: 'спанбонд' })
+    setFormData(prevData => ({ ...prevData, goods: updatedGoods }))
+    setTimeout(() => {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }),
+        500
+    })
+  }
 
-      // For goods other than the one at the specified index, return as is
-      return good;
-    });
-
-    return { ...prevData, goods: updatedGoods };
-  });
-};
-
-
-const handleAddGood = () => {
-  const updatedGoods = [...formData.goods];
-  updatedGoods.push({material: 'спанбонд'});
-  setFormData((prevData) => ({ ...prevData, goods: updatedGoods }));
-  setTimeout(() => {window.scrollTo({top: document.body.scrollHeight, behavior: "smooth"}), 500})
-};
-
-  const handleDeleteGood = (index) => {
-  const updatedGoods = [...formData.goods];
-  updatedGoods.splice(index, 1)
-  setFormData((prevData) => ({ ...prevData, goods: updatedGoods }));
-};
+  const handleDeleteGood = index => {
+    const updatedGoods = [...formData.goods]
+    updatedGoods.splice(index, 1)
+    setFormData(prevData => ({ ...prevData, goods: updatedGoods }))
+  }
 
   async function handleSubmit (e) {
     e.preventDefault()
@@ -116,6 +124,10 @@ const handleAddGood = () => {
     const stringifiedDate = formatToISOString(formData.date)
     const stringifiedDeadline = formatToISOString(formData.deadline)
 
+    if (formData.goods.some(good => !good.color || good.color.length === 0)) {
+      return setError('Оберіть хоча б один колір для кожного товару')
+    }
+
     try {
       setLoading(true)
       setError(null)
@@ -123,18 +135,34 @@ const handleAddGood = () => {
       const res = await fetch(`${url}/api/orders`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, goods: updatedGoodsColorData, date: stringifiedDate, deadline: stringifiedDeadline })
+        body: JSON.stringify({
+          ...formData,
+          goods: updatedGoodsColorData,
+          date: stringifiedDate,
+          deadline: stringifiedDeadline
+        })
       })
-      const data = await res.json();
-      const orderId = data.orderId;
+      const data = await res.json()
+      const orderId = data.orderId
 
       if (!res.ok) {
         throw new Error(`HTTP помилка! Статус: ${res.status}`)
       }
+      router.replace('/orders')
       router.push(`/orders/${orderId}`)
-      revalidatePath('/orders')
     } catch (error) {
-      setError('Не вдалось додати замовлення')
+      console.error('Помилка:', error)
+      if (error instanceof TypeError) {
+        return setError(
+          "Виникла помилка мережі. Будь ласка, перевірте з'єднання з Інтернетом."
+        )
+      }
+      if (error instanceof SyntaxError) {
+        return setError('Отримано неправильний формат даних від сервера.')
+      }
+      setError(
+        'Не вдалось додати замовлення. Будь ласка, спробуйте знову пізніше.'
+      )
     } finally {
       setLoading(false)
     }
@@ -242,9 +270,16 @@ const handleAddGood = () => {
         </Typography>
         {formData.goods.map((good, index) => (
           <Box key={index}>
-            <Box sx={{display: 'flex', gap: 2, mb: 1}}>
-            <Typography sx={{display: 'flex', alignItems: 'center', fontWeight: 600}}>{`Товар №${index + 1}`}</Typography>
-            <Button color='error' onClick={e => setTimeout(() => handleDeleteGood(index), 500)}><DeleteForeverOutlinedIcon/></Button>
+            <Box sx={{ display: 'flex', gap: 2, mb: 1 }}>
+              <Typography
+                sx={{ display: 'flex', alignItems: 'center', fontWeight: 600 }}
+              >{`Товар №${index + 1}`}</Typography>
+              <Button
+                color='error'
+                onClick={e => setTimeout(() => handleDeleteGood(index), 500)}
+              >
+                <DeleteForeverOutlinedIcon />
+              </Button>
             </Box>
             <Grid container spacing={2} sx={{ flexGrow: 1 }}>
               <Grid item xs={6} sm={4} lg={2}>
@@ -254,6 +289,8 @@ const handleAddGood = () => {
                   value={good.a || ''}
                   onChange={e => handleChangeGood(e, index)}
                   type='number'
+                  error={8 < good.a || good.a < 2}
+                  helperText='*Введіть число від 2 до 8'
                   InputProps={{ inputProps: { min: 2, max: 8 } }}
                   fullWidth
                   required
@@ -266,7 +303,9 @@ const handleAddGood = () => {
                   value={good.b || ''}
                   onChange={e => handleChangeGood(e, index)}
                   type='number'
-                  InputProps={{ inputProps: { min: 4, max: 16 } }}
+                  error={12 < good.b || good.b < 4}
+                  helperText='*Введіть число від 4 до 12'
+                  InputProps={{ inputProps: { min: 4, max: 12 } }}
                   fullWidth
                   required
                 />
@@ -283,7 +322,7 @@ const handleAddGood = () => {
                   required
                 />
               </Grid>
-               {/* <Grid item xs={6} sm={4} lg={2}>
+              {/* <Grid item xs={6} sm={4} lg={2}>
                 <TextField
                   label='Видано'
                   name={'delivered'}
@@ -331,7 +370,9 @@ const handleAddGood = () => {
                     label={color}
                     name={color}
                     value={good.color?.find(c => c.name === color)?.qty || ''}
-                    onChange={e => handleSelectColor(color, +e.target.value, index)}
+                    onChange={e =>
+                      handleSelectColor(color, +e.target.value, index)
+                    }
                     type='number'
                     InputProps={{ inputProps: { min: 0, max: 4 } }}
                     fullWidth
@@ -346,26 +387,24 @@ const handleAddGood = () => {
           Додати товар
         </Button>
 
-        <Box sx={{display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 2}}>
-        <Button
-          variant='outlined'
-          color='error'
-          onClick={handleCancel}
+        <Box
+          sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 2 }}
         >
-          Скинути
-        </Button>
-        <Button variant='outlined' color='primary' type='submit'>
-          Зберегти
-        </Button>
+          <Button variant='outlined' color='error' onClick={handleCancel}>
+            Скинути
+          </Button>
+          <Button variant='outlined' color='primary' type='submit'>
+            Зберегти
+          </Button>
         </Box>
       </Box>
       {error && (
-        <Typography variant='h5' color='error'>
+        <Typography variant='h5' color='error' align='center'>
           {error}
         </Typography>
       )}
       {loading && (
-        <Typography variant='h6' color='primary'>
+        <Typography variant='h6' color='primary' align='center'>
           попийте чайок...
         </Typography>
       )}

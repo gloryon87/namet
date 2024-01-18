@@ -33,6 +33,7 @@ function GoodEditComponent({ orderId, good, url, goodId }) {
   const handleSubmit = async e => {
     e.preventDefault()
     const hasChanges = JSON.stringify(formData) !== JSON.stringify(good)
+    if (formData.color.length === 0) return setError('Оберіть хоча б один колір')
 
     if (hasChanges) {
       handleEdit()
@@ -53,6 +54,8 @@ function GoodEditComponent({ orderId, good, url, goodId }) {
 
   function handleClose () {
     setFormData(() => initialData)
+    setError(null)
+    setLoading(null)
     setOpenModal(false)
   }
 
@@ -119,6 +122,8 @@ function GoodEditComponent({ orderId, good, url, goodId }) {
                   value={formData.a}
                   onChange={handleChangeNumber}
                   type='number'
+                  error={8 < formData.a || formData.a < 2}
+                  helperText = '*Введіть число від 2 до 8'
                   InputProps={{ inputProps: { min: 2, max: 8 } }}
                   fullWidth
                   required
@@ -131,7 +136,9 @@ function GoodEditComponent({ orderId, good, url, goodId }) {
                   value={formData.b}
                   onChange={handleChangeNumber}
                   type='number'
-                  InputProps={{ inputProps: { min: 4, max: 16 } }}
+                  error={12 < formData.b || formData.b < 4}
+                  helperText = '*Введіть число від 4 до 12'
+                  InputProps={{ inputProps: { min: 4, max: 12 } }}
                   fullWidth
                   required
                 />
@@ -218,12 +225,12 @@ function GoodEditComponent({ orderId, good, url, goodId }) {
             </Box>
           </form>
           {error && (
-            <Typography variant='h4' color='error'>
+            <Typography variant='h4' color='error' align='center'>
               {error}
             </Typography>
           )}
           {loading && (
-            <Typography variant='h6' color='primary'>
+            <Typography variant='h6' color='primary' align='center'>
               попийте чайок...
             </Typography>
           )}

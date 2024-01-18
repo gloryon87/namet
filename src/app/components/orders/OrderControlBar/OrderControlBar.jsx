@@ -46,11 +46,14 @@ function OrderControlBar ({ order, url }) {
   const handleChange = e => {
     const { name, value } = e.target
     const formattedValue =
-  name === 'date' || name === 'deadline' ? formatDate(new Date(value)) : value
+      name === 'date' || name === 'deadline'
+        ? formatDate(new Date(value))
+        : value
     setFormData({ ...formData, [name]: formattedValue })
   }
 
   function handleClose () {
+    setError(null)
     setOpenEditModal(false)
     setFormData(() => initialData)
   }
@@ -76,6 +79,7 @@ function OrderControlBar ({ order, url }) {
   }
 
   function handleDeleteModalClose () {
+    setError(null)
     setOpenDeleteModal(false)
   }
 
@@ -90,13 +94,21 @@ function OrderControlBar ({ order, url }) {
         method: 'DELETE'
       })
       if (res.ok) {
+        router.replace('/orders')
         router.push('/orders')
+        setOpenDeleteModal(false)
       }
       return res.json()
     } catch (error) {
-      setError('Не вдалось видалити замовлення')
-    } finally {
-      setOpenDeleteModal(false)
+      console.log(error)
+      if (error instanceof TypeError) {
+        return setError(
+          "Виникла помилка мережі. Будь ласка, перевірте з'єднання з Інтернетом."
+        )
+      }
+      setError(
+        'Не вдалось видалити замовлення. Будь ласка, спробуйте знову пізніше.'
+      )
     }
   }
 
@@ -130,11 +142,7 @@ function OrderControlBar ({ order, url }) {
             onSubmit={e => handleSubmit(e)}
             sx={modalStyles}
           >
-            <Typography
-              variant='h6'
-              component='h2'
-              sx={{ mb: 2 }}
-            >
+            <Typography variant='h6' component='h2' sx={{ mb: 2 }}>
               Редагувати замовлення
             </Typography>
             <Grid

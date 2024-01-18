@@ -34,6 +34,8 @@ function GoodsAddComponent ({ orderId, url }) {
 
   function handleClose () {
     setFormData(() => initialFormData)
+    setError(null)
+    setLoading(null)
     setOpenModal(false)
   }
 
@@ -64,6 +66,7 @@ function GoodsAddComponent ({ orderId, url }) {
   async function handleSubmit (e) {
     e.preventDefault()
     const updatedColorData = formData.color.filter(color => color.qty > 0)
+    if (updatedColorData.length === 0) return setError('Оберіть хоча б один колір')
 
     try {
       setLoading(true)
@@ -78,7 +81,7 @@ function GoodsAddComponent ({ orderId, url }) {
       if (!res.ok) {
         throw new Error(`HTTP помилка! Статус: ${res.status}`)
       }
-      handleClose()
+      setOpenModal(false)
       router.refresh()
     } catch (error) {
       setError('Не вдалось додати товар')
@@ -103,6 +106,8 @@ function GoodsAddComponent ({ orderId, url }) {
                   value={formData.a}
                   onChange={handleChange}
                   type='number'
+                  error={8 < formData.a || formData.a < 2}
+                  helperText = '*Введіть число від 2 до 8'
                   InputProps={{ inputProps: { min: 2, max: 8 } }}
                   fullWidth
                   required
@@ -115,7 +120,9 @@ function GoodsAddComponent ({ orderId, url }) {
                   value={formData.b}
                   onChange={handleChange}
                   type='number'
-                  InputProps={{ inputProps: { min: 4, max: 16 } }}
+                  error={12 < formData.b || formData.b < 4}
+                  helperText = '*Введіть число від 4 до 12'
+                  InputProps={{ inputProps: { min: 4, max: 12 } }}
                   fullWidth
                   required
                 />
@@ -201,12 +208,12 @@ function GoodsAddComponent ({ orderId, url }) {
             </Box>
           </Box>
           {error && (
-            <Typography variant='h5' color='error'>
+            <Typography variant='h5' color='error' align='center'>
               {error}
             </Typography>
           )}
           {loading && (
-            <Typography variant='h6' color='primary'>
+            <Typography variant='h6' color='primary' align='center'>
               попийте чайок...
             </Typography>
           )}
