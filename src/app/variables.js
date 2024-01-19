@@ -5,7 +5,8 @@ export const colors = [
   'сірий',
   'коричневий',
   'олива',
-  'зелений'
+  'зелений',
+  'піксель'
 ]
 export const productions = [
   { name: 'Коротич', id: '6593c3c1fe3d1e15021961a5' },

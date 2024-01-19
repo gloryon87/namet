@@ -14,7 +14,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={roboto.className}>
         <Container maxWidth='xl' 
-        sx={{mx: 3, mb: 6, width: 'auto' }}
+          sx={{ mx: { xs: 0, md: 3}, mb: 6, width: 'auto' }}
         >
         <Navbar/>{children}
         </Container>

@@ -4,14 +4,13 @@ import Good from '../Good/Good'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import Button from '@mui/material/Button'
 import Link from 'next/link'
 import OrderControlBar from '../OrderControlBar/OrderControlBar'
 import GoodEditComponent from '../GoodEditComponent/GoodEditComponent'
 import GoodDeleteComponent from '../GoodDeleteComponent/GoodDeleteComponent'
 import GoodsAddComponent from '../GoodsAddComponent/GoodsAddComponent'
 import GoodDeliverComponent from '../GoodDeliverComponent/GoodDeliverComponent'
-import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined'
+import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined'
 import calculateGoodsData from '@/app/utils/calculateGoodsData'
 import GoodProductionComponent from '../GoodProductionComponent/GoodProductionComponent'
 
@@ -35,13 +34,18 @@ function SingleOrder ({ order }) {
 
   return (
     <>
-      <Link href='/orders'>
-        {' '}
-        <Button sx={{ gap: 1, mb: 1 }}>
+      <Box sx={{ display: 'flex', mb: 2, flexWrap: 'wrap' }}>
+        <Link href='/orders'>
+          <Typography color='primary' sx={{ '&:hover': { color: '#2c387e' } }}>
+            Всі замовлення
+          </Typography>
+        </Link>
+        <Typography>
           {' '}
-          <ArrowBackOutlinedIcon /> До замовлень{' '}
-        </Button>
-      </Link>
+          <KeyboardArrowRightOutlinedIcon />{' '}
+        </Typography>
+        <Typography color='grey'> Замовлення № {order._id} </Typography>
+      </Box>
       <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
         <Typography sx={{ display: 'flex', alignItems: 'center' }}>
           {' '}
@@ -105,45 +109,54 @@ function SingleOrder ({ order }) {
           }}
         >
           <Good good={good} />
-          <Box sx={{ display: 'flex', ml: 'auto', alignItems: 'center' }}>
-            <Box sx={{ width: '120px' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexWrap: { xs: 'wrap', md: 'nowrap'},
+              ml: 'auto',
+              alignItems: 'center'
+            }}
+          >
+            <Box sx={{ width: '120px', ml: 'auto' }}>
               {good.production && (
                 <Link target='_blank' href={`/production/${good.production}`}>
-                    <Typography
-                      color='primary'
-                      sx={{ pl: 1, '&:hover': { color: '#2c387e' } }}
-                    >
-                      {good.production}
-                    </Typography>
+                  <Typography
+                    color='primary'
+                    sx={{ pl: 1, '&:hover': { color: '#2c387e' } }}
+                  >
+                    {good.production}
+                  </Typography>
                 </Link>
               )}
             </Box>
 
-            <GoodProductionComponent
-              orderId={order._id}
-              orderContacts={order.contacts}
-              good={good}
-              goodId={good._id}
-              url={url}
-            />
-            <GoodDeliverComponent
-              orderId={order._id}
-              orderContacts={order.contacts}
-              good={good}
-              goodId={good._id}
-              url={url}
-            />
-            <GoodEditComponent
-              orderId={order._id}
-              good={good}
-              goodId={good._id}
-              url={url}
-            />
-            <GoodDeleteComponent
-              orderId={order._id}
-              goodId={good._id}
-              url={url}
-            />
+            <Box sx={{display: 'flex', ml: 'auto'}}>
+              <GoodProductionComponent
+                orderId={order._id}
+                orderContacts={order.contacts}
+                good={good}
+                goodId={good._id}
+                url={url}
+              />
+              <GoodDeliverComponent
+                orderId={order._id}
+                orderContacts={order.contacts}
+                good={good}
+                goodId={good._id}
+                url={url}
+              />
+              <GoodEditComponent
+                orderId={order._id}
+                good={good}
+                goodId={good._id}
+                url={url}
+              />
+              <GoodDeleteComponent
+                orderId={order._id}
+                goodId={good._id}
+                url={url}
+              />
+            </Box>
           </Box>
         </Box>
       ))}

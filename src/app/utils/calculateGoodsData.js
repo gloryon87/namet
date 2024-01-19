@@ -36,7 +36,8 @@ const goodsColor = goodsColorArray.reduce((acc, current) => {
   }
 
   return acc
-}, [])
+}, []).filter(color => color.colorArea > 0)
+  
 
 
   return {
