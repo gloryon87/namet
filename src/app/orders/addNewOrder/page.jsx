@@ -1,21 +1,33 @@
 import React from 'react'
 import AddOrderForm from '@/app/components/orders/AddOrderForm/AddOrderForm'
-import Button from '@mui/material/Button'
-import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined'
 import Link from 'next/link'
 
 const url = process.env.REACT_APP_SERVER_URL || ''
 
 export const metadata = {
-  title: 'Нове замовлення',
-};
-
+  title: 'Нове замовлення'
+}
 
 function addNewOrder () {
   return (
     <>
-    <Link href='/orders'> <Button sx={{gap: 1, mb: 1 }}> <ArrowBackOutlinedIcon/> До замовлень </Button></Link>
-    <AddOrderForm url={url}/>
+      <Box sx={{ display: 'flex', mb: 2, flexWrap: 'wrap' }}>
+        <Link href='/orders'>
+          <Typography color='primary' sx={{ '&:hover': { color: '#2c387e' } }}>
+            Всі замовлення
+          </Typography>
+        </Link>
+        <Typography>
+          {' '}
+          <KeyboardArrowRightOutlinedIcon />{' '}
+        </Typography>
+        <Typography color='grey'> Додати нове замовлення </Typography>
+      </Box>
+
+      <AddOrderForm url={url} />
     </>
   )
 }

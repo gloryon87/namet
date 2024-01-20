@@ -64,7 +64,7 @@ function EditMaterial ({ material, url, materialId }) {
         <Box component='form' onSubmit={e => handleSubmit(e)} sx={modalStyles}>
           <Typography color='primary'>Редагувати матеріал</Typography>
           <Grid container spacing={1} sx={{ m: 0, width: 'auto' }}>
-            <Grid item xs={8} sx={{ display: 'flex', height: 64 }}>
+            <Grid item xs={8} md={10} sx={{ display: 'flex', height: 64 }}>
               <Typography
                 sx={{
                   display: 'flex',
@@ -79,7 +79,7 @@ function EditMaterial ({ material, url, materialId }) {
                 {material.color} {material.material}
               </Typography>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={4} md={2}>
               <TextField
                 label='Кількість'
                 name={'qty'}

@@ -5,15 +5,10 @@ import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 import Typography from '@mui/material/Typography'
 import { modalStyles } from '../../../styles/modalStyles'
-import TextField from '@mui/material/TextField'
-import FormControl from '@mui/material/FormControl'
-import InputLabel from '@mui/material/InputLabel'
-import Select from '@mui/material/Select'
-import MenuItem from '@mui/material/MenuItem'
-import Grid from '@mui/material/Grid'
 import AddIcon from '@mui/icons-material/Add'
 import { useRouter } from 'next/navigation'
 import { colors } from '../../../variables.js'
+import GoodEditForm from '../../GoodEditForm/GoodEditForm'
 
 const initialFormData = {
   material: 'спанбонд',
@@ -27,40 +22,11 @@ function GoodsAddComponent ({ orderId, url }) {
   const [formData, setFormData] = useState(initialFormData)
   const router = useRouter()
 
-  const handleChange = e => {
-    const { name, value } = e.target
-    setFormData({ ...formData, [name]: value })
-  }
-
   function handleClose () {
     setFormData(() => initialFormData)
     setError(null)
     setLoading(null)
     setOpenModal(false)
-  }
-
-  const handleSelectColor = (name, value) => {
-    setFormData(prevData => {
-      const prevColor = prevData.color || []
-
-      if (value === 0 || '') {
-        return {
-          ...prevData,
-          color: prevColor.filter(color => color.name !== name)
-        }
-      }
-
-      const existingColor = prevColor.find(color => color.name === name)
-
-      if (existingColor) {
-        existingColor.qty = +value
-      } else {
-        const updatedColor = { name, qty: +value }
-        prevColor.push(updatedColor)
-      }
-
-      return { ...prevData, color: prevColor }
-    })
   }
 
   async function handleSubmit (e) {
@@ -98,101 +64,11 @@ function GoodsAddComponent ({ orderId, url }) {
             <Typography color='primary'>
               Додати новий товар до замовлення
             </Typography>
-            <Grid container spacing={2} sx={{ mt: 1, mb: 3 }}>
-              <Grid item xs={6} sm={4} lg={2}>
-                <TextField
-                  label='Ширина, м.'
-                  name={'a'}
-                  value={formData.a}
-                  onChange={handleChange}
-                  type='number'
-                  error={8 < formData.a || formData.a < 2}
-                  helperText = '*Введіть число від 2 до 8'
-                  InputProps={{ inputProps: { min: 2, max: 8 } }}
-                  fullWidth
-                  required
-                />
-              </Grid>
-              <Grid item xs={6} sm={4} lg={2}>
-                <TextField
-                  label='Довжина, м.'
-                  name={'b'}
-                  value={formData.b}
-                  onChange={handleChange}
-                  type='number'
-                  error={12 < formData.b || formData.b < 4}
-                  helperText = '*Введіть число від 4 до 12'
-                  InputProps={{ inputProps: { min: 4, max: 12 } }}
-                  fullWidth
-                  required
-                />
-              </Grid>
-              <Grid item xs={6} sm={4} lg={2}>
-                <TextField
-                  label='Кількість'
-                  name={'qty'}
-                  value={formData.qty}
-                  onChange={handleChange}
-                  type='number'
-                  InputProps={{ inputProps: { min: 1 } }}
-                  fullWidth
-                  required
-                />
-              </Grid>
-              {/* <Grid item xs={12} md={2}>
-                <TextField
-                  label='Видано'
-                  name={'delivered'}
-                  value={formData.delivered}
-                  onChange={handleChange}
-                  type='number'
-                  InputProps={{ inputProps: { min: 0 } }}
-                  fullWidth
-                />
-              </Grid> */}
-              <Grid item xs={6} sm={4} lg={2}>
-                <FormControl fullWidth>
-                  <InputLabel>Сезон *</InputLabel>
-                  <Select
-                    name={'season'}
-                    label='Сезон'
-                    value={formData.season || ''}
-                    onChange={handleChange}
-                    required
-                  >
-                    <MenuItem value='весна'>Весна</MenuItem>
-                    <MenuItem value='літо'>Літо</MenuItem>
-                    <MenuItem value='осінь'>Осінь</MenuItem>
-                    <MenuItem value='зима'>Зима</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={8} lg={4}>
-                <TextField
-                  label='Матеріал'
-                  name={'material'}
-                  value={formData.material}
-                  onChange={handleChange}
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Typography> Кольори </Typography>
-              </Grid>
-              {colors.map(color => (
-                <Grid item xs={6} sm={4} md={3} lg={2} key={color}>
-                  <TextField
-                    label={color}
-                    name={color}
-                    value={formData.color.find(c => c.name === color)?.qty || ''}
-                    onChange={e => handleSelectColor(color, +e.target.value)}
-                    type='number'
-                    InputProps={{ inputProps: { min: 0, max: 4 } }}
-                    fullWidth
-                  />
-                </Grid>
-              ))}
-            </Grid>
+            <GoodEditForm
+              formData={formData}
+              onFormChange={(newFormData) => setFormData(() => newFormData)}
+              delivery={false}
+            />
             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
               <Button
                 variant='outlined'
