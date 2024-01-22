@@ -1,6 +1,6 @@
 'use client'
-import React from 'react'
-import { colors } from '@/app/variables'
+import React, { useState } from 'react'
+import { colors, colorSchemes } from '@/app/variables'
 import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
 import FormControl from '@mui/material/FormControl'
@@ -10,9 +10,23 @@ import MenuItem from '@mui/material/MenuItem'
 import Grid from '@mui/material/Grid'
 
 function GoodEditForm ({ formData, onFormChange, delivery = true }) {
+  const currentScheme =
+    formData.color.filter(color => color.qty > 0).length > 0
+      ? { schemeName: 'Поточна схема', colors: formData.color }
+      : null
+  const initialColorScheme = currentScheme ? currentScheme : ''
+  const [colorScheme, setColorScheme] = useState(initialColorScheme)
+  console.log('colorScheme', colorScheme)
+
   const handleChange = e => {
     const { name, value } = e.target
     onFormChange({ ...formData, [name]: value })
+  }
+
+  const handleColorSchemeChange = e => {
+    const { value } = e.target
+    setColorScheme(value)
+    onFormChange({ ...formData, color: value.colors })
   }
 
   const handleChangeColor = (name, qty) => {
@@ -114,29 +128,79 @@ function GoodEditForm ({ formData, onFormChange, delivery = true }) {
           />
         </Grid>
       </Grid>
-      <Typography variant='body2' sx={{ mt: 2, mb: 2 }}>
-        <b>Кольори</b> (заповніть хоча б одне поле)*
-      </Typography>
-      <Grid container spacing={2} sx={{ flexGrow: 1, mb: 2 }}>
-        {colors?.map(color => (
-          <Grid item xs={6} sm={4} md={3} lg={2} key={color}>
-            <TextField
-              label={color}
-              name={color}
-              value={formData.color?.find(c => c.name === color)?.qty || ''}
-              onChange={e => handleChangeColor(color, +e.target.value)}
-              type='number'
-              error={
-                formData.color?.find(c => c.name === color)?.qty < 0 ||
-                formData.color?.find(c => c.name === color)?.qty > 4
-              }
-              helperText='Число від 0 до 4'
-              InputProps={{ inputProps: { min: 0, max: 4 } }}
-              fullWidth
-            />
+      <FormControl sx={{ my: 3, width: 200 }}>
+        <InputLabel>Кольорова схема*</InputLabel>
+        <Select
+          name={'colorScheme'}
+          label='Кольорова схема'
+          value={colorScheme}
+          onChange={e => handleColorSchemeChange(e)}
+          required
+        >
+          {colorSchemes.map(colorScheme => (
+            <MenuItem key={colorScheme.schemeName} value={colorScheme}>
+              {colorScheme.schemeName}
+            </MenuItem>
+          ))}
+          {colorScheme.schemeName === 'Поточна схема' && (
+            <MenuItem value={colorScheme}>Поточна схема</MenuItem>
+          )}
+        </Select>
+      </FormControl>
+      {colorScheme && (
+        <>
+          <Typography variant='body2' sx={{ mb: 2 }}>
+            <b>Кольори</b>
+          </Typography>
+
+          <Grid container spacing={2} sx={{ flexGrow: 1, mb: 2 }}>
+            {colorScheme.schemeName === 'Своя схема' ||
+            colorScheme.schemeName === 'Поточна схема'
+              ? colors?.map(color => (
+                  <Grid item xs={6} sm={4} md={3} lg={2} key={color}>
+                    <TextField
+                      label={color}
+                      name={color}
+                      value={
+                        formData.color?.find(c => c.name === color)?.qty || ''
+                      }
+                      onChange={e => handleChangeColor(color, +e.target.value)}
+                      type='number'
+                      error={
+                        formData.color?.find(c => c.name === color)?.qty < 0 ||
+                        formData.color?.find(c => c.name === color)?.qty > 4
+                      }
+                      helperText='Число від 0 до 4'
+                      InputProps={{ inputProps: { min: 0, max: 4 } }}
+                      fullWidth
+                    />
+                  </Grid>
+                ))
+              : colors
+                  ?.filter(
+                    color =>
+                      formData.color?.find(c => c.name === color)?.qty > 0
+                  )
+                  .map(color => (
+                    <Grid item xs={6} sm={4} md={3} lg={2} key={color}>
+                      <TextField
+                        label={color}
+                        name={color}
+                        value={
+                          formData.color?.find(c => c.name === color)?.qty || 0
+                        }
+                        onChange={e =>
+                          handleChangeColor(color, +e.target.value)
+                        }
+                        type='number'
+                        fullWidth
+                        disabled
+                      />
+                    </Grid>
+                  ))}
           </Grid>
-        ))}
-      </Grid>
+        </>
+      )}
     </>
   )
 }

@@ -53,7 +53,7 @@ function SingleProduction ({ production }) {
       <Box sx={{ display: 'flex', mb: 2, flexWrap: 'wrap' }}>
         <Link href='/production'>
           <Typography color='primary' sx={{ '&:hover': { color: '#2c387e' } }}>
-            Всі виробництва
+            Всі виробники
           </Typography>
         </Link>
         <Typography>
