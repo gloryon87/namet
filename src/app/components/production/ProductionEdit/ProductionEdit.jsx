@@ -9,6 +9,7 @@ import Tooltip from '@mui/material/Tooltip'
 import { useRouter } from 'next/navigation'
 import { modalStyles } from '../../../styles/modalStyles'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
+import { fetchParamsClient } from '@/app/API/fetchParamsClient'
 
 function ProductionEdit ({ production, url }) {
   const [openEditModal, setOpenEditModal] = useState(false)
@@ -56,9 +57,7 @@ function ProductionEdit ({ production, url }) {
       setError(null)
       const res = await fetch(`${url}/api/production/${production._id}`, {
         method: 'PUT',
-        headers: {
-          'Content-type': 'application/json'
-        },
+        headers: fetchParamsClient.headers,
         body: JSON.stringify(formData)
       })
       router.refresh()
@@ -76,7 +75,7 @@ function ProductionEdit ({ production, url }) {
           <Typography variant='h5' sx={{ mb: 1 }}>
             Редагувати виробництво
           </Typography>
-          <Typography variant='h6'>{ production.name }</Typography>
+          <Typography variant='h6'>{production.name}</Typography>
           <TextField
             label='Контакти'
             name='contacts'
@@ -115,19 +114,19 @@ function ProductionEdit ({ production, url }) {
               />
             </Box>
           ))}
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 4, mb: 1, gap: 2 }}>
-            <Button
-              variant='outlined'
-              color='error'
-              onClick={handleClose}
-            >
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              mt: 4,
+              mb: 1,
+              gap: 2
+            }}
+          >
+            <Button variant='outlined' color='error' onClick={handleClose}>
               Відміна
             </Button>
-            <Button
-              type='submit'
-              variant='outlined'
-              color='primary'
-            >
+            <Button type='submit' variant='outlined' color='primary'>
               Зберегти
             </Button>
           </Box>

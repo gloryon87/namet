@@ -11,8 +11,9 @@ import Good from '../../orders/Good/Good'
 import { useRouter } from 'next/navigation'
 import TextField from '@mui/material/TextField'
 import calculateGoodsData from '@/app/utils/calculateGoodsData'
+import { fetchParamsClient } from '@/app/API/fetchParamsClient'
 
-function MoveToWarehouse({ good, url, production, goodId, goodColor }) {
+function MoveToWarehouse ({ good, url, production, goodId, goodColor }) {
   const [openModal, setOpenModal] = useState(false)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(null)
@@ -23,7 +24,6 @@ function MoveToWarehouse({ good, url, production, goodId, goodColor }) {
   const productionId = production._id
 
   // console.log(goodsColor)
-  
 
   function handleClose () {
     setQty(good.qty - (good.delivered || 0))
@@ -34,28 +34,27 @@ function MoveToWarehouse({ good, url, production, goodId, goodColor }) {
     e.preventDefault()
 
     // Отримати поточні матеріали виробництва
-      const productionMaterials = production.materials.map(material => {
-    const matchingColor = goodsColor.find(color => color.name === material.color)
-    // If there is a matching color in goodsColor, return the difference
+    const productionMaterials = production.materials.map(material => {
+      const matchingColor = goodsColor.find(
+        color => color.name === material.color
+      )
+      // If there is a matching color in goodsColor, return the difference
 
-    if (matchingColor) {
+      if (matchingColor) {
+        const difference = material.qty - matchingColor.colorArea
 
-      const difference =
-        material.qty - matchingColor.colorArea
+        return {
+          color: material.color,
+          qty: difference
+        }
+      }
 
+      // If there is no matching color in goodsColor, return the original material
       return {
         color: material.color,
-        qty: difference
+        qty: material.qty
       }
-      
-    }
-
-    // If there is no matching color in goodsColor, return the original material
-    return {
-      color: material.color,
-      qty: material.qty
-    }
-  })
+    })
 
     try {
       setLoading(true)
@@ -66,9 +65,7 @@ function MoveToWarehouse({ good, url, production, goodId, goodColor }) {
         `${url}/api/production/${productionId}/goods/${goodId}`,
         {
           method: 'PUT',
-          headers: {
-            'Content-type': 'application/json'
-          },
+          headers: fetchParamsClient.headers,
           body: JSON.stringify({
             ...good,
             delivered: Number(good.delivered) + Number(qty)
@@ -78,9 +75,7 @@ function MoveToWarehouse({ good, url, production, goodId, goodColor }) {
 
       const updateProduction = fetch(`${url}/api/production/${productionId}`, {
         method: 'PUT',
-        headers: {
-          'Content-type': 'application/json'
-        },
+        headers: fetchParamsClient.headers,
         body: JSON.stringify({
           ...production,
           materials: productionMaterials
@@ -94,7 +89,7 @@ function MoveToWarehouse({ good, url, production, goodId, goodColor }) {
           'Content-type': 'application/json'
         },
         body: JSON.stringify({
-          ...good,
+          ...good
         })
       })
 
@@ -106,7 +101,6 @@ function MoveToWarehouse({ good, url, production, goodId, goodColor }) {
       ])
 
       if (!resGoodInProduction.ok) {
-
         throw new Error(
           `Не вдалось оновити товар на виробництві! УВАГА! Товар міг додатись на склад та оновитись матеріали`
         )
@@ -119,9 +113,7 @@ function MoveToWarehouse({ good, url, production, goodId, goodColor }) {
       }
 
       if (!resProduction.ok) {
-        throw new Error(
-          `Не вдалось оновити матеріали.`
-        )
+        throw new Error(`Не вдалось оновити матеріали.`)
       }
 
       // Оновлюємо сторінку
@@ -157,8 +149,13 @@ function MoveToWarehouse({ good, url, production, goodId, goodColor }) {
                   value={qty}
                   onChange={e => setQty(e.target.value)}
                   type='number'
-                  InputProps={{ inputProps: { min: 1, max: good.qty - (good.delivered || 0) } }}
-                  sx={{minWidth: '100px'}}
+                  InputProps={{
+                    inputProps: {
+                      min: 1,
+                      max: good.qty - (good.delivered || 0)
+                    }
+                  }}
+                  sx={{ minWidth: '100px' }}
                   required
                 />
               </Box>

@@ -9,6 +9,7 @@ import AddIcon from '@mui/icons-material/Add'
 import { useRouter } from 'next/navigation'
 import { colors } from '../../../variables.js'
 import GoodEditForm from '../../GoodEditForm/GoodEditForm'
+import { fetchParamsClient } from '@/app/API/fetchParamsClient'
 
 const initialFormData = {
   material: 'спанбонд',
@@ -32,7 +33,8 @@ function GoodsAddComponent ({ orderId, url }) {
   async function handleSubmit (e) {
     e.preventDefault()
     const updatedColorData = formData.color.filter(color => color.qty > 0)
-    if (updatedColorData.length === 0) return setError('Оберіть хоча б один колір')
+    if (updatedColorData.length === 0)
+      return setError('Оберіть хоча б один колір')
 
     try {
       setLoading(true)
@@ -40,7 +42,7 @@ function GoodsAddComponent ({ orderId, url }) {
 
       const res = await fetch(`${url}/api/orders/${orderId}/add-good`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: fetchParamsClient.headers,
         body: JSON.stringify({ ...formData, color: updatedColorData })
       })
 
@@ -66,7 +68,7 @@ function GoodsAddComponent ({ orderId, url }) {
             </Typography>
             <GoodEditForm
               formData={formData}
-              onFormChange={(newFormData) => setFormData(() => newFormData)}
+              onFormChange={newFormData => setFormData(() => newFormData)}
               delivery={false}
             />
             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>

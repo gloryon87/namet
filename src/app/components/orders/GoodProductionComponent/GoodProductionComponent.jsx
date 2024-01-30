@@ -15,13 +15,14 @@ import EngineeringOutlinedIcon from '@mui/icons-material/EngineeringOutlined'
 import { productions } from '@/app/variables'
 import { TextField } from '@mui/material'
 import { useRouter } from 'next/navigation'
+import { fetchParamsClient } from '@/app/API/fetchParamsClient'
 
 function GoodProductionComponent ({
   good,
   goodId,
   url,
   orderId,
-  orderContacts,
+  orderContacts
 }) {
   const [openModal, setOpenModal] = useState(false)
   const [error, setError] = useState(null)
@@ -34,7 +35,6 @@ function GoodProductionComponent ({
   const router = useRouter()
 
   // const goodToProductionColor = good.color.map(color => { color.name = color.name, color.colorArea = Math.ceil(color.colorArea / good.qty * qty) })
-
 
   // Функція закриття модального вікна
 
@@ -66,9 +66,7 @@ function GoodProductionComponent ({
         `${url}/api/production/${production.id}/goods`,
         {
           method: 'POST',
-          headers: {
-            'Content-type': 'application/json'
-          },
+          headers: fetchParamsClient.headers,
           body: JSON.stringify({
             ...good,
             qty: +qty,
@@ -82,9 +80,7 @@ function GoodProductionComponent ({
         `${url}/api/orders/${orderId}/goods/${goodId}`,
         {
           method: 'PUT',
-          headers: {
-            'Content-type': 'application/json'
-          },
+          headers: fetchParamsClient.headers,
           body: JSON.stringify({ production: production.name })
         }
       )

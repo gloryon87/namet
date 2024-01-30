@@ -10,6 +10,7 @@ import Grid from '@mui/material/Grid'
 import Tooltip from '@mui/material/Tooltip'
 import { modalStyles } from '../../../styles/modalStyles'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
+import { fetchParamsClient } from '@/app/API/fetchParamsClient'
 
 function EditMaterial ({ material, url, materialId }) {
   const [openModal, setOpenModal] = useState(false)
@@ -40,9 +41,7 @@ function EditMaterial ({ material, url, materialId }) {
       setError(null)
       const res = await fetch(`${url}/api/materials/${materialId}`, {
         method: 'PUT',
-        headers: {
-          'Content-type': 'application/json'
-        },
+        headers: fetchParamsClient.headers,
         body: JSON.stringify({ qty: qty })
       })
       if (!res.ok) {

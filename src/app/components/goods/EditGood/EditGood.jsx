@@ -11,6 +11,7 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined'
 import { useRouter } from 'next/navigation'
 import GoodEditForm from '../../GoodEditForm/GoodEditForm'
+import { fetchParamsClient } from '@/app/API/fetchParamsClient'
 
 function EditGood ({ good, url, goodId }) {
   const [openModal, setOpenModal] = useState(false)
@@ -56,9 +57,7 @@ function EditGood ({ good, url, goodId }) {
       setError(null)
       const res = await fetch(`${url}/api/goods/${goodId}`, {
         method: 'PUT',
-        headers: {
-          'Content-type': 'application/json'
-        },
+        headers: fetchParamsClient.headers,
         body: JSON.stringify(formData)
       })
       if (!res.ok) {
@@ -81,7 +80,7 @@ function EditGood ({ good, url, goodId }) {
           <Typography color='primary'>Редагувати товар</Typography>
           <GoodEditForm
             formData={formData}
-            onFormChange={(newFormData) => setFormData(() => newFormData)}
+            onFormChange={newFormData => setFormData(() => newFormData)}
             delivery={false}
           />
 

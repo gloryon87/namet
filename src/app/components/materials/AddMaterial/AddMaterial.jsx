@@ -6,11 +6,11 @@ import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
-import Fab from '@mui/material/Fab'
 import Grid from '@mui/material/Grid'
 import AddIcon from '@mui/icons-material/Add'
 import { modalStyles } from '@/app/styles/modalStyles'
 import { colors } from '@/app/variables'
+import { fetchParamsClient } from '@/app/API/fetchParamsClient'
 
 const initialFormData = colors.map(color => ({
   color: color,
@@ -47,7 +47,7 @@ function AddMaterial ({ url }) {
 
       const res = await fetch(`${url}/api/materials`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: fetchParamsClient.headers,
         body: JSON.stringify([...updatedData])
       })
 
@@ -74,13 +74,7 @@ function AddMaterial ({ url }) {
           </Typography>
           <Grid container spacing={2} sx={{ m: 0, width: 'auto' }}>
             {formData.map((color, index) => (
-              <Grid
-                item
-                xs={12}
-                md={6}
-                lg={4}
-                key={color._id}
-              >
+              <Grid item xs={12} md={6} lg={4} key={color._id}>
                 <Box
                   sx={{
                     display: 'flex',

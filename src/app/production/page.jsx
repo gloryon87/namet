@@ -1,10 +1,10 @@
 import React from 'react'
-import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import calculateGoodsData from '../utils/calculateGoodsData'
 import calculateMaterialsData from '../utils/calculateMaterialsData'
 import Production from '../components/production/Production/Production'
+import { fetchParamsServer } from '@/app/API/fetchParamsServer'
 const _ = require('lodash')
 
 // Metadata
@@ -17,9 +17,10 @@ export const metadata = {
 
 const url = process.env.REACT_APP_SERVER_URL || ''
 
-async function getData () {
+async function getData() {
+  const fetchParams = fetchParamsServer()
   try {
-    const res = await fetch(url + '/api/production', { next: { revalidate: 0 } })
+    const res = await fetch(url + '/api/production', fetchParams)
     if (res.ok) {
       const jsonData = await res.json()
       return jsonData

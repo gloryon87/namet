@@ -1,6 +1,8 @@
 import React from 'react'
 import Typography from '@mui/material/Typography'
 import SingleProduction from '@/app/components/production/SingleProduction/SingleProduction';
+import { fetchParamsServer } from '@/app/API/fetchParamsServer'
+
 
 
 const url = process.env.REACT_APP_SERVER_URL || ''
@@ -10,14 +12,9 @@ export const metadata = {
 };
 
 async function getData(name) {
-  
+  const fetchParams = fetchParamsServer()
   try {
-    const res = await fetch(`${url}/api/production/${name}`, {
-      cache: 'no-store',
-      headers: {
-        'Cache-Control': 'no-store'
-      }
-    })
+    const res = await fetch(`${url}/api/production/${name}`, fetchParams)
     if (res.ok) {
       const jsonData = await res.json()
       return jsonData

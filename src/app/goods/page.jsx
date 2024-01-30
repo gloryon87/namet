@@ -7,6 +7,7 @@ import Grid from '@mui/material/Grid'
 import GoodsSearch from '../components/goods/GoodsSearch/GoodsSearch'
 import GoodItem from '../components/goods/GoodItem/GoodItem'
 import calculateGoodsData from '@/app/utils/calculateGoodsData'
+import { fetchParamsServer } from '@/app/API/fetchParamsServer'
 
 const url = process.env.REACT_APP_SERVER_URL || ''
 
@@ -14,15 +15,12 @@ export const metadata = {
   title: 'Сіточки'
 }
 
-async function getData (params) {
+async function getData(params) {
+  const fetchParams = fetchParamsServer()
+
   try {
     const queryParams = new URLSearchParams(params).toString()
-    const res = await fetch(`${url}/api/goods?${queryParams}`, {
-      cache: 'no-store',
-      headers: {
-        'Cache-Control': 'no-store'
-      }
-    })
+    const res = await fetch(`${url}/api/goods?${queryParams}`, fetchParams)
 
     if (res.ok) {
       const jsonData = await res.json()

@@ -11,6 +11,7 @@ import MenuItem from '@mui/material/MenuItem'
 import Grid from '@mui/material/Grid'
 import { useRouter } from 'next/navigation'
 import { colors } from '../../../variables.js'
+import { fetchParamsClient } from '@/app/API/fetchParamsClient.js'
 
 const initialFormData = {
   material: 'спанбонд',
@@ -68,7 +69,7 @@ function AddNewGoodForm ({ url }) {
 
       const res = await fetch(`${url}/api/goods`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: fetchParamsClient.headers,
         body: JSON.stringify({ ...formData, color: updatedColorData })
       })
 

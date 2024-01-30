@@ -16,7 +16,6 @@ function GoodEditForm ({ formData, onFormChange, delivery = true }) {
       : null
   const initialColorScheme = currentScheme ? currentScheme : ''
   const [colorScheme, setColorScheme] = useState(initialColorScheme)
-  console.log('colorScheme', colorScheme)
 
   const handleChange = e => {
     const { name, value } = e.target
@@ -187,7 +186,7 @@ function GoodEditForm ({ formData, onFormChange, delivery = true }) {
                         label={color}
                         name={color}
                         value={
-                          formData.color?.find(c => c.name === color)?.qty || 0
+                          formData.color?.find(c => c.name === color)?.qty
                         }
                         onChange={e =>
                           handleChangeColor(color, +e.target.value)

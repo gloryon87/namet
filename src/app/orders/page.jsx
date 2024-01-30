@@ -1,6 +1,5 @@
 import React, { Suspense } from 'react'
 import Order from '../components/orders/Order/Order'
-import Grid from '@mui/material/Grid'
 import Link from 'next/link'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -8,6 +7,7 @@ import SelectComponent from '../components/orders/Select/Select'
 import Typography from '@mui/material/Typography'
 import Fab from '@mui/material/Fab'
 import calculateGoodsData from '@/app/utils/calculateGoodsData'
+import { fetchParamsServer } from '@/app/API/fetchParamsServer'
 
 const url = process.env.REACT_APP_SERVER_URL || ''
 
@@ -15,15 +15,12 @@ export const metadata = {
   title: 'Замовлення'
 }
 
-async function getData (params) {
+async function getData(params) {
+  const fetchParams = fetchParamsServer()
   try {
     const queryParams = new URLSearchParams(params).toString()
-    const res = await fetch(`${url}/api/orders?${queryParams}`, {
-      cache: 'no-store',
-      headers: {
-        'Cache-Control': 'no-store'
-      }
-    })
+    const res = await fetch(`${url}/api/orders?${queryParams}`, fetchParams
+)
 
     if (res.ok) {
       const clonedResponse = res.clone()
@@ -67,32 +64,32 @@ async function Orders ({ searchParams }) {
           </strong>
         </Typography>
       ) : (
-          <Link href='/orders?all=true' scroll={false}>
-            <Button color='primary' sx={{ mb: 1 }}>
-              показати всі замовлення
-            </Button>
-          </Link>
+        <Link href='/orders?all=true' scroll={false}>
+          <Button color='primary' sx={{ mb: 1 }}>
+            показати всі замовлення
+          </Button>
+        </Link>
       )}
       {/* <Box> */}
-        <Box sx={{ position: 'relative' }}>
-          <Link href='/orders/addNewOrder'>
-            <Fab
-              sx={{
-                position: 'fixed',
-                textTransform: 'none',
-                opacity: '90%',
-                right: { xs: 20, sm: 30, xl: '5%' },
-                bottom: { xs: 20, sm: 30, lg: 35 }
-              }}
-              color='primary'
-              aria-label='Додати новий пост'
-              variant='extended'
-            >
-              Нове замовлення
-            </Fab>
-          </Link>
-        </Box>
-        {/* <Grid
+      <Box sx={{ position: 'relative' }}>
+        <Link href='/orders/addNewOrder'>
+          <Fab
+            sx={{
+              position: 'fixed',
+              textTransform: 'none',
+              opacity: '90%',
+              right: { xs: 20, sm: 30, xl: '5%' },
+              bottom: { xs: 20, sm: 30, lg: 35 }
+            }}
+            color='primary'
+            aria-label='Додати новий пост'
+            variant='extended'
+          >
+            Нове замовлення
+          </Fab>
+        </Link>
+      </Box>
+      {/* <Grid
           container
           spacing={1}
           sx={{
@@ -107,7 +104,7 @@ async function Orders ({ searchParams }) {
           <Grid item xs={6} sm={3} md={2} sx={{ border: 1 }}>
             Дата замовлення
           </Grid> */}
-          {/* <Box
+      {/* <Box
             component={Grid}
             item
             md={1}
@@ -116,7 +113,7 @@ async function Orders ({ searchParams }) {
           >
             Пріор.
           </Box> */}
-          {/* <Grid item xs={6} sm={6} md={3} sx={{ border: 1 }}>
+      {/* <Grid item xs={6} sm={6} md={3} sx={{ border: 1 }}>
             Замовник
           </Grid>
           <Box
@@ -128,7 +125,7 @@ async function Orders ({ searchParams }) {
           >
             Коментар
           </Box> */}
-          {/* <Box
+      {/* <Box
             component={Grid}
             item
             sm={2}
@@ -138,7 +135,7 @@ async function Orders ({ searchParams }) {
           >
             Стан
           </Box> */}
-          {/* <Box
+      {/* <Box
             component={Grid}
             item
             sm={3}
@@ -149,15 +146,15 @@ async function Orders ({ searchParams }) {
             Дедлайн
           </Box>
         </Grid> */}
-      <Box component='ol' sx={{ border: 1}}>
-          {data &&
-            data.map(order => (
-              <li style={{ fontSize: 13 }} key={order._id}>
-                <Link href={`/orders/${order._id}`}>
-                  <Order order={order} />
-                </Link>
-              </li>
-            ))}
+      <Box component='ol' sx={{ border: 1 }}>
+        {data &&
+          data.map(order => (
+            <li style={{ fontSize: 13 }} key={order._id}>
+              <Link href={`/orders/${order._id}`}>
+                <Order order={order} />
+              </Link>
+            </li>
+          ))}
       </Box>
       {/* </Box> */}
       {Object.keys(searchParams).length === 0 && (

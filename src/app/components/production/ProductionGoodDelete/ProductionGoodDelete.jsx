@@ -7,8 +7,9 @@ import Tooltip from '@mui/material/Tooltip'
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined'
 import DeleteModal from '../../DeleteModal/DeleteModal'
 import { useRouter } from 'next/navigation'
+import { fetchParamsClient } from '@/app/API/fetchParamsClient'
 
-function ProductionGoodDelete({ productionId, goodId, url }) {
+function ProductionGoodDelete ({ productionId, goodId, url }) {
   const [openModal, setOpenModal] = useState(false)
   const [error, setError] = useState(null)
   const router = useRouter()
@@ -18,7 +19,7 @@ function ProductionGoodDelete({ productionId, goodId, url }) {
       setError(null)
       const res = await fetch(
         `${url}/api/production/${productionId}/remove-good/${goodId}`,
-        { method: 'PUT' }
+        { method: 'PUT', headers: fetchParamsClient.headers }
       )
       if (res.ok) {
         router.refresh()

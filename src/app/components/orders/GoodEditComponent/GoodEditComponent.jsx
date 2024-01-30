@@ -9,8 +9,9 @@ import { modalStyles } from '../../../styles/modalStyles'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import { useRouter } from 'next/navigation'
 import GoodEditForm from '../../GoodEditForm/GoodEditForm'
+import { fetchParamsClient } from '@/app/API/fetchParamsClient'
 
-function GoodEditComponent({ orderId, good, url, goodId }) {
+function GoodEditComponent ({ orderId, good, url, goodId }) {
   const [openModal, setOpenModal] = useState(false)
   const initialData = good
   delete initialData._id
@@ -27,7 +28,8 @@ function GoodEditComponent({ orderId, good, url, goodId }) {
   const handleSubmit = async e => {
     e.preventDefault()
     const hasChanges = JSON.stringify(formData) !== JSON.stringify(good)
-    if (formData.color.length === 0) return setError('Оберіть хоча б один колір')
+    if (formData.color.length === 0)
+      return setError('Оберіть хоча б один колір')
 
     if (hasChanges) {
       handleEdit()
@@ -49,9 +51,7 @@ function GoodEditComponent({ orderId, good, url, goodId }) {
       setError(null)
       const res = await fetch(`${url}/api/orders/${orderId}/goods/${goodId}`, {
         method: 'PUT',
-        headers: {
-          'Content-type': 'application/json'
-        },
+        headers: fetchParamsClient.headers,
         body: JSON.stringify(formData)
       })
       if (!res.ok) {
@@ -74,21 +74,21 @@ function GoodEditComponent({ orderId, good, url, goodId }) {
           <Typography color='primary'>Редагувати товар</Typography>
           <GoodEditForm
             formData={formData}
-            onFormChange={(newFormData) => setFormData(() => newFormData)}
+            onFormChange={newFormData => setFormData(() => newFormData)}
           />
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <Button
-                variant='outlined'
-                color='error'
-                onClick={handleClose}
-                sx={{ mr: 2 }}
-              >
-                Відміна
-              </Button>
-              <Button variant='outlined' color='primary' type='submit'>
-                Зберегти
-              </Button>
-            </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Button
+              variant='outlined'
+              color='error'
+              onClick={handleClose}
+              sx={{ mr: 2 }}
+            >
+              Відміна
+            </Button>
+            <Button variant='outlined' color='primary' type='submit'>
+              Зберегти
+            </Button>
+          </Box>
           {error && (
             <Typography variant='h4' color='error' align='center'>
               {error}

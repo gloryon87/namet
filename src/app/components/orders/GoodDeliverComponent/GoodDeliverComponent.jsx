@@ -11,6 +11,7 @@ import { modalStyles } from '../../../styles/modalStyles'
 import ShoppingCartCheckoutOutlinedIcon from '@mui/icons-material/ShoppingCartCheckoutOutlined'
 import { useRouter } from 'next/navigation'
 import { format } from 'date-fns'
+import { fetchParamsClient } from '@/app/API/fetchParamsClient'
 
 function GoodDeliverComponent ({ orderId, orderContacts, good, url, goodId }) {
   const [openModal, setOpenModal] = useState(false)
@@ -31,9 +32,7 @@ function GoodDeliverComponent ({ orderId, orderContacts, good, url, goodId }) {
         `${url}/api/orders/${orderId}/goods/${goodId}`,
         {
           method: 'PUT',
-          headers: {
-            'Content-type': 'application/json'
-          },
+          headers: fetchParamsClient.headers,
           body: JSON.stringify({
             ...good,
             delivered: (+good.delivered || 0) + +qty

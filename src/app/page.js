@@ -1,6 +1,11 @@
+import React from 'react'
+import Login from './components/Login/Login'
 
-export default function Home () {
+const url = process.env.REACT_APP_SERVER_URL || ''
+
+
+export default function Home() {
   return (
-      <main>Home</main>
+      <Login url={url}/>
   )
 }

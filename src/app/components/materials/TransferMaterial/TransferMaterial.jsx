@@ -10,11 +10,11 @@ import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
-import Fab from '@mui/material/Fab'
 import Grid from '@mui/material/Grid'
 import EngineeringOutlinedIcon from '@mui/icons-material/EngineeringOutlined'
 import { modalStyles } from '@/app/styles/modalStyles'
 import { productions } from '@/app/variables'
+import { fetchParamsClient } from '@/app/API/fetchParamsClient'
 
 function TransferMaterial ({ url, materials }) {
   const initialFormData = materials.map(material => ({
@@ -67,16 +67,12 @@ function TransferMaterial ({ url, materials }) {
       const [materialsResponse, productionResponse] = await Promise.all([
         fetch(`${url}/api/materials`, {
           method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
+          headers: fetchParamsClient.headers,
           body: JSON.stringify(updatedDataMaterials)
         }),
         fetch(`${url}/api/production/${selectedProductionId}/materials`, {
           method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json'
-          },
+          headers: fetchParamsClient.headers,
           body: JSON.stringify(updatedDataProduction)
         })
       ])

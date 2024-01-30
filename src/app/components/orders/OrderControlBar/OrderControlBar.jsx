@@ -17,6 +17,7 @@ import DeleteModal from '../../DeleteModal/DeleteModal'
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import formatDate from '@/app/utils/formatDate'
+import { fetchParamsClient } from '@/app/API/fetchParamsClient'
 
 function OrderControlBar ({ order, url }) {
   const [openEditModal, setOpenEditModal] = useState(false)
@@ -91,7 +92,8 @@ function OrderControlBar ({ order, url }) {
     try {
       setError(null)
       const res = await fetch(`${url}/api/orders/${order._id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: fetchParamsClient.headers
       })
       if (res.ok) {
         router.replace('/orders')
@@ -119,9 +121,7 @@ function OrderControlBar ({ order, url }) {
       setError(null)
       const res = await fetch(`${url}/api/orders/${order._id}`, {
         method: 'PUT',
-        headers: {
-          'Content-type': 'application/json'
-        },
+        headers: fetchParamsClient.headers,
         body: JSON.stringify(editBody)
       })
       router.refresh()

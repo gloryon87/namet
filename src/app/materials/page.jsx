@@ -4,6 +4,7 @@ import Grid from '@mui/material/Grid'
 import TransferMaterial from '../components/materials/TransferMaterial/TransferMaterial'
 import EditMaterial from '../components/materials/EditMaterial/EditMaterial'
 import { Box } from '@mui/material'
+import { fetchParamsServer } from '../API/fetchParamsServer'
 
 // Metadata
 
@@ -14,14 +15,10 @@ export const metadata = {
 const url = process.env.REACT_APP_SERVER_URL || ''
 const gridStyle = { border: '1px solid lightgray', borderTop: 0 }
 
-async function getData () {
+async function getData() {
+  const fetchParams = fetchParamsServer()
   try {
-    const res = await fetch(`${url}/api/materials`, {
-      cache: 'no-store',
-      headers: {
-        'Cache-Control': 'no-store'
-      }
-    })
+    const res = await fetch(`${url}/api/materials`, fetchParams)
 
     if (res.ok) {
       const jsonData = await res.json()
