@@ -8,6 +8,7 @@ import GoodsSearch from '../components/goods/GoodsSearch/GoodsSearch'
 import GoodItem from '../components/goods/GoodItem/GoodItem'
 import calculateGoodsData from '@/app/utils/calculateGoodsData'
 import { fetchParamsServer } from '@/app/API/fetchParamsServer'
+import resHandler from '../API/resHandler'
 
 const url = process.env.REACT_APP_SERVER_URL || ''
 
@@ -21,15 +22,10 @@ async function getData(params) {
   try {
     const queryParams = new URLSearchParams(params).toString()
     const res = await fetch(`${url}/api/goods?${queryParams}`, fetchParams)
-
-    if (res.ok) {
-      const jsonData = await res.json()
-      return jsonData
-    } else {
-      throw new Error('Помилка сервера')
-    }
-  } catch (error) {
-    throw new Error('Не вдалось отримати дані')
+    return await resHandler(res)
+  }
+  catch (error) {
+    throw new Error(error.message)
   }
 }
 

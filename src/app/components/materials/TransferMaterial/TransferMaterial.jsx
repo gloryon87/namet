@@ -17,7 +17,7 @@ import { productions } from '@/app/variables'
 import { fetchParamsClient } from '@/app/API/fetchParamsClient'
 
 function TransferMaterial ({ url, materials }) {
-  const initialFormData = materials.map(material => ({
+  const initialFormData = materials?.map(material => ({
     ...material,
     transferQty: 0
   }))
@@ -152,7 +152,7 @@ function TransferMaterial ({ url, materials }) {
             <b>Колір матеріал - залишок</b>
           </Typography>
           <Grid container spacing={1} sx={{ m: 0, width: 'auto' }}>
-            {formData.map((material, index) => (
+            {formData?.map((material, index) => (
               <Grid
                 item
                 xs={12}

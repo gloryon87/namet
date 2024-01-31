@@ -1,5 +1,5 @@
 export default function calculateMaterialsData(materials, goodsColor) {
-  const mergedMaterials = materials.reduce((acc, item) => {
+  const mergedMaterials = materials?.reduce((acc, item) => {
   const existingItem = acc.find(accItem => accItem.color === item.color)
 
   if (existingItem) {
@@ -17,7 +17,7 @@ export default function calculateMaterialsData(materials, goodsColor) {
 })
 //  console.log(goodsColor)
   
-const materialDifferenceArray = goodsColor.flatMap(color => {
+const materialDifferenceArray = goodsColor?.flatMap(color => {
   const colorName = color.name
   const qtyInProdMaterials = materialQtyMap[colorName] || 0
 

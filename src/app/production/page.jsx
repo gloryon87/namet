@@ -5,6 +5,8 @@ import calculateGoodsData from '../utils/calculateGoodsData'
 import calculateMaterialsData from '../utils/calculateMaterialsData'
 import Production from '../components/production/Production/Production'
 import { fetchParamsServer } from '@/app/API/fetchParamsServer'
+import resHandler from '../API/resHandler'
+
 const _ = require('lodash')
 
 // Metadata
@@ -21,14 +23,9 @@ async function getData() {
   const fetchParams = fetchParamsServer()
   try {
     const res = await fetch(url + '/api/production', fetchParams)
-    if (res.ok) {
-      const jsonData = await res.json()
-      return jsonData
-    } else {
-      throw new Error('Помилка сервера')
-    }
+    return await resHandler(res)
   } catch (error) {
-    throw new Error('Не вдалось отримати дані')
+    throw new Error(error.message)
   }
 }
 
@@ -44,7 +41,7 @@ export default async function ProductionPage () {
     calculateGoodsData(goodsArray)
 
   // Calculate materials data
-  const materialsArray = copiedData?.flatMap(prod => prod.materials).reduce((accumulator, currentValue) => {
+  const materialsArray = copiedData?.flatMap(prod => prod.materials)?.reduce((accumulator, currentValue) => {
     const existingMaterialIndex = accumulator.findIndex(
       obj => obj.color === currentValue.color
       )
@@ -90,7 +87,7 @@ export default async function ProductionPage () {
         </Typography>
         </Box>
        <Box sx={{display: 'flex', columnGap: 1, flexWrap: 'wrap', mb: 1 }}> <Typography color='primary'>Загальні залишки матеріалів:</Typography>
-        {materialDifferenceArray.flatMap(
+        {materialDifferenceArray?.flatMap(
           (material, index) => (
             material.difference ? (
               <Typography

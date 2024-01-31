@@ -8,6 +8,8 @@ import Typography from '@mui/material/Typography'
 import Fab from '@mui/material/Fab'
 import calculateGoodsData from '@/app/utils/calculateGoodsData'
 import { fetchParamsServer } from '@/app/API/fetchParamsServer'
+import resHandler from '../API/resHandler'
+
 
 const url = process.env.REACT_APP_SERVER_URL || ''
 
@@ -20,17 +22,10 @@ async function getData(params) {
   try {
     const queryParams = new URLSearchParams(params).toString()
     const res = await fetch(`${url}/api/orders?${queryParams}`, fetchParams
-)
-
-    if (res.ok) {
-      const clonedResponse = res.clone()
-      const jsonData = await clonedResponse.json()
-      return jsonData
-    } else {
-      throw new Error('Помилка сервера')
-    }
+    )
+    return await resHandler(res)
   } catch (error) {
-    throw new Error('Не вдалось отримати дані')
+    throw new Error(error.message)
   }
 }
 

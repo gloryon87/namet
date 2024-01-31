@@ -59,7 +59,7 @@ function FetchGoods ({ url, good, qty, setQty, selectedGood, setSelectedGood }) 
             onChange={handleGoodChange}
             required
           >
-            {data.length > 0 &&
+            {data?.length > 0 &&
               data.map(good => (
                 <MenuItem value={good} sx={{ display: 'flex' }} key={good._id}>
                   {' '}

@@ -5,6 +5,7 @@ import TransferMaterial from '../components/materials/TransferMaterial/TransferM
 import EditMaterial from '../components/materials/EditMaterial/EditMaterial'
 import { Box } from '@mui/material'
 import { fetchParamsServer } from '../API/fetchParamsServer'
+import resHandler from '../API/resHandler'
 
 // Metadata
 
@@ -15,32 +16,35 @@ export const metadata = {
 const url = process.env.REACT_APP_SERVER_URL || ''
 const gridStyle = { border: '1px solid lightgray', borderTop: 0 }
 
-async function getData() {
+async function getData () {
   const fetchParams = fetchParamsServer()
   try {
     const res = await fetch(`${url}/api/materials`, fetchParams)
-
-    if (res.ok) {
-      const jsonData = await res.json()
-      return jsonData
-    } else {
-      throw new Error('Помилка сервера')
-    }
+    return await resHandler(res)
   } catch (error) {
-    throw new Error('Не вдалось отримати дані')
+    throw new Error(error.message)
   }
 }
 
 export default async function Materials () {
   const materials = await getData()
-  const filteredMaterials = materials.filter(material => material.qty > 0)
-  const materilsQtyArray = materials.map(material => material.qty)
-  const materialsQty = materilsQtyArray.reduce((a, b) => a + b, 0)
+  const filteredMaterials = materials?.filter(material => material.qty > 0)
+  const materilsQtyArray = materials?.map(material => material.qty)
+  const materialsQty = materilsQtyArray?.reduce((a, b) => a + b, 0)
 
   return (
     <>
       <Typography variant='h5'>Матеріали</Typography>
-      <Box sx={{ display: 'flex', columnGap: 2, justifyContent: 'space-between', flexWrap: 'wrap', mb: 1, mt: 2 }}>
+      <Box
+        sx={{
+          display: 'flex',
+          columnGap: 2,
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          mb: 1,
+          mt: 2
+        }}
+      >
         <Typography
           color='primary'
           sx={{ display: 'flex', gap: 1, alignItems: 'center' }}
@@ -78,7 +82,7 @@ export default async function Materials () {
           {' '}
         </Grid>
       </Grid>
-      {materials.map(material => (
+      {materials?.map(material => (
         <Grid
           key={material._id}
           container

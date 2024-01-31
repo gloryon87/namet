@@ -63,7 +63,7 @@ function OrderControlBar ({ order, url }) {
     e.preventDefault()
 
     // Отримайте змінені дані
-    const changedData = Object.keys(formData).reduce((result, key) => {
+    const changedData = Object.keys(formData)?.reduce((result, key) => {
       if (formData[key] !== initialData[key]) {
         result[key] =
           key === 'date' || key === 'deadline'

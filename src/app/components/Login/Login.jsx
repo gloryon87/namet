@@ -1,24 +1,15 @@
 'use client'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { TextField, Button, Typography, Box } from '@mui/material'
-import { setCookie, deleteCookie, hasCookie } from 'cookies-next'
+import { setCookie } from 'cookies-next'
+import { useRouter } from 'next/navigation'
 
 function Login ({ url }) {
-  const [hasToken, setHasToken] = useState(null)
   const [login, setLogin] = useState('')
   const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-
-    useEffect(() => {
-    const checkToken = () => {
-      const tokenExists = hasCookie('token')
-        setHasToken(tokenExists)
-        setLoading(false)
-    }
-
-    checkToken()
-  }, [])
+  const router = useRouter()
 
   const loginFunction = async (login, password) => {
     try {
@@ -49,7 +40,7 @@ function Login ({ url }) {
         Secure: 'true',
         SameSite: 'Strict'
       })
-        setHasToken(true)
+      router.refresh()
 
       // Інші дії після входу, якщо потрібно
     } catch (error) {
@@ -67,11 +58,6 @@ function Login ({ url }) {
   const handleReset = () => {
     setLogin('')
     setPassword('')
-  }
-
-  const deleteToken = () => {
-      deleteCookie('token')
-      setHasToken(false)
   }
 
   const handleLoginChange = e => {
@@ -92,16 +78,6 @@ function Login ({ url }) {
         mt: 5
       }}
     >
-      {hasToken && (
-        <>
-          <Typography> Вітаю! Ви вже увійшли в систему!</Typography>
-          <Button onClick={deleteToken} variant='outlined'>
-            Вийти
-          </Button>
-        </>
-      )}
-      {hasToken === false && (
-        <>
           <Box
             component='form'
             autoComplete='off'
@@ -119,6 +95,7 @@ function Login ({ url }) {
               name={'login'}
               value={login}
               onChange={handleLoginChange}
+              autoComplete='off'
               fullWidth
               required
             />
@@ -141,8 +118,6 @@ function Login ({ url }) {
               </Button>
             </Box>
           </Box>
-        </>
-      )}
       {error && <Typography color='error'>{error}</Typography>}
       {loading && <Typography>попийте чайок...</Typography>}
     </Box>

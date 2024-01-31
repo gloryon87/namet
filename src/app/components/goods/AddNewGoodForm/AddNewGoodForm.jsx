@@ -155,7 +155,7 @@ function AddNewGoodForm ({ url }) {
           <Grid item xs={12}>
             <Typography> Кольори </Typography>
           </Grid>
-          {colors.map(color => (
+          {colors?.map(color => (
             <Grid item xs={6} md={3} lg={2} key={color}>
               <TextField
                 label={color}

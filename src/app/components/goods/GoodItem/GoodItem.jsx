@@ -74,7 +74,7 @@ function GoodItem ({ good }) {
         </Grid>
         {good.deliveries.length > 0 && <Grid item xs={12} sx={{ ...gridStyle, display: 'flex', gap: 2 }}>
           <Typography><strong>Видачі:</strong> </Typography>
-          {good.deliveries.map((del) => (
+          {good.deliveries?.map((del) => (
             <Box key={del._id} sx={{display: 'flex', gap: 1}}>
               <Tooltip title={del.orderContacts}><Link target='_blank' href={`/orders/${del.orderId}`}><Typography sx={{ '&:hover': { color: 'blue' } }}>{del.date} {del.qty} шт.</Typography></Link></Tooltip> /
             </Box>

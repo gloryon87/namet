@@ -34,7 +34,7 @@ function MoveToWarehouse ({ good, url, production, goodId, goodColor }) {
     e.preventDefault()
 
     // Отримати поточні матеріали виробництва
-    const productionMaterials = production.materials.map(material => {
+    const productionMaterials = production.materials?.map(material => {
       const matchingColor = goodsColor.find(
         color => color.name === material.color
       )

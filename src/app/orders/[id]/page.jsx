@@ -2,6 +2,8 @@ import React from 'react'
 import SingleOrder from '@/app/components/orders/SingleOrder/SingleOrder';
 import Typography from '@mui/material/Typography'
 import { fetchParamsServer } from '@/app/API/fetchParamsServer'
+import resHandler from '../API/resHandler'
+
 
 
 const url = process.env.REACT_APP_SERVER_URL || ''
@@ -15,11 +17,9 @@ async function getData(id) {
   const fetchParams = fetchParamsServer()
   try {
     const res = await fetch(`${url}/api/orders/${id}`, fetchParams)
-    const clonedResponse = res.clone();
-    const jsonData = await clonedResponse.json();
-    return jsonData;
+    return await resHandler(res)
   } catch (error) {
-    throw new Error('Не вдалось отримати дані')
+    throw new Error(error.message)
   }
 }
 

@@ -31,7 +31,7 @@ function SingleProduction ({ production }) {
     goodsColor
   } = calculateGoodsData(production.goods)
 
-  const mergedProductionMaterials = production.materials.reduce((acc, item) => {
+  const mergedProductionMaterials = production.materials?.reduce((acc, item) => {
     const existingItem = acc.find(accItem => accItem.color === item.color);
 
     if (existingItem) {

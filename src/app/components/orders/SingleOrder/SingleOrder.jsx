@@ -181,7 +181,7 @@ function SingleOrder ({ order }) {
           sx={{ p: 2, boxShadow: 2, width: 'max-content' }}
         >
           <Typography color='primary'>Потреби в матеріалах:</Typography>
-          {goodsColor.map((color, index) => (
+          {goodsColor?.map((color, index) => (
             <Typography key={index}>
               {color.name}: {color.colorArea} м²
             </Typography>

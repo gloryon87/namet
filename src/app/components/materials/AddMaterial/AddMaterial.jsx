@@ -73,8 +73,8 @@ function AddMaterial ({ url }) {
             Додати матеріали
           </Typography>
           <Grid container spacing={2} sx={{ m: 0, width: 'auto' }}>
-            {formData.map((color, index) => (
-              <Grid item xs={12} md={6} lg={4} key={color._id}>
+            {formData?.map((color, index) => (
+              <Grid item xs={12} md={6} lg={4} key={color._id || index}>
                 <Box
                   sx={{
                     display: 'flex',
@@ -144,25 +144,9 @@ function AddMaterial ({ url }) {
           )}
         </Box>
       </Modal>
-      {/* <Box sx={{ position: 'relative', backgroundColor: 'white' }}> */}
-      {/* <Fab
-          sx={{
-            position: 'fixed',
-            textTransform: 'none',
-            opacity: '90%',
-            right: { xs: 20, sm: 30, xl: '5%' },
-            bottom: { xs: 20, sm: 30, lg: 35 }
-          }}
-          color='primary'
-          aria-label='Додати матеріали'
-          variant='extended'
-          onClick={() => setOpenModal(true)}
-        > */}
       <Button onClick={() => setOpenModal(true)} color='primary'>
         <AddIcon sx={{ mr: 1 }} /> Додати
       </Button>
-      {/* </Fab> */}
-      {/* </Box> */}
     </Box>
   )
 }

@@ -136,7 +136,7 @@ function GoodEditForm ({ formData, onFormChange, delivery = true }) {
           onChange={e => handleColorSchemeChange(e)}
           required
         >
-          {colorSchemes.map(colorScheme => (
+          {colorSchemes?.map(colorScheme => (
             <MenuItem key={colorScheme.schemeName} value={colorScheme}>
               {colorScheme.schemeName}
             </MenuItem>

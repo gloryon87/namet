@@ -15,14 +15,10 @@ async function getData(name) {
   const fetchParams = fetchParamsServer()
   try {
     const res = await fetch(`${url}/api/production/${name}`, fetchParams)
-    if (res.ok) {
-      const jsonData = await res.json()
-      return jsonData
-    } else {
-      throw new Error('Помилка сервера')
-    }
+    return await resHandler(res)
+
   } catch (error) {
-    throw new Error('Не вдалось отримати дані')
+    throw new Error(error.message)
   }
 }
 
