@@ -95,7 +95,7 @@ function Login ({ url }) {
               name={'login'}
               value={login}
               onChange={handleLoginChange}
-              autoComplete='off'
+              // autoComplete='off'
               fullWidth
               required
             />

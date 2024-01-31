@@ -2,6 +2,7 @@ import React from 'react'
 import Typography from '@mui/material/Typography'
 import SingleProduction from '@/app/components/production/SingleProduction/SingleProduction';
 import { fetchParamsServer } from '@/app/API/fetchParamsServer'
+import resHandler from '@/app/API/resHandler';
 
 
 

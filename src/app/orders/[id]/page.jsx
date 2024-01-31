@@ -2,8 +2,7 @@ import React from 'react'
 import SingleOrder from '@/app/components/orders/SingleOrder/SingleOrder';
 import Typography from '@mui/material/Typography'
 import { fetchParamsServer } from '@/app/API/fetchParamsServer'
-import resHandler from '../API/resHandler'
-
+import resHandler from '@/app/API/resHandler'
 
 
 const url = process.env.REACT_APP_SERVER_URL || ''
