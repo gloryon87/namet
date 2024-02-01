@@ -85,9 +85,7 @@ function MoveToWarehouse ({ good, url, production, goodId, goodColor }) {
       // Запит на додавання товару на склад
       const updateStock = fetch(`${url}/api/goods`, {
         method: 'POST',
-        headers: {
-          'Content-type': 'application/json'
-        },
+        headers: fetchParamsClient.headers,
         body: JSON.stringify({
           ...good
         })

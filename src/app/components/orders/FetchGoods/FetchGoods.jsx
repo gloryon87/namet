@@ -13,7 +13,7 @@ import { fetchParamsClient } from '@/app/API/fetchParamsClient'
 function FetchGoods ({ url, good, qty, setQty, selectedGood, setSelectedGood }) {
   const remainder = good.qty - good.delivered || good.qty
   const fetcher = (url, options) => {
-    options.headers = fetchParamsClient.headers
+    options = fetchParamsClient
     return fetch(url, options).then(res => res.json())
   }
 
@@ -59,7 +59,7 @@ function FetchGoods ({ url, good, qty, setQty, selectedGood, setSelectedGood }) 
             onChange={handleGoodChange}
             required
           >
-            {data?.length > 0 &&
+            {data?.filter(good => good.qty > 0).length > 0 &&
               data.map(good => (
                 <MenuItem value={good} sx={{ display: 'flex' }} key={good._id}>
                   {' '}
@@ -88,7 +88,7 @@ function FetchGoods ({ url, good, qty, setQty, selectedGood, setSelectedGood }) 
           required
         />
       </Box>
-      {data.length === 0 && (
+      {data?.filter(good => good.qty > 0).length === 0 && (
         <Typography sx={{ ml: 2 }} color='error'>
           {' '}
           Нажаль, на складі немає сіток такого розміру{' '}

@@ -11,7 +11,7 @@ import Grid from '@mui/material/Grid'
 
 function GoodEditForm ({ formData, onFormChange, delivery = true }) {
   const currentScheme =
-    formData.color.filter(color => color.qty > 0).length > 0
+    formData?.color?.filter(color => color.qty > 0).length > 0
       ? { schemeName: 'Поточна схема', colors: formData.color }
       : null
   const initialColorScheme = currentScheme ? currentScheme : ''

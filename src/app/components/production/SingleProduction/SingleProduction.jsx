@@ -22,7 +22,7 @@ const gridItemStyle = {
   // textAlign: 'end'
 }
 
-function SingleProduction ({ production }) {
+function SingleProduction({ production }) {
   const {
     goodsQty,
     goodsArea,
@@ -200,7 +200,7 @@ function SingleProduction ({ production }) {
             ) : null
           )}
         </Box> */}
-        <Box
+        {/* <Box
           border={1}
           borderRadius={2}
           sx={{
@@ -209,7 +209,7 @@ function SingleProduction ({ production }) {
             width: 'max-content',
             maxWidth: 600
           }}
-        >
+        > */}
           {/* <Typography color='primary'>Залишки матеріалів:</Typography>
           {materialDifferenceArray
             .filter(material => material.difference !== 0)
@@ -223,8 +223,17 @@ function SingleProduction ({ production }) {
             ))} */}
           <Grid
             container
-            spacing={1}
-            sx={{ m: 0, width: 'auto' }}
+          spacing={1}
+          border={1}
+          borderRadius={2}
+          sx={{
+            m: 0,
+            p: 2,
+            boxShadow: 2,
+            width: 'max-content',
+            maxWidth: 600,
+            minWidth: 380
+          }}
           >
             <Grid item xs={3} sx={gridItemStyle}>
               <Typography color='primary'>Колір</Typography>
@@ -240,7 +249,7 @@ function SingleProduction ({ production }) {
             </Grid>
 
             {goodsColor.map((colorItem, index) => {
-            
+            console.log(goodsColor)
               const correspondingMaterial = mergedProductionMaterials.find(
                 item => item.color === colorItem.name
               )
@@ -277,7 +286,7 @@ function SingleProduction ({ production }) {
               )
             })}
           </Grid>
-        </Box>
+        {/* </Box> */}
       </Box>
     </>
   )

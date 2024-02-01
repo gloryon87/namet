@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Modal from '@mui/material/Modal'
 import Button from '@mui/material/Button'
@@ -16,19 +16,27 @@ import { modalStyles } from '@/app/styles/modalStyles'
 import { productions } from '@/app/variables'
 import { fetchParamsClient } from '@/app/API/fetchParamsClient'
 
-function TransferMaterial ({ url, materials }) {
+function TransferMaterial({ url, materials }) {
+
+  
   const initialFormData = materials?.map(material => ({
     ...material,
     transferQty: 0
   }))
-
+  
   const [openModal, setOpenModal] = useState(false)
   const [selectedProductionId, setSelectedProductionId] = useState('')
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(null)
   const [formData, setFormData] = useState(initialFormData)
   const router = useRouter()
-
+  
+  useEffect(() => {
+    if (materials) {
+      setFormData(materials?.map(material => ({ ...material, transferQty: 0 })))
+    }
+  }, [materials])
+  
   const handleChange = (e, index) => {
     const { name, value } = e.target
     const newFormData = [...formData]

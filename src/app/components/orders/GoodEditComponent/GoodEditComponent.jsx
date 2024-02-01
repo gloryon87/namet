@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation'
 import GoodEditForm from '../../GoodEditForm/GoodEditForm'
 import { fetchParamsClient } from '@/app/API/fetchParamsClient'
 
+
 function GoodEditComponent ({ orderId, good, url, goodId }) {
   const [openModal, setOpenModal] = useState(false)
   const initialData = good

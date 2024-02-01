@@ -19,8 +19,8 @@ export default function calculateGoodsData(goodsArray) {
     0
   )
 
-  const goodsColorArray = goodsArray?.flatMap(good => {
-  return good.color?.map(color => ({
+  const goodsColorArray = goodsArray.flatMap(good => {
+  return good.color.map(color => ({
     name: color.name,
     colorArea: Math.ceil(color.colorArea / good.qty * (good.qty - (good.delivered || 0)) || 0)
   }))

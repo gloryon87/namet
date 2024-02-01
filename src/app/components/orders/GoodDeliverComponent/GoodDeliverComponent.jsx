@@ -49,9 +49,7 @@ function GoodDeliverComponent ({ orderId, orderContacts, good, url, goodId }) {
       }
       const updateStock = fetch(`${url}/api/goods/${selectedGood._id}`, {
         method: 'PUT',
-        headers: {
-          'Content-type': 'application/json'
-        },
+        headers: fetchParamsClient.headers,
         body: JSON.stringify({
           ...selectedGood,
           qty: selectedGood.qty - qty,

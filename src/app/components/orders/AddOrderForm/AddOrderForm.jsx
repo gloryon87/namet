@@ -9,10 +9,13 @@ import InputLabel from '@mui/material/InputLabel'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import Grid from '@mui/material/Grid'
+import Tooltip from '@mui/material/Tooltip'
+import AddIcon from '@mui/icons-material/Add'
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined'
 import { useRouter } from 'next/navigation'
 import formatDate from '@/app/utils/formatDate'
 import GoodEditForm from '../../GoodEditForm/GoodEditForm.jsx'
+import { fetchParamsClient } from '@/app/API/fetchParamsClient.js'
 
 function AddOrderForm ({ url }) {
   const [error, setError] = useState(null)
@@ -47,13 +50,7 @@ function AddOrderForm ({ url }) {
   const handleGoodChange = (newGood, index) => {
     const updatedGoods = [...formData.goods]
     updatedGoods[index] = newGood
-     setFormData({...formData, goods: updatedGoods})
-   }
-
-  const handleCancel = () => {
-    setFormData(() => initialFormData)
-    setError(null)
-    setLoading(null)
+    setFormData({ ...formData, goods: updatedGoods })
   }
 
   const handleAddGood = () => {
@@ -91,7 +88,7 @@ function AddOrderForm ({ url }) {
 
       const res = await fetch(`${url}/api/orders`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: fetchParamsClient.headers,
         body: JSON.stringify({
           ...formData,
           goods: updatedGoodsColorData,
@@ -227,34 +224,36 @@ function AddOrderForm ({ url }) {
         </Typography>
         {formData.goods.map((good, index) => (
           <Box key={index}>
-            <Box sx={{ display: 'flex', gap: 2}}>
+            <Box sx={{ display: 'flex', gap: 2 }}>
               <Typography
                 sx={{ display: 'flex', alignItems: 'center', fontWeight: 600 }}
               >{`Товар №${index + 1}`}</Typography>
-              <Button
-                color='error'
-                onClick={e => setTimeout(() => handleDeleteGood(index), 500)}
-              >
-                <DeleteForeverOutlinedIcon />
-              </Button>
+              <Tooltip title='Видалити товар'>
+                <Button
+                  color='error'
+                  onClick={e => setTimeout(() => handleDeleteGood(index), 500)}
+                >
+                  <DeleteForeverOutlinedIcon />
+                </Button>
+              </Tooltip>
             </Box>
             <GoodEditForm
               formData={good}
-              onFormChange={(newGood) => handleGoodChange(newGood, index)}
+              onFormChange={newGood => handleGoodChange(newGood, index)}
               delivery={false}
             />
           </Box>
         ))}
 
         <Button color='primary' onClick={handleAddGood}>
-          Додати товар
+          <AddIcon />Додати товар
         </Button>
 
         <Box
           sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 2 }}
         >
-          <Button variant='outlined' color='error' onClick={handleCancel}>
-            Скинути
+          <Button variant='outlined' color='error' onClick={() => router.push('/orders')}>
+            Вийти
           </Button>
           <Button variant='outlined' color='primary' type='submit'>
             Зберегти
