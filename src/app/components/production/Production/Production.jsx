@@ -17,13 +17,11 @@ function Production ({ prod }) {
     goodsDeliveredArea,
     goodsColor
   } = calculateGoodsData(prod.goods)
-  //  console.log(goodsColor)
 
   const materialDifferenceArray = calculateMaterialsData(
     prod.materials,
     goodsColor
   )
-  // console.log(prod)
 
   return (
     <Link href={`/production/${prod.name}`}>

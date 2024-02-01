@@ -57,8 +57,6 @@ export default async function ProductionPage () {
       return accumulator
   }, [])
   
-  // console.log(materialsArray)
-  
     // Calculate materials difference
     const materialDifferenceArray = calculateMaterialsData(
   materialsArray,

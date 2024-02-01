@@ -102,7 +102,6 @@ function OrderControlBar ({ order, url }) {
       }
       return res.json()
     } catch (error) {
-      console.log(error)
       if (error instanceof TypeError) {
         return setError(
           "Виникла помилка мережі. Будь ласка, перевірте з'єднання з Інтернетом."

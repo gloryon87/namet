@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import Modal from '@mui/material/Modal'
 import Button from '@mui/material/Button'
@@ -13,12 +13,10 @@ import MenuItem from '@mui/material/MenuItem'
 import Grid from '@mui/material/Grid'
 import EngineeringOutlinedIcon from '@mui/icons-material/EngineeringOutlined'
 import { modalStyles } from '@/app/styles/modalStyles'
-import { productions } from '@/app/variables'
 import { fetchParamsClient } from '@/app/API/fetchParamsClient'
 
-function TransferMaterial({ url, materials }) {
+function TransferMaterial({ url, materials, productions }) {
 
-  
   const initialFormData = materials?.map(material => ({
     ...material,
     transferQty: 0
@@ -27,16 +25,16 @@ function TransferMaterial({ url, materials }) {
   const [openModal, setOpenModal] = useState(false)
   const [selectedProductionId, setSelectedProductionId] = useState('')
   const [error, setError] = useState(null)
-  const [loading, setLoading] = useState(null)
+  const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState(initialFormData)
   const router = useRouter()
-  
+
   useEffect(() => {
     if (materials) {
       setFormData(materials?.map(material => ({ ...material, transferQty: 0 })))
     }
   }, [materials])
-  
+
   const handleChange = (e, index) => {
     const { name, value } = e.target
     const newFormData = [...formData]
@@ -130,7 +128,7 @@ function TransferMaterial({ url, materials }) {
   return (
     <Box sx={{ display: 'flex' }}>
       <Modal open={openModal} onClose={handleClose}>
-        <Box component='form' onSubmit={e => handleSubmit(e)} sx={modalStyles}>
+        <Box component='form' onSubmit={(e) => handleSubmit(e)} sx={modalStyles}>
           <Typography variant='h5' sx={{ mb: 3 }}>
             Перемістити матеріали
           </Typography>
@@ -147,9 +145,9 @@ function TransferMaterial({ url, materials }) {
             >
               {productions.map(production => (
                 <MenuItem
-                  value={production.id}
+                  value={production._id}
                   sx={{ display: 'flex' }}
-                  key={production.id}
+                  key={production._id}
                 >
                   <Typography>{production.name}</Typography>
                 </MenuItem>
@@ -221,25 +219,9 @@ function TransferMaterial({ url, materials }) {
           )}
         </Box>
       </Modal>
-      {/* <Box sx={{ position: 'relative', backgroundColor: 'white' }}>
-        <Fab
-          sx={{
-            position: 'fixed',
-            textTransform: 'none',
-            opacity: '90%',
-            right: { xs: 200, sm: 210, xl: 'calc(5% + 180px)' },
-            bottom: { xs: 20, sm: 30, lg: 35 }
-          }}
-          color='primary'
-          aria-label='Перемістити'
-          variant='extended'
-          onClick={() => setOpenModal(true)}
-        > */}
       <Button onClick={() => setOpenModal(true)} color='primary'>
         <EngineeringOutlinedIcon sx={{ mr: 1 }} /> Перемістити
       </Button>
-      {/* </Fab>
-      </Box> */}
     </Box>
   )
 }

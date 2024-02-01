@@ -15,7 +15,6 @@ export default function calculateMaterialsData(materials, goodsColor) {
   mergedMaterials.forEach(material => {
   materialQtyMap[material.color] = material.qty
 })
-//  console.log(goodsColor)
   
 const materialDifferenceArray = goodsColor?.flatMap(color => {
   const colorName = color.name
@@ -26,7 +25,6 @@ const materialDifferenceArray = goodsColor?.flatMap(color => {
     difference: qtyInProdMaterials - (color.colorArea || 0)
   }
 })
-  // console.log(materialDifferenceArray)
 
 // Додаємо відсутні кольори з materials
   mergedMaterials.forEach(material => {

@@ -249,7 +249,6 @@ function SingleProduction({ production }) {
             </Grid>
 
             {goodsColor.map((colorItem, index) => {
-            console.log(goodsColor)
               const correspondingMaterial = mergedProductionMaterials.find(
                 item => item.color === colorItem.name
               )

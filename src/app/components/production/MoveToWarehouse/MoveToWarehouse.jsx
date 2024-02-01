@@ -23,8 +23,6 @@ function MoveToWarehouse ({ good, url, production, goodId, goodColor }) {
   const { goodsColor } = calculateGoodsData([{ ...good, color: goodColor }])
   const productionId = production._id
 
-  // console.log(goodsColor)
-
   function handleClose () {
     setQty(good.qty - (good.delivered || 0))
     setOpenModal(false)

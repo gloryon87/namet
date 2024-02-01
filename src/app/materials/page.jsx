@@ -6,6 +6,7 @@ import EditMaterial from '../components/materials/EditMaterial/EditMaterial'
 import { Box } from '@mui/material'
 import { fetchParamsServer } from '../API/fetchParamsServer'
 import resHandler from '../API/resHandler'
+import fetchProductionsList from '../API/fetchProductionsList'
 
 // Metadata
 
@@ -26,7 +27,8 @@ async function getData () {
   }
 }
 
-export default async function Materials () {
+export default async function Materials() {
+  const productions = await fetchProductionsList()
   const materials = await getData()
   const filteredMaterials = materials?.filter(material => material.qty > 0)
   const materilsQtyArray = materials?.map(material => material.qty)
@@ -53,7 +55,7 @@ export default async function Materials () {
         </Typography>
         <Box sx={{ display: 'flex', gap: 1, ml: 'auto' }}>
           <AddMaterial url={url} />
-          <TransferMaterial url={url} materials={filteredMaterials} />
+          <TransferMaterial url={url} materials={filteredMaterials} productions={productions} />
         </Box>
       </Box>
 

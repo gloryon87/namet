@@ -13,11 +13,13 @@ import GoodDeliverComponent from '../GoodDeliverComponent/GoodDeliverComponent'
 import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined'
 import calculateGoodsData from '@/app/utils/calculateGoodsData'
 import GoodProductionComponent from '../GoodProductionComponent/GoodProductionComponent'
+import fetchProductionsList from '@/app/API/fetchProductionsList'
 
 const url = process.env.REACT_APP_SERVER_URL || ''
 const gridItemStyle = { border: '1px solid lightgrey' }
 
-function SingleOrder ({ order }) {
+async function SingleOrder({ order }) {
+  const productions = await fetchProductionsList()
   const formatedDate = format(Date.parse(order?.date), 'dd.MM.yyyy HH:mm')
   const formatedDeadline = order.deadline
     ? format(Date.parse(order.deadline), 'dd.MM.yyyy')
@@ -137,6 +139,7 @@ function SingleOrder ({ order }) {
                 good={good}
                 goodId={good._id}
                 url={url}
+                productions={productions}
               />
               <GoodDeliverComponent
                 orderId={order._id}

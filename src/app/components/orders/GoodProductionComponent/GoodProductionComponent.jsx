@@ -12,7 +12,6 @@ import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import { modalStyles } from '../../../styles/modalStyles'
 import EngineeringOutlinedIcon from '@mui/icons-material/EngineeringOutlined'
-import { productions } from '@/app/variables'
 import { TextField } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import { fetchParamsClient } from '@/app/API/fetchParamsClient'
@@ -22,7 +21,8 @@ function GoodProductionComponent ({
   goodId,
   url,
   orderId,
-  orderContacts
+  orderContacts,
+  productions
 }) {
   const [openModal, setOpenModal] = useState(false)
   const [error, setError] = useState(null)
@@ -50,7 +50,7 @@ function GoodProductionComponent ({
 
   function handleChange (e) {
     setProduction({
-      id: productions.find(production => production.name === e.target.value).id,
+      id: productions.find(production => production.name === e.target.value)._id,
       name: e.target.value
     })
   }
@@ -135,7 +135,7 @@ function GoodProductionComponent ({
                   required
                 >
                   {productions.map(production => (
-                    <MenuItem key={production.id} value={production.name}>
+                    <MenuItem key={production._id} value={production.name}>
                       {production.name}
                     </MenuItem>
                   ))}
