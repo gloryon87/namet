@@ -17,7 +17,7 @@ function Logout () {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        gap: 1,
+        gap: 2,
         alignItems: 'center',
         mt: 5
       }}
