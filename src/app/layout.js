@@ -20,17 +20,7 @@ export default async function RootLayout ({ children }) {
             px: { xs: 0, md: 3 },
             mb: 6,
             width: 'auto',
-            overflowY: 'scroll',
-            scrollbarWidth: 'thin',
-            '&::-webkit-scrollbar': {
-              width: '0.4em'
-            },
-            '&::-webkit-scrollbar-track': {
-              backgroundColor: '#f1f1f1'
-            },
-            '&::-webkit-scrollbar-thumb': {
-              backgroundColor: '#888'
-            }
+            overflowY: 'hidden'
           }}
         >
           <Navbar />
