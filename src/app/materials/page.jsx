@@ -8,6 +8,8 @@ import { fetchParamsServer } from '../API/fetchParamsServer'
 import resHandler from '../API/resHandler'
 import fetchProductionsList from '../API/fetchProductionsList'
 import fetchColors from '../API/fetchColors'
+import { redirect } from 'next/navigation'
+
 
 // Metadata
 
@@ -18,17 +20,20 @@ export const metadata = {
 const url = process.env.REACT_APP_SERVER_URL || ''
 const gridStyle = { border: '1px solid lightgray', borderTop: 0 }
 
-async function getData() {
+async function getData () {
   const fetchParams = fetchParamsServer()
   try {
     const res = await fetch(`${url}/api/materials`, fetchParams)
     return await resHandler(res)
   } catch (error) {
+    if (error.message === 'Помилка валідації') {
+      redirect('/')
+    }
     throw new Error(error.message)
   }
 }
 
-export default async function Materials() {
+export default async function Materials () {
   const colors = await fetchColors()
   const productions = await fetchProductionsList()
   const materials = await getData()
@@ -57,7 +62,11 @@ export default async function Materials() {
         </Typography>
         <Box sx={{ display: 'flex', gap: 1, ml: 'auto' }}>
           <AddMaterial url={url} colors={colors} />
-          <TransferMaterial url={url} materials={filteredMaterials} productions={productions} />
+          <TransferMaterial
+            url={url}
+            materials={filteredMaterials}
+            productions={productions}
+          />
         </Box>
       </Box>
 

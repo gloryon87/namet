@@ -9,6 +9,7 @@ import Fab from '@mui/material/Fab'
 import calculateGoodsData from '@/app/utils/calculateGoodsData'
 import { fetchParamsServer } from '@/app/API/fetchParamsServer'
 import resHandler from '../API/resHandler'
+import { redirect } from 'next/navigation'
 
 
 const url = process.env.REACT_APP_SERVER_URL || ''
@@ -17,14 +18,16 @@ export const metadata = {
   title: 'Замовлення'
 }
 
-async function getData(params) {
+async function getData (params) {
   const fetchParams = fetchParamsServer()
   try {
     const queryParams = new URLSearchParams(params).toString()
-    const res = await fetch(`${url}/api/orders?${queryParams}`, fetchParams
-    )
+    const res = await fetch(`${url}/api/orders?${queryParams}`, fetchParams)
     return await resHandler(res)
   } catch (error) {
+    if (error.message === 'Помилка валідації') {
+      redirect('/')
+    }
     throw new Error(error.message)
   }
 }

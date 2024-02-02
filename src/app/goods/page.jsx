@@ -11,6 +11,8 @@ import { fetchParamsServer } from '@/app/API/fetchParamsServer'
 import resHandler from '../API/resHandler'
 import fetchColors from '../API/fetchColors'
 import fetchColorSchemes from '../API/fetchColorSchemes'
+import { redirect } from 'next/navigation'
+
 
 const url = process.env.REACT_APP_SERVER_URL || ''
 
@@ -26,6 +28,9 @@ async function getData (params) {
     const res = await fetch(`${url}/api/goods?${queryParams}`, fetchParams)
     return await resHandler(res)
   } catch (error) {
+    if (error.message === 'Помилка валідації') {
+      redirect('/')
+    }
     throw new Error(error.message)
   }
 }

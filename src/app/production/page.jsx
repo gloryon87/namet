@@ -6,6 +6,7 @@ import calculateMaterialsData from '../utils/calculateMaterialsData'
 import Production from '../components/production/Production/Production'
 import { fetchParamsServer } from '@/app/API/fetchParamsServer'
 import resHandler from '../API/resHandler'
+import { redirect } from 'next/navigation'
 
 const _ = require('lodash')
 
@@ -25,6 +26,9 @@ async function getData() {
     const res = await fetch(url + '/api/production', fetchParams)
     return await resHandler(res)
   } catch (error) {
+    if (error.message === 'Помилка валідації') {
+  redirect('/')
+}
     throw new Error(error.message)
   }
 }
