@@ -95,7 +95,7 @@ function Login ({ url }) {
               name={'login'}
               value={login}
               onChange={handleLoginChange}
-              // autoComplete='off'
+              autoComplete='off'
               fullWidth
               required
             />
@@ -106,7 +106,7 @@ function Login ({ url }) {
               type={'password'}
               onChange={handlePasswordChange}
               fullWidth
-              autoComplete='new-password'
+              autoComplete='off'
               required
             />
             <Box sx={{ display: 'flex', gap: 1 }}>
