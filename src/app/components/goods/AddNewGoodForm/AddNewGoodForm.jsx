@@ -19,10 +19,6 @@ function AddNewGoodForm ({ url, colors, colorSchemes }) {
   const [formData, setFormData] = useState(initialFormData)
   const router = useRouter()
 
-  function handleClear () {
-    setFormData(() => initialFormData)
-  }
-
   async function handleSubmit (e) {
     e.preventDefault()
     const updatedColorData = formData.color.filter(color => color.qty > 0)
@@ -64,10 +60,10 @@ function AddNewGoodForm ({ url, colors, colorSchemes }) {
           <Button
             variant='outlined'
             color='error'
-            onClick={handleClear}
+            onClick={() => router.push('/goods')}
             sx={{ mr: 2 }}
           >
-            Очистити
+            Вийти
           </Button>
           <Button variant='outlined' color='primary' type='submit'>
             Зберегти

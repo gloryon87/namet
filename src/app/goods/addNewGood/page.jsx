@@ -1,8 +1,9 @@
 import React from 'react'
 import AddNewGoodForm from '@/app/components/goods/AddNewGoodForm/AddNewGoodForm'
-import Button from '@mui/material/Button'
-import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined'
 import Link from 'next/link'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined'
 import fetchColors from '@/app/API/fetchColors'
 import fetchColorSchemes from '@/app/API/fetchColorSchemes'
 
@@ -17,13 +18,19 @@ async function addNewGood () {
   const colorSchemes = await fetchColorSchemes()
   return (
     <>
-      <Link href='/goods'>
-        {' '}
-        <Button sx={{ gap: 1, mb: 1 }}>
+      <Box sx={{ display: 'flex', mb: 2, flexWrap: 'wrap' }}>
+        <Link href='/goods'>
+          <Typography color='primary' sx={{ '&:hover': { color: '#2c387e' } }}>
+            Сіточки
+          </Typography>
+        </Link>
+        <Typography>
           {' '}
-          <ArrowBackOutlinedIcon /> До сіточок{' '}
-        </Button>
-      </Link>
+          <KeyboardArrowRightOutlinedIcon />{' '}
+        </Typography>
+        <Typography color='grey'> Нова сіточка </Typography>
+      </Box>
+
       <AddNewGoodForm url={url} colors={colors} colorSchemes={colorSchemes} />
     </>
   )
