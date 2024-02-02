@@ -91,7 +91,7 @@ function FetchGoods ({ url, good, qty, setQty, selectedGood, setSelectedGood }) 
       {data?.filter(good => good.qty > 0).length === 0 && (
         <Typography sx={{ ml: 2 }} color='error'>
           {' '}
-          Нажаль, на складі немає сіток такого розміру{' '}
+          На жаль, на складі немає сіток такого розміру{' '}
         </Typography>
       )}
     </>

@@ -22,7 +22,7 @@ function Logout () {
         mt: 5
       }}
     >
-      <Typography> Вітаю! Ви вже увійшли в систему!</Typography>
+      <Typography> Вітаю в системі!</Typography>
       <Button onClick={deleteToken} variant='outlined'>
         Вийти
       </Button>

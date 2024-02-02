@@ -10,17 +10,16 @@ export const metadata = {
 }
 
 export default async function RootLayout ({ children }) {
-
   return (
     <html lang='en'>
       <body className={roboto.className}>
-          <Container
-            maxWidth='xl'
-            sx={{ mx: { xs: 0, md: 3 }, mb: 6, width: 'auto' }}
-          >
-            <Navbar />
-            {children}
-          </Container>
+        <Container
+          maxWidth='xl'
+          sx={{ mx: 'auto', px: { xs: 0, md: 3 }, mb: 6, width: 'auto' }}
+        >
+          <Navbar />
+          {children}
+        </Container>
       </body>
     </html>
   )
