@@ -11,8 +11,7 @@ import { useRouter } from 'next/navigation'
 import GoodEditForm from '../../GoodEditForm/GoodEditForm'
 import { fetchParamsClient } from '@/app/API/fetchParamsClient'
 
-
-function GoodEditComponent ({ orderId, good, url, goodId }) {
+function GoodEditComponent ({ orderId, good, url, goodId, colors, colorSchemes }) {
   const [openModal, setOpenModal] = useState(false)
   const initialData = good
   delete initialData._id
@@ -76,6 +75,8 @@ function GoodEditComponent ({ orderId, good, url, goodId }) {
           <GoodEditForm
             formData={formData}
             onFormChange={newFormData => setFormData(() => newFormData)}
+            colors={colors}
+            colorSchemes={colorSchemes}
           />
           <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Button

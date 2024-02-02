@@ -13,6 +13,8 @@ import MoveToWarehouse from '../MoveToWarehouse/MoveToWarehouse'
 import ProductionGoodDelete from '../ProductionGoodDelete/ProductionGoodDelete'
 import ProductionGoodEdit from '../ProductionGoodEdit/ProductionGoodEdit'
 import ProductionEdit from '../ProductionEdit/ProductionEdit'
+import fetchColors from '@/app/API/fetchColors'
+import fetchColorSchemes from '@/app/API/fetchColorSchemes'
 
 const url = process.env.REACT_APP_SERVER_URL || ''
 
@@ -22,7 +24,7 @@ const gridItemStyle = {
   // textAlign: 'end'
 }
 
-function SingleProduction({ production }) {
+async function SingleProduction({ production }) {
   const {
     goodsQty,
     goodsArea,
@@ -30,6 +32,9 @@ function SingleProduction({ production }) {
     goodsDeliveredArea,
     goodsColor
   } = calculateGoodsData(production.goods)
+
+  const colors = await fetchColors()
+  const colorSchemes = await fetchColorSchemes()
 
   const mergedProductionMaterials = production.materials?.reduce((acc, item) => {
     const existingItem = acc.find(accItem => accItem.color === item.color);
@@ -149,6 +154,8 @@ function SingleProduction({ production }) {
               good={good}
               goodId={good._id}
               url={url}
+              colors={colors}
+              colorSchemes={colorSchemes}
             />
             <ProductionGoodDelete
               productionId={production._id}

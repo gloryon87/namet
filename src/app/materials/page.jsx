@@ -7,6 +7,7 @@ import { Box } from '@mui/material'
 import { fetchParamsServer } from '../API/fetchParamsServer'
 import resHandler from '../API/resHandler'
 import fetchProductionsList from '../API/fetchProductionsList'
+import fetchColors from '../API/fetchColors'
 
 // Metadata
 
@@ -17,7 +18,7 @@ export const metadata = {
 const url = process.env.REACT_APP_SERVER_URL || ''
 const gridStyle = { border: '1px solid lightgray', borderTop: 0 }
 
-async function getData () {
+async function getData() {
   const fetchParams = fetchParamsServer()
   try {
     const res = await fetch(`${url}/api/materials`, fetchParams)
@@ -28,6 +29,7 @@ async function getData () {
 }
 
 export default async function Materials() {
+  const colors = await fetchColors()
   const productions = await fetchProductionsList()
   const materials = await getData()
   const filteredMaterials = materials?.filter(material => material.qty > 0)
@@ -54,7 +56,7 @@ export default async function Materials() {
           Загальна площа матеріалів: <strong>{materialsQty} м²</strong>{' '}
         </Typography>
         <Box sx={{ display: 'flex', gap: 1, ml: 'auto' }}>
-          <AddMaterial url={url} />
+          <AddMaterial url={url} colors={colors} />
           <TransferMaterial url={url} materials={filteredMaterials} productions={productions} />
         </Box>
       </Box>

@@ -1,6 +1,5 @@
 'use client'
 import React, { useState } from 'react'
-import { colors, colorSchemes } from '@/app/variables'
 import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
 import FormControl from '@mui/material/FormControl'
@@ -9,12 +8,14 @@ import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import Grid from '@mui/material/Grid'
 
-function GoodEditForm ({ formData, onFormChange, delivery = true }) {
+function GoodEditForm ({ formData, onFormChange, delivery = true, colors, colorSchemes }) {
+  // Initialize color scheme state
   const currentScheme =
     formData?.color?.filter(color => color.qty > 0).length > 0
       ? { schemeName: 'Поточна схема', colors: formData.color }
       : null
-  const initialColorScheme = currentScheme ? currentScheme : ''
+
+  const initialColorScheme = currentScheme || ''
   const [colorScheme, setColorScheme] = useState(initialColorScheme)
 
   const handleChange = e => {
@@ -185,9 +186,7 @@ function GoodEditForm ({ formData, onFormChange, delivery = true }) {
                       <TextField
                         label={color}
                         name={color}
-                        value={
-                          formData.color?.find(c => c.name === color)?.qty
-                        }
+                        value={formData.color?.find(c => c.name === color)?.qty}
                         onChange={e =>
                           handleChangeColor(color, +e.target.value)
                         }

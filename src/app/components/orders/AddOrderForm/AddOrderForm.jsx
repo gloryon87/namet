@@ -17,7 +17,7 @@ import formatDate from '@/app/utils/formatDate'
 import GoodEditForm from '../../GoodEditForm/GoodEditForm.jsx'
 import { fetchParamsClient } from '@/app/API/fetchParamsClient.js'
 
-function AddOrderForm ({ url }) {
+function AddOrderForm ({ url, colors, colorSchemes }) {
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(null)
   const initialFormData = {
@@ -241,18 +241,25 @@ function AddOrderForm ({ url }) {
               formData={good}
               onFormChange={newGood => handleGoodChange(newGood, index)}
               delivery={false}
+              colors={colors}
+              colorSchemes={colorSchemes}
             />
           </Box>
         ))}
 
         <Button color='primary' onClick={handleAddGood}>
-          <AddIcon />Додати товар
+          <AddIcon />
+          Додати товар
         </Button>
 
         <Box
           sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 2 }}
         >
-          <Button variant='outlined' color='error' onClick={() => router.push('/orders')}>
+          <Button
+            variant='outlined'
+            color='error'
+            onClick={() => router.push('/orders')}
+          >
             Вийти
           </Button>
           <Button variant='outlined' color='primary' type='submit'>

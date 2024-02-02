@@ -14,11 +14,15 @@ import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRig
 import calculateGoodsData from '@/app/utils/calculateGoodsData'
 import GoodProductionComponent from '../GoodProductionComponent/GoodProductionComponent'
 import fetchProductionsList from '@/app/API/fetchProductionsList'
+import fetchColors from '@/app/API/fetchColors'
+import fetchColorSchemes from '@/app/API/fetchColorSchemes'
 
 const url = process.env.REACT_APP_SERVER_URL || ''
 const gridItemStyle = { border: '1px solid lightgrey' }
 
 async function SingleOrder({ order }) {
+  const colors = await fetchColors()
+  const colorSchemes = await fetchColorSchemes()
   const productions = await fetchProductionsList()
   const formatedDate = format(Date.parse(order?.date), 'dd.MM.yyyy HH:mm')
   const formatedDeadline = order.deadline
@@ -153,6 +157,8 @@ async function SingleOrder({ order }) {
                 good={good}
                 goodId={good._id}
                 url={url}
+                colors={colors}
+                colorSchemes={colorSchemes}
               />
               <GoodDeleteComponent
                 orderId={order._id}
@@ -163,7 +169,7 @@ async function SingleOrder({ order }) {
           </Box>
         </Box>
       ))}
-      <GoodsAddComponent orderId={order._id} url={url} />
+      <GoodsAddComponent orderId={order._id} url={url} colors={colors} colorSchemes={colorSchemes} />
       <Box sx={{ display: 'flex', gap: 2, mt: 3, flexWrap: 'wrap' }}>
         <Box
           border={1}

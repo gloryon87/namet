@@ -21,7 +21,9 @@ function FetchGoods ({ url, good, qty, setQty, selectedGood, setSelectedGood }) 
     `${url}/api/goods?a=${good.a}&b=${good.b}`,
     fetcher
   )
-
+  if (error) return <Typography>не вийшло завантажити дані</Typography>
+  if (!data) return <Typography>попийте чайок...</Typography>
+  
   const handleQtyChange = e => {
     const { value } = e.target
     setQty(value)
@@ -33,8 +35,6 @@ function FetchGoods ({ url, good, qty, setQty, selectedGood, setSelectedGood }) 
     value.qty >= remainder ? setQty(remainder) : setQty(value.qty)
   }
 
-  if (error) return <div>не вийшло завантажити дані</div>
-  if (!data) return <div>попийте чайок...</div>
   return (
     <>
       <Typography>

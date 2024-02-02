@@ -4,6 +4,8 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined'
 import Link from 'next/link'
+import fetchColors from '@/app/API/fetchColors'
+import fetchColorSchemes from '@/app/API/fetchColorSchemes'
 
 const url = process.env.REACT_APP_SERVER_URL || ''
 
@@ -11,7 +13,10 @@ export const metadata = {
   title: 'Нове замовлення'
 }
 
-function addNewOrder () {
+async function addNewOrder() {
+  const colors = await fetchColors()
+  const colorSchemes = await fetchColorSchemes()
+
   return (
     <>
       <Box sx={{ display: 'flex', mb: 2, flexWrap: 'wrap' }}>
@@ -27,7 +32,7 @@ function addNewOrder () {
         <Typography color='grey'> Додати нове замовлення </Typography>
       </Box>
 
-      <AddOrderForm url={url} />
+      <AddOrderForm url={url} colors={colors} colorSchemes={colorSchemes} />
     </>
   )
 }

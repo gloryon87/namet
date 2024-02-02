@@ -9,6 +9,8 @@ import GoodItem from '../components/goods/GoodItem/GoodItem'
 import calculateGoodsData from '@/app/utils/calculateGoodsData'
 import { fetchParamsServer } from '@/app/API/fetchParamsServer'
 import resHandler from '../API/resHandler'
+import fetchColors from '../API/fetchColors'
+import fetchColorSchemes from '../API/fetchColorSchemes'
 
 const url = process.env.REACT_APP_SERVER_URL || ''
 
@@ -16,21 +18,23 @@ export const metadata = {
   title: 'Сіточки'
 }
 
-async function getData(params) {
+async function getData (params) {
   const fetchParams = fetchParamsServer()
 
   try {
     const queryParams = new URLSearchParams(params).toString()
     const res = await fetch(`${url}/api/goods?${queryParams}`, fetchParams)
     return await resHandler(res)
-  }
-  catch (error) {
+  } catch (error) {
     throw new Error(error.message)
   }
 }
 
 export default async function Goods ({ searchParams }) {
   const goods = await getData(searchParams)
+  const colors = await fetchColors()
+  const colorSchemes = await fetchColorSchemes()
+
   const { goodsQty, goodsArea } = calculateGoodsData(goods)
 
   return (
@@ -124,7 +128,14 @@ export default async function Goods ({ searchParams }) {
         <ol>
           {goods &&
             goods.length > 0 &&
-            goods.map(good => <GoodItem good={good} key={good._id} />)}
+            goods.map(good => (
+              <GoodItem
+                good={good}
+                key={good._id}
+                colors={colors}
+                colorSchemes={colorSchemes}
+              />
+            ))}
         </ol>
       </Box>
     </>

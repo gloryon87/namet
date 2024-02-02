@@ -7,16 +7,14 @@ import Typography from '@mui/material/Typography'
 import { modalStyles } from '../../../styles/modalStyles'
 import AddIcon from '@mui/icons-material/Add'
 import { useRouter } from 'next/navigation'
-import { colors } from '../../../variables.js'
 import GoodEditForm from '../../GoodEditForm/GoodEditForm'
 import { fetchParamsClient } from '@/app/API/fetchParamsClient'
 
-const initialFormData = {
-  material: 'спанбонд',
-  color: colors.map(color => ({ name: color, qty: 0 }))
-}
-
-function GoodsAddComponent ({ orderId, url }) {
+function GoodsAddComponent ({ orderId, url, colors, colorSchemes }) {
+  const initialFormData = {
+    material: 'спанбонд',
+    color: colors?.map(color => ({ name: color, qty: 0 }))
+  }
   const [openModal, setOpenModal] = useState(false)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(null)
@@ -70,6 +68,8 @@ function GoodsAddComponent ({ orderId, url }) {
               formData={formData}
               onFormChange={newFormData => setFormData(() => newFormData)}
               delivery={false}
+              colors={colors}
+              colorSchemes={colorSchemes}
             />
             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
               <Button

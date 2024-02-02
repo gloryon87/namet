@@ -9,7 +9,7 @@ import Link from 'next/link'
 const gridStyle = { border: '1px solid lightgray', borderTop: 0 }
 const url = process.env.REACT_APP_SERVER_URL || ''
 
-function GoodItem ({ good }) {
+function GoodItem ({ good, colors, colorSchemes }) {
   return (
     <li style={{ fontSize: 13 }}>
       <Grid
@@ -50,7 +50,7 @@ function GoodItem ({ good }) {
             p: 0
           }}
         >
-          <EditGood good={good} url={url} goodId={good._id} />
+          <EditGood good={good} url={url} goodId={good._id} colors={colors} colorSchemes={colorSchemes}/>
         </Grid>
         <Grid item xs={12} md={5} sx={gridStyle}>
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
@@ -70,7 +70,7 @@ function GoodItem ({ good }) {
           xs={1}
           sx={{ ...gridStyle, justifyContent: 'center', alignItems: 'center' }}
         >
-          <EditGood good={good} url={url} goodId={good._id} />
+          <EditGood good={good} url={url} goodId={good._id} colors={colors} colorSchemes={colorSchemes} />
         </Grid>
         {good.deliveries.length > 0 && <Grid item xs={12} sx={{ ...gridStyle, display: 'flex', gap: 2 }}>
           <Typography><strong>Видачі:</strong> </Typography>

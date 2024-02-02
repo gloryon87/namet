@@ -9,16 +9,15 @@ import TextField from '@mui/material/TextField'
 import Grid from '@mui/material/Grid'
 import AddIcon from '@mui/icons-material/Add'
 import { modalStyles } from '@/app/styles/modalStyles'
-import { colors } from '@/app/variables'
 import { fetchParamsClient } from '@/app/API/fetchParamsClient'
 
-const initialFormData = colors.map(color => ({
-  color: color,
-  qty: 0,
-  material: 'спанбонд'
-}))
 
-function AddMaterial ({ url }) {
+function AddMaterial ({ url, colors }) {
+  const initialFormData = colors?.map(color => ({
+    color: color,
+    qty: 0,
+    material: 'спанбонд'
+  }))
   const [openModal, setOpenModal] = useState(false)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(null)
