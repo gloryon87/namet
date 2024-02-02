@@ -86,7 +86,8 @@ function Login ({ url }) {
               display: 'flex',
               flexDirection: 'column',
               gap: 2,
-              minWidth: 500,
+              width: 500,
+              maxWidth: '90%',
               alignItems: 'center'
             }}
           >
