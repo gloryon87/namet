@@ -17,7 +17,7 @@ export default async function RootLayout ({ children }) {
           maxWidth='xl'
           sx={{
             mx: 'auto',
-            px: { xs: 2, md: 4 },
+            px: { xs: 3, md: 4 },
             mb: 6,
             width: 'auto',
             overflowY: 'hidden'
