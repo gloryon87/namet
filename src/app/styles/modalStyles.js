@@ -5,11 +5,12 @@ export const modalStyles = {
   transform: 'translate(-50%, -50%)',
   overflowY: 'auto',
   width: { xs: '90%', sm: '80%'},
-  maxHeight: '100vh',
-  maxHeight: '100lvh',
+  maxHeight: '80vh',
+  maxHeight: '80lvh',
   bgcolor: 'background.paper',
   border: '1px solid #000',
   boxShadow: 24,
   borderRadius: '7px',
-  p: {xs: 1, md: 2},
+  px: { xs: 1, md: 2 },
+  py: 3
 }
