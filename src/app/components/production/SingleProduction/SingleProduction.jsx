@@ -237,9 +237,8 @@ async function SingleProduction({ production }) {
             m: 0,
             p: 2,
             boxShadow: 2,
-            width: 'max-content',
+            minWidth: 'min-content',
             maxWidth: 600,
-            minWidth: 380
           }}
           >
             <Grid item xs={3} sx={gridItemStyle}>
