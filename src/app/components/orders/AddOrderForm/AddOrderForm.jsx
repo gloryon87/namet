@@ -102,7 +102,7 @@ function AddOrderForm ({ url, colors, colorSchemes }) {
       if (!res.ok) {
         throw new Error(`HTTP помилка! Статус: ${res.status}`)
       }
-      router.replace('/orders')
+      router.refresh()
       router.push(`/orders/${orderId}`)
     } catch (error) {
       console.error('Помилка:', error)

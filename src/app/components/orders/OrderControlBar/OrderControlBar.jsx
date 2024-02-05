@@ -96,7 +96,7 @@ function OrderControlBar ({ order, url }) {
         headers: fetchParamsClient.headers
       })
       if (res.ok) {
-        router.push('/orders')
+        router.push('/orders?all=true')
         router.refresh()
         setOpenDeleteModal(false)
       }
