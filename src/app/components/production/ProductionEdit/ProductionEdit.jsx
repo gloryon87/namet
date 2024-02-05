@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation'
 import { modalStyles } from '../../../styles/modalStyles'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import { fetchParamsClient } from '@/app/API/fetchParamsClient'
+import { min } from 'lodash'
 
 function ProductionEdit ({ production, url }) {
   const [openEditModal, setOpenEditModal] = useState(false)
@@ -108,6 +109,7 @@ function ProductionEdit ({ production, url }) {
                 label='Кількість'
                 name={`qty-${index}`}
                 value={material.qty || 0}
+                inputProps={{ min: 0 }}
                 onChange={e => handleChangeMaterial(e, index, 'qty')}
                 type='number'
                 fullWidth

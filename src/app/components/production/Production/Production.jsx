@@ -41,7 +41,7 @@ function Production ({ prod }) {
           {prod.name}
         </Grid>
         <Grid item xs={8} sx={{ border: '1px solid lightgrey' }}>
-          Контакти: {prod.contacts}
+          {prod.contacts}
         </Grid>
         {/* Товари */}
           {prod.goods.length > 0 &&

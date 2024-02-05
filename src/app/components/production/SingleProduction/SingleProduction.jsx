@@ -76,7 +76,7 @@ async function SingleProduction({ production }) {
       </Box>
       <Grid container spacing={1} sx={{ m: 0, border: 1, width: 'auto' }}>
         <Grid item xs={4} lg={2} border={1}>
-          <Typography>Контакти </Typography>
+          <Typography>Інфо </Typography>
         </Grid>
         <Grid item xs={8} lg={10} border={1}>
           <Typography> {production.contacts}. </Typography>
