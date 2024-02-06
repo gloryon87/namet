@@ -2,6 +2,8 @@ import { Roboto } from 'next/font/google'
 import './globals.css'
 import Navbar from './components/Navbar/Navbar'
 import Container from '@mui/material/Container'
+import { SpeedInsights } from '@vercel/speed-insights/next'
+
 
 const roboto = Roboto({ subsets: ['latin'], weight: ['500'] })
 
@@ -25,6 +27,7 @@ export default async function RootLayout ({ children }) {
         >
           <Navbar />
           {children}
+          <SpeedInsights />
         </Container>
       </body>
     </html>
