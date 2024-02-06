@@ -34,6 +34,8 @@ async function getData (params) {
 
 async function Orders ({ searchParams }) {
   const data = await getData(searchParams)
+  const isAllOrders = searchParams.all === 'true' || data.length < 11 
+
 
   const goodsArray = data?.flatMap(order => order.goods)
   const { goodsQty, goodsArea, goodsDelivered, goodsDeliveredArea } =
@@ -53,7 +55,7 @@ async function Orders ({ searchParams }) {
           <SelectComponent />
         </Suspense>
       </Box>
-      {Object.keys(searchParams).length !== 0 ? (
+      {isAllOrders ? (
         <Typography color='primary' sx={{ ml: 1, mb: 2 }}>
           Загальна площа всіх замовлень: <strong>{goodsArea} м²</strong>.
           Загальна кількість сіточок: <strong>{goodsQty} шт.</strong> Видано:{' '}
@@ -155,7 +157,7 @@ async function Orders ({ searchParams }) {
           ))}
       </Box>
       {/* </Box> */}
-      {Object.keys(searchParams).length === 0 && (
+      {!isAllOrders && (
         <Box sx={{ textAlign: 'center' }}>
           <Link href='/orders?all=true' scroll={false}>
             <Button color='primary' sx={{ mt: 2 }}>

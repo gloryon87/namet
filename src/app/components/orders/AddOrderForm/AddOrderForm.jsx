@@ -258,7 +258,7 @@ function AddOrderForm ({ url, colors, colorSchemes }) {
           <Button
             variant='outlined'
             color='error'
-            onClick={() => router.push('/orders?all=true')}
+            onClick={() => router.push('/orders')}
           >
             Вийти
           </Button>
