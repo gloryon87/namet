@@ -52,7 +52,6 @@ function AddNewGoodForm ({ url, colors, colorSchemes }) {
         <GoodEditForm
           formData={formData}
           onFormChange={newFormData => setFormData(() => newFormData)}
-          delivery={false}
           colors={colors}
           colorSchemes={colorSchemes}
         />
