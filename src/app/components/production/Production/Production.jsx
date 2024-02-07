@@ -67,7 +67,7 @@ function Production ({ prod }) {
             ))}
 
         {/* Матеріали */}
-        {prod.materials.length > 0 && (
+        {prod.materials && (
           <Grid
             item
             xs={12}
