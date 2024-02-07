@@ -34,7 +34,7 @@ async function getData (params) {
 
 async function Orders ({ searchParams }) {
   const data = await getData(searchParams)
-  const isAllOrders = searchParams.all === 'true' || data.length < 11 
+  const isAllOrders = searchParams.all === 'true'
 
 
   const goodsArray = data?.flatMap(order => order.goods)
