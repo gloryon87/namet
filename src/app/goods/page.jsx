@@ -45,7 +45,8 @@ export default async function Goods ({ searchParams }) {
   return (
     <>
       <Box sx={{ position: 'relative', backgroundColor: 'white' }}>
-        <Link href='/goods/addNewGood'>
+        <Link href='/goods/addNewGood' target='_blank'
+>
           <Fab
             sx={{
               position: 'fixed',
