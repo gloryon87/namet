@@ -240,7 +240,6 @@ function AddOrderForm ({ url, colors, colorSchemes }) {
             <GoodEditForm
               formData={good}
               onFormChange={newGood => handleGoodChange(newGood, index)}
-              delivery={false}
               colors={colors}
               colorSchemes={colorSchemes}
             />
