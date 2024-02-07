@@ -8,7 +8,7 @@ import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import Grid from '@mui/material/Grid'
 
-function GoodEditForm ({ formData, onFormChange, delivery = true, colors, colorSchemes }) {
+function GoodEditForm({ formData, onFormChange, delivery = true, colors, colorSchemes }) {
   // Initialize color scheme state
   const currentScheme =
     formData?.color?.filter(color => color.qty > 0).length > 0
