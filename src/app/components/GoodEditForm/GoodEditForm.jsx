@@ -123,7 +123,7 @@ function GoodEditForm ({ formData, onFormChange, delivery = true, colors, colorS
             label='Матеріал'
             name={'material'}
             value={formData.material}
-            onChange={e => handleChange(e, index)}
+            onChange={e => handleChange(e)}
             fullWidth
           />
         </Grid>
