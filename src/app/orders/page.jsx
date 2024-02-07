@@ -72,7 +72,7 @@ async function Orders ({ searchParams }) {
       )}
       {/* <Box> */}
       <Box sx={{ position: 'relative' }}>
-        <Link href='/orders/addNewOrder'>
+        <Link href='/orders/addNewOrder' target='_blank'>
           <Fab
             sx={{
               position: 'fixed',
