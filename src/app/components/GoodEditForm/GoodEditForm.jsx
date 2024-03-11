@@ -26,7 +26,7 @@ function GoodEditForm({ formData, onFormChange, delivery = true, colors, colorSc
   const handleColorSchemeChange = e => {
     const { value } = e.target
     setColorScheme(value)
-    onFormChange({ ...formData, color: value.colors, code: value })
+    onFormChange({ ...formData, color: value.colors, code: value.schemeName })
   }
 
   const handleChangeColor = (name, qty) => {
