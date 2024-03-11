@@ -69,9 +69,9 @@ function GoodEditForm({ formData, onFormChange, delivery = true, colors, colorSc
             value={formData.b || ''}
             onChange={e => handleChange(e)}
             type='number'
-            error={12 < formData.b || formData.b < 4}
-            helperText='*Введіть число від 4 до 12'
-            InputProps={{ inputProps: { min: 4, max: 12 } }}
+            error={12 < formData.b || formData.b < 2}
+            helperText='*Введіть число від 2 до 12'
+            InputProps={{ inputProps: { min: 2, max: 12 } }}
             fullWidth
             required
           />
