@@ -61,7 +61,7 @@ function FetchGoods ({ url, good, qty, setQty, selectedGood, setSelectedGood }) 
           >
             {data?.filter(good => good.qty > 0).length > 0 &&
               data.map(good => (
-                <MenuItem value={good} sx={{ display: 'flex' }} key={good._id}>
+                <MenuItem value={good} sx={{ display: 'flex', gap: 1 }} key={good._id}>
                   {' '}
                   <Typography>
                     {good.a} x {good.b} - {good.qty} шт. {good.season}{' '}
