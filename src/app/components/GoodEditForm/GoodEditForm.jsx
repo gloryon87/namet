@@ -57,7 +57,7 @@ function GoodEditForm({ formData, onFormChange, delivery = true, colors, colorSc
             type='number'
             error={8 < formData.a || formData.a < 2}
             helperText='*Введіть число від 2 до 8'
-            InputProps={{ inputProps: { min: 2, max: 8 } }}
+            InputProps={{ inputProps: { min: 2, max: 8, step: 0.5 } }}
             fullWidth
             required
           />
@@ -71,7 +71,7 @@ function GoodEditForm({ formData, onFormChange, delivery = true, colors, colorSc
             type='number'
             error={12 < formData.b || formData.b < 2}
             helperText='*Введіть число від 2 до 12'
-            InputProps={{ inputProps: { min: 2, max: 12 } }}
+            InputProps={{ inputProps: { min: 2, max: 12, step: 0.5 } }}
             fullWidth
             required
           />
