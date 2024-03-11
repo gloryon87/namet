@@ -65,7 +65,7 @@ function FetchGoods ({ url, good, qty, setQty, selectedGood, setSelectedGood }) 
                   {' '}
                   <Typography>
                     {good.a} x {good.b} - {good.qty} шт. {good.season}{' '}
-                    {good.material}. Кольори:{' '}
+                    {good.material}. Код: {good.code}. Кольори:{' '}
                   </Typography>{' '}
                   {good.color?.map(color => (
                     <Typography key={color._id}>
