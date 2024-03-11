@@ -39,6 +39,7 @@ function AddNewGoodForm ({ url, colors, colorSchemes }) {
 
       setFormData(() => initialFormData)
       router.push('/goods')
+      router.refresh()
     } catch (error) {
       setError('Не вдалось додати товар')
     } finally {

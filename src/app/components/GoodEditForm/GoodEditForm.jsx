@@ -26,7 +26,7 @@ function GoodEditForm({ formData, onFormChange, delivery = true, colors, colorSc
   const handleColorSchemeChange = e => {
     const { value } = e.target
     setColorScheme(value)
-    onFormChange({ ...formData, color: value.colors })
+    onFormChange({ ...formData, color: value.colors, code: value })
   }
 
   const handleChangeColor = (name, qty) => {
@@ -168,10 +168,10 @@ function GoodEditForm({ formData, onFormChange, delivery = true, colors, colorSc
                       type='number'
                       error={
                         formData.color?.find(c => c.name === color)?.qty < 0 ||
-                        formData.color?.find(c => c.name === color)?.qty > 4
+                        formData.color?.find(c => c.name === color)?.qty > 8
                       }
-                      helperText='Число від 0 до 4'
-                      InputProps={{ inputProps: { min: 0, max: 4 } }}
+                      helperText='Число від 0 до 8'
+                      InputProps={{ inputProps: { min: 0, max: 8 } }}
                       fullWidth
                     />
                   </Grid>
