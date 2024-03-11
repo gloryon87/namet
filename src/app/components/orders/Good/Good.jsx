@@ -42,7 +42,11 @@ function Good ({ good }) {
         <Typography sx={typographyStyle}>
           Видано {delivered}/{good.qty} шт. {good.season} {good.material}.
         </Typography>
-        
+        {good.code && (
+          <Typography sx={typographyStyle}>
+            <strong>Код:</strong> {good.code}
+          </Typography>
+        )}
         <Typography sx={typographyStyle}>
           <strong>Кольори:</strong>
         </Typography>

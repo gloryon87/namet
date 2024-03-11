@@ -13,7 +13,6 @@ import fetchColors from '../API/fetchColors'
 import fetchColorSchemes from '../API/fetchColorSchemes'
 import { redirect } from 'next/navigation'
 
-
 const url = process.env.REACT_APP_SERVER_URL || ''
 
 export const metadata = {
@@ -45,8 +44,7 @@ export default async function Goods ({ searchParams }) {
   return (
     <>
       <Box sx={{ position: 'relative', backgroundColor: 'white' }}>
-        <Link href='/goods/addNewGood'
->
+        <Link href='/goods/addNewGood'>
           <Fab
             sx={{
               position: 'fixed',
@@ -106,6 +104,9 @@ export default async function Goods ({ searchParams }) {
             Кіл-ть
           </Grid>
           <Grid item xs={2} md={1} sx={{ border: 1 }}>
+            Код
+          </Grid>
+          <Grid item xs={2} md={1} sx={{ border: 1 }} display={{ xs: 'none', md: 'block' }}>
             Сезон
           </Grid>
           <Grid
@@ -121,7 +122,7 @@ export default async function Goods ({ searchParams }) {
           </Grid>
           <Grid
             item
-            md={5}
+            md={4}
             sx={{ border: 1 }}
             display={{ xs: 'none', md: 'block' }}
           >

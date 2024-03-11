@@ -31,6 +31,15 @@ function GoodItem ({ good, colors, colorSchemes }) {
           {good.qty}
         </Grid>
         <Grid item xs={2} md={1} sx={gridStyle}>
+          {good.code}
+        </Grid>
+        <Grid
+          item
+          xs={2}
+          md={1}
+          sx={gridStyle}
+          display={{ xs: 'none', md: 'block' }}
+        >
           {good.season}
         </Grid>
         <Grid item md={2} display={{ xs: 'none', md: 'block' }} sx={gridStyle}>
@@ -50,12 +59,19 @@ function GoodItem ({ good, colors, colorSchemes }) {
             p: 0
           }}
         >
-          <EditGood good={good} url={url} goodId={good._id} colors={colors} colorSchemes={colorSchemes}/>
+          <EditGood
+            good={good}
+            url={url}
+            goodId={good._id}
+            colors={colors}
+            colorSchemes={colorSchemes}
+          />
         </Grid>
-        <Grid item xs={12} md={5} sx={gridStyle}>
+        <Grid item xs={12} md={4} sx={gridStyle}>
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
             <Typography display={{ xs: 'block', md: 'none' }}>
-              <strong>Матеріал:</strong> {good.material}. <strong>Кольори:</strong>
+              <strong>Матеріал:</strong> {good.material}.{' '}
+              <strong>Кольори:</strong>
             </Typography>
             {good.color?.map(color => (
               <Typography key={color._id}>
@@ -70,16 +86,33 @@ function GoodItem ({ good, colors, colorSchemes }) {
           xs={1}
           sx={{ ...gridStyle, justifyContent: 'center', alignItems: 'center' }}
         >
-          <EditGood good={good} url={url} goodId={good._id} colors={colors} colorSchemes={colorSchemes} />
+          <EditGood
+            good={good}
+            url={url}
+            goodId={good._id}
+            colors={colors}
+            colorSchemes={colorSchemes}
+          />
         </Grid>
-        {good.deliveries.length > 0 && <Grid item xs={12} sx={{ ...gridStyle, display: 'flex', gap: 2 }}>
-          <Typography><strong>Видачі:</strong> </Typography>
-          {good.deliveries?.map((del) => (
-            <Box key={del._id} sx={{display: 'flex', gap: 1}}>
-              <Tooltip title={del.orderContacts}><Link target='_blank' href={`/orders/${del.orderId}`}><Typography sx={{ '&:hover': { color: 'blue' } }}>{del.date} {del.qty} шт.</Typography></Link></Tooltip> /
-            </Box>
-          ))}
-        </Grid>}
+        {good.deliveries.length > 0 && (
+          <Grid item xs={12} sx={{ ...gridStyle, display: 'flex', gap: 2 }}>
+            <Typography>
+              <strong>Видачі:</strong>{' '}
+            </Typography>
+            {good.deliveries?.map(del => (
+              <Box key={del._id} sx={{ display: 'flex', gap: 1 }}>
+                <Tooltip title={del.orderContacts}>
+                  <Link target='_blank' href={`/orders/${del.orderId}`}>
+                    <Typography sx={{ '&:hover': { color: 'blue' } }}>
+                      {del.date} {del.qty} шт.
+                    </Typography>
+                  </Link>
+                </Tooltip>{' '}
+                /
+              </Box>
+            ))}
+          </Grid>
+        )}
       </Grid>
     </li>
   )
