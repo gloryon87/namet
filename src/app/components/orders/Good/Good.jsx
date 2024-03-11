@@ -44,7 +44,7 @@ function Good ({ good }) {
         </Typography>
         {good.code && (
           <Typography sx={typographyStyle}>
-            <strong>Код:</strong> {good.code}
+            <strong>Код:</strong> {good.code}, 
           </Typography>
         )}
         <Typography sx={typographyStyle}>
